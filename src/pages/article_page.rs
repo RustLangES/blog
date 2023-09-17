@@ -13,9 +13,7 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
         <Title>{title}</Title>
         <Layout>
             <BlogContent article=article>
-                <p>
-                    Children
-                </p>
+                <p>Children</p>
             </BlogContent>
         </Layout>
     }

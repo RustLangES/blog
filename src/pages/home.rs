@@ -6,9 +6,7 @@ use leptos_markdown::Markdown;
 pub fn Homepage() -> impl IntoView {
     view! {
         <Layout>
-            <h1>
-                Blog post
-            </h1>
+            <h1>Blog post</h1>
             <Async view=list_of_articles/>
         </Layout>
     }
