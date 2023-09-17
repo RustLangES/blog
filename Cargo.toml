@@ -1,0 +1,14 @@
+[package]
+name = "rust-lang-es-blog"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+futures = "0.3.28"
+leptos = { git = "https://github.com/leptos-rs/leptos.git", branch = "islands", features = [ "ssr", "islands" ] }
+lol_html = "1.1.1"
+tokio = { version = "1", features = ["full"] }
+tokio-util = "0.7.8"
+leptos-markdown = { git = "https://github.com/Phosphorus-M/leptos-markdown.git" }
