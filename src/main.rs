@@ -6,9 +6,9 @@ pub mod pages;
 pub mod render;
 pub mod ssg;
 
-use std::{path::Path, fs};
+use std::{fs, path::Path};
 
-use gray_matter::{Matter, engine::YAML};
+use gray_matter::{engine::YAML, Matter};
 use models::article::Article;
 use pages::article_page::ArticlePageProps;
 use ssg::Ssg;
@@ -17,7 +17,6 @@ use crate::pages::{article_page::ArticlePage, home::Homepage};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-
     let articles = list_articles().await?;
 
     tokio::fs::create_dir_all("./out/articles").await?;
@@ -46,10 +45,10 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
     for path in paths {
         let file = path?.path();
         let algo = fs::read_to_string(file.clone())?;
-        let matter =  Matter::<YAML>::new();
+        let matter = Matter::<YAML>::new();
         let parsed_entity = matter.parse(&algo);
         let mut article: Article = parsed_entity.into();
-        if article.slug == "" {
+        if article.slug.is_empty() {
             // path without extension
             let filename_without_extension = file.file_stem().unwrap().to_str().unwrap();
             article.slug = filename_without_extension.to_string();
@@ -57,7 +56,5 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
         articles.push(article);
     }
 
-
     Ok(articles)
 }
-
