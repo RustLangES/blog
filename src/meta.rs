@@ -8,14 +8,12 @@ pub fn Html(#[prop(into)] mut attrs: Attrs) -> impl IntoView {
     let mut class = Attrs::from(vec![("class", "bg-orange-200")]);
     ctx.body_attrs.borrow_mut().append(&mut class);
     ctx.html_attrs.borrow_mut().append(&mut attrs);
-    ()
 }
 
 #[component]
 pub fn Head(children: Children) -> impl IntoView {
     let ctx = expect_context::<ShellCtx>();
     ctx.head_els.borrow_mut().push(children());
-    ()
 }
 
 #[component]
@@ -31,13 +29,10 @@ pub fn Title(children: Children) -> impl IntoView {
 pub fn Dedup(#[prop(into)] key: String, children: Children) -> impl IntoView {
     let ctx = expect_context::<ShellCtx>();
     let mut map = ctx.deduped_head_els.borrow_mut();
-    if !map.contains_key(&key) {
-        map.insert(key, children());
-    }
-    ()
+    map.entry(key).or_insert_with(children);
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 /// ShellCtx holds all the elements that will be rendered to the <head> of the page.
 /// It can be modified by any component by accessing the context, but it's suggested to be used in
 /// conjunction with the exported components <Dedup />, <Title />, <Html />, ....
@@ -50,12 +45,7 @@ pub struct ShellCtx {
 
 impl ShellCtx {
     pub fn new() -> Self {
-        Self {
-            head_els: Rc::new(RefCell::new(vec![])),
-            deduped_head_els: Rc::new(RefCell::new(HashMap::new())),
-            html_attrs: Rc::new(RefCell::new(Attrs::new())),
-            body_attrs: Rc::new(RefCell::new(Attrs::new())),
-        }
+        Self::default()
     }
 
     pub fn render(self, inner_body: String) -> String {
@@ -74,6 +64,7 @@ impl ShellCtx {
 }
 
 /// Attrs is a list of attributes.
+#[derive(Default)]
 pub struct Attrs {
     pub attrs: Vec<(String, String)>,
 }

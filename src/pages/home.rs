@@ -20,7 +20,7 @@ async fn list_of_articles() -> impl IntoView {
             {articles.into_iter().map(|article| {
                 let binding = article.content.to_string().clone();
 
-                let description = binding.split("\n").take(3).collect::<Vec<&str>>().join("\n");
+                let description = binding.split('\n').take(3).collect::<Vec<&str>>().join("\n");
                 println!("{:?}", description);
 
                 view! {
