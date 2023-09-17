@@ -10,7 +10,7 @@ pub fn Layout(children: Children) -> impl IntoView {
         // Html and Title are components from the meta module. They will be
         // rendered to the <head> of the page.
         <Html attrs=vec![("lang", "es")] />
-        <Title>RustLang Es | Blog</Title>
+        <Title>"RustLang Es | Blog"</Title>
         <Head>
             <meta charset="utf-8" />
             {if cfg!(debug_assertions) {

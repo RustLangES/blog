@@ -27,7 +27,7 @@ async fn list_of_articles() -> impl IntoView {
 
                 view! {
                     <li class="group flex flex-col gap-y-6 border border-black p-2 sm:p-6 hover:bg-orange-500 bg-orange-200 drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
-                        <a href={format!("/articles/{}.html", article.slug)}>
+                        <a href={format!("./articles/{}.html", article.slug)}>
                             <h3 class="text-xl font-semibold">{article.title}</h3>
                         </a>
                         <p class="text-sm">
