@@ -1,7 +1,7 @@
-use futures::Stream;
-use futures::StreamExt;
-use leptos::View;
-use leptos::{provide_context, ssr::render_to_stream_in_order_with_prefix_undisposed_with_context};
+use futures::{Stream, StreamExt};
+use leptos::{
+    provide_context, ssr::render_to_stream_in_order_with_prefix_undisposed_with_context, View,
+};
 use lol_html::{element, HtmlRewriter, Settings};
 use std::{error::Error, pin::Pin};
 use tokio::task;

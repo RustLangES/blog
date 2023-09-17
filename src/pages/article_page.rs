@@ -1,9 +1,10 @@
-
 use leptos::*;
 
-use crate::models::article::Article;
-use crate::meta::Title;
-use crate::components::{layout::Layout, blog_content::BlogContent};
+use crate::{
+    components::{blog_content::BlogContent, layout::Layout},
+    meta::Title,
+    models::article::Article,
+};
 
 #[component]
 pub fn ArticlePage(article: Article) -> impl IntoView {
@@ -11,7 +12,11 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
     view! {
         <Title>{title}</Title>
         <Layout>
-            <BlogContent article=article ><p>Children</p></BlogContent>
+            <BlogContent article=article>
+                <p>
+                    Children
+                </p>
+            </BlogContent>
         </Layout>
     }
 }

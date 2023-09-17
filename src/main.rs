@@ -1,10 +1,10 @@
 pub mod async_component;
+pub mod components;
 pub mod meta;
+pub mod models;
+pub mod pages;
 pub mod render;
 pub mod ssg;
-pub mod components;
-pub mod pages;
-pub mod models;
 
 use std::{path::Path, fs};
 
@@ -60,3 +60,4 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
 
     Ok(articles)
 }
+

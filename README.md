@@ -1,3 +1,9 @@
+<p align="center">
+<img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/RustLangES/blog/ci.yml?label=ci" />
+<img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/RustLangES/blog/deploy.yml?label=deploy" />
+</p>
+
+
 Experiments with Leptos and SSR / SSG.
 
 I provided some tools to:
