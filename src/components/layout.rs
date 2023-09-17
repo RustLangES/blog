@@ -10,10 +10,14 @@ pub fn Layout(children: Children) -> impl IntoView {
         // Html and Title are components from the meta module. They will be
         // rendered to the <head> of the page.
         <Html attrs=vec![("lang", "es")] />
-        <Title>default title</Title>
+        <Title>RustLang Es | Blog</Title>
         <Head>
             <meta charset="utf-8" />
-            <link rel="stylesheet" href="/output.css" />
+            {if cfg!(debug_assertions) {
+                view!{ <link rel="stylesheet" href="/output.css" /> }
+            }else{
+                view!{ <link rel="stylesheet" href="https://rustlanges.github.io/blog/output.css" /> }
+            }}
             <style>{r#"
                 body {
                     margin: 0 auto;
