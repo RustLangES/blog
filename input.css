@@ -282,3 +282,7 @@
   /* TODO: fix the border made it with drop-shadow */
   filter: drop-shadow(5px 5px 0px #ffffff);
 }
+
+.markdown-container h2 {
+  @apply text-3xl font-bold text-gray-900 mb-4;
+}

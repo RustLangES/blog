@@ -11,4 +11,5 @@ leptos = { git = "https://github.com/leptos-rs/leptos.git", branch = "islands", 
 lol_html = "1.1.1"
 tokio = { version = "1", features = ["full"] }
 tokio-util = "0.7.8"
-leptos-markdown = { git = "https://github.com/Phosphorus-M/leptos-markdown.git" }
+leptos-markdown = { git = "https://github.com/Phosphorus-M/leptos-markdown.git", rev = "c0fe6ac233c9caf9d3819c93c09698b2736e09ae"}
+gray_matter = "0.2.6"
