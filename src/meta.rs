@@ -50,7 +50,10 @@ impl ShellCtx {
 
     pub fn render(self, inner_body: String) -> String {
         let head = render_to_string(
-            move || view! {{self.head_els.borrow().clone().collect_view()}{self.deduped_head_els.borrow().values().collect_view()}},
+            move || view! {
+                {self.head_els.borrow().clone().collect_view()}
+                {self.deduped_head_els.borrow().values().collect_view()}
+            },
         );
 
         format!(
