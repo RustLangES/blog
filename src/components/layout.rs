@@ -1,7 +1,9 @@
 use leptos::*;
 
-use crate::meta::{Html, Title, Head};
-use crate::components::header::Header;
+use crate::{
+    components::header::Header,
+    meta::{Head, Html, Title},
+};
 
 #[component]
 // This is a common Layout component that will be used by all pages.
@@ -29,7 +31,7 @@ pub fn Layout(children: Children) -> impl IntoView {
         // It will wrap an async function that returns an IntoView.
         <section class="w-full flex flex-col">
             <Header></Header>
-            
+
             <main class="container mx-auto">
                 {children()}
                 // <Async view=navigation_bar />

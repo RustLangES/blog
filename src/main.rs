@@ -1,10 +1,10 @@
 pub mod async_component;
+pub mod components;
 pub mod meta;
+pub mod models;
+pub mod pages;
 pub mod render;
 pub mod ssg;
-pub mod components;
-pub mod pages;
-pub mod models;
 
 use std::path::Path;
 
@@ -56,9 +56,6 @@ async fn list_articles() -> Vec<Article> {
         },
     ]
 }
-
-
-
 
 static MARKDOWN_SOURCE: &str = r#"
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis
@@ -116,4 +113,3 @@ Even todo lists:
 - [ ] todo
 - [x] done
 "#;
-

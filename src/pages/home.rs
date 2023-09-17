@@ -1,11 +1,9 @@
+use crate::{async_component::Async, components::layout::Layout, list_articles};
 use leptos::*;
 use leptos_markdown::Markdown;
-use crate::{components::layout::Layout, async_component::Async, list_articles};
-
 
 #[component]
 pub fn Homepage() -> impl IntoView {
-
     view! {
         <Layout>
             <h1>Blog post</h1>
@@ -17,7 +15,7 @@ pub fn Homepage() -> impl IntoView {
 async fn list_of_articles() -> impl IntoView {
     let articles = list_articles().await;
 
-    view!{
+    view! {
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 gap-y-8">
             {articles.into_iter().map(|article| {
                 let binding = article.content.to_string().clone();
