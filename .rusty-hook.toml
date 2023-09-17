@@ -1,0 +1,7 @@
+[hooks]
+pre-commit = "cargo fmt --all && leptosfmt . && cargo clippy -- -D warnings"
+post-commit = "echo yay"
+
+[logging]
+verbose = true
+
