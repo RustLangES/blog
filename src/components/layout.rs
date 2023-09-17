@@ -35,8 +35,8 @@ pub fn Layout(children: Children) -> impl IntoView {
         <section class="w-full flex flex-col">
             <Header/>
 
-            <main class="container mx-auto">{children()}// <Async view=navigation_bar />
-            </main>
+            // <Async view=navigation_bar />
+            <main class="container mx-auto">{children()}</main>
         </section>
     }
 }
