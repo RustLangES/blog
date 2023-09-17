@@ -18,6 +18,9 @@ hydration ids.
 ## Run
 
 ```
+
+cargo install cargo-watch # or cargo bininstall cargo-watch
+
 # generate your site
 cargo watch -x run --shell "npx tailwindcss -i ./input.css -o ./out/output.css && cargo run"
 

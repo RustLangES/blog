@@ -12,6 +12,7 @@ lol_html = "1.1.1"
 tokio = { version = "1", features = ["full"] }
 tokio-util = "0.7.8"
 leptos-markdown = { git = "https://github.com/Phosphorus-M/leptos-markdown.git" }
+gray_matter = "0.2.6"
 
 [dev-dependencies]
 rusty-hook = "0.11.2"
