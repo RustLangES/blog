@@ -3,30 +3,45 @@
 <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/RustLangES/blog/deploy.yml?label=deploy" />
 </p>
 
+## 🤝🏼 Agrega tu articulo
+Pasos:
+- Haz fork de este proyecto
+- Crea un archivo Markdown en la carpeta `articles`
+- Escribe tu articulo con este formato
+    ```
+    ---
+    title: Mi Articulo
+    author: RustLangES
+    date: 2023-09-17
+    tags:
+      - rust
+      - comunidad
+    social:
+      github: https://github.com/RustLangES
+    # twitter:
+    # website:
+    ---
 
-Experiments with Leptos and SSR / SSG.
+    El Contenido de tu articulo
+    ```
+- Haz una PR con tus cambios
+- Espera nuestra revision
+- Disfruta de tu articulo publicado 🎊
 
-I provided some tools to:
-- inject tags into `<head>`
-- have top-level async components
-- clean Leptos SSR output by removing extra tags since we won't hydrate the app
+---
 
-This is based on the `islands` branch of Leptos, that by default won't generate
-hydration ids.
+# Desarrollo
 
+## Requisitos
+- [Rust](https://rust-lang.org/tools/install)
+- [NodeJs](https://nodejs.org)
+- [cargo-watch](https://crates.io/crates/cargo-watch)
 
-## Run
-
+## Ejecutar
 ```
-
-cargo install cargo-watch # or cargo bininstall cargo-watch
-
-# generate your site
+# generar la web
 cargo watch -x run --shell "npx tailwindcss -i ./input.css -o ./out/output.css && cargo run"
 
-# launch a webserver
+# lanzar un servidor web provicional con python3
 python3 -m http.server -d out 
-
-# open your browser
-open http://locahost:3000
 ```
