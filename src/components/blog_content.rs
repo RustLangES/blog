@@ -1,9 +1,11 @@
 use crate::{components::icons::StrToIcon, models::article::Article};
 use leptos::*;
-use leptos_markdown::Markdown;
+use leptos_mdx::mdx::{Components, Mdx};
 
 #[component]
 pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
+    let components = Components::new();
+
     view! {
         <div class="group flex flex-col gap-y-6 border border-black p-6 bg-orange-100 drop-shadow-[0_0_0_rgba(0,0,0)] transition justify-between">
             <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left">
@@ -45,7 +47,9 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                 </div>
                 <span class="text-gray-400 text-sm items-center">{article.date}</span>
             </div>
-            <Markdown src=article.content.to_string()/>
+            <div class="markdown-container">
+                <Mdx source=article.content.to_string() components=components/>
+            </div>
         </div>
     }
 }
