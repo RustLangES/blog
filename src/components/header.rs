@@ -43,7 +43,7 @@ pub fn Header() -> impl IntoView {
                             <a href="/colaboradores">"Colaboradores"</a>
                         </li>
                         <li>
-                            <a href="#">"Blog"</a>
+                            <a href="/blog">"Blog"</a>
                         </li>
                         <li>
                             <ul class="lg:ml-4 flex items-center gap-x-6">
