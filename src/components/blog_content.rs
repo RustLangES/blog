@@ -11,8 +11,24 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
             </h1>
             <div class="flex flex-col">
                 <div class="flex flex-row gap-4 text-sm items-center">
-                    <h5>{article.author}</h5>
-                    <hr class="h-[0.875rem] w-px bg-gray-700 border-0"/>
+                    {if !article.author.is_empty() {
+                        view! {
+                            <>
+                                <h5>{article.author}</h5>
+                            </>
+                        }
+                    } else {
+                        view! { <></> }
+                    }}
+                    {if !article.social.is_empty() {
+                        view! {
+                            <>
+                                <hr class="h-[0.875rem] w-px bg-gray-700 border-0"/>
+                            </>
+                        }
+                    } else {
+                        view! { <></> }
+                    }}
                     <div class="flex flex-row gap-2 items-center">
                         {article
                             .social
