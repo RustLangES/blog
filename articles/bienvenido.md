@@ -1,9 +1,13 @@
 ---
 title: Bienvenidos a Rust Lang en Español
+author: RustLangES
 date: 2023-09-17
 tags:
   - rust
   - comunidad
+social:
+  github: https://github.com/RustLangES
+  website: https://rustlanges.github.io
 ---
 
 Este es el primer post de la comunidad de Rust en Español. En este blog publicaremos noticias, tutoriales, guías, y todo lo que se nos ocurra sobre Rust.
