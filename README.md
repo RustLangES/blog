@@ -1,3 +1,5 @@
+![image](https://github.com/RustLangES/blog/assets/56278796/ba1ac759-3fda-4983-80d2-965398bf8d35)
+
 <p align="center">
 <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/RustLangES/blog/ci.yml?label=ci" />
 <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/RustLangES/blog/deploy.yml?label=deploy" />
