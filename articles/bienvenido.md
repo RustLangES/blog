@@ -1,5 +1,6 @@
 ---
 title: Bienvenidos a Rust Lang en Español
+date: 2023-09-17
 tags:
   - rust
   - comunidad
@@ -9,11 +10,13 @@ Este es el primer post de la comunidad de Rust en Español. En este blog publica
 
 <!-- more -->
 
+
 ## ¿Qué es Rust?
 
 Rust es un lenguaje de programación de sistemas que se enfoca en la seguridad,
 la velocidad y la concurrencia. Su sintaxis es similar a la de C++, pero
 introduce conceptos nuevos que lo hacen más seguro y más fácil de usar.
+
 
 ## ¿Por qué Rust?
 

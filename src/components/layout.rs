@@ -36,7 +36,7 @@ pub fn Layout(children: Children) -> impl IntoView {
             <Header/>
 
             // <Async view=navigation_bar />
-            <main class="container mx-auto">{children()}</main>
+            <main class="container mx-auto py-5">{children()}</main>
         </section>
     }
 }

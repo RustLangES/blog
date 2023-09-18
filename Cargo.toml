@@ -13,6 +13,8 @@ tokio = { version = "1", features = ["full"] }
 tokio-util = "0.7.8"
 leptos-markdown = { git = "https://github.com/Phosphorus-M/leptos-markdown.git" }
 gray_matter = "0.2.6"
+icu = { version = "1.2.0", features = ["std"]}
+chrono = { version = "0.4.31", features = ["serde", "unstable-locales"] }
 
 [dev-dependencies]
 rusty-hook = "0.11.2"

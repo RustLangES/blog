@@ -6,7 +6,12 @@ use leptos_markdown::Markdown;
 pub fn Homepage() -> impl IntoView {
     view! {
         <Layout>
-            <h1>Blog post</h1>
+            <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left my-2">
+                "Blog"
+            </h1>
+            <p class="text-xl">
+                "Revisa que esta pasando en la comunidad de Rust Lang en Español."
+            </p>
             <Async view=list_of_articles/>
         </Layout>
     }
@@ -16,20 +21,27 @@ async fn list_of_articles() -> impl IntoView {
     let articles = list_articles().await.unwrap_or_default();
 
     view! {
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 gap-y-8">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 gap-y-8 py-5">
             {articles
                 .into_iter()
                 .map(|article| {
                     let binding = article.content.to_string().clone();
                     let description = binding.split('\n').take(3).collect::<Vec<&str>>().join("\n");
                     view! {
-                        <li class="group flex flex-col gap-y-6 border border-black p-2 sm:p-6 hover:bg-orange-500 bg-orange-200 drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
+                        <li class="group flex flex-col gap-y-1 border border-black p-2 sm:p-6 hover:bg-orange-500 bg-orange-200 drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
                             <a href=format!("./articles/{}.html", article.slug)>
                                 <h3 class="text-xl font-semibold">{article.title}</h3>
                             </a>
+                            <p>{article.date}</p>
                             <p class="text-sm">
                                 <Markdown src=description.to_string()/>
                             </p>
+                            <a
+                                class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
+                                href=format!("./articles/{}.html", article.slug)
+                            >
+                                "Leer más"
+                            </a>
                         </li>
                     }
                 })
