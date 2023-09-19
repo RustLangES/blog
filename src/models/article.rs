@@ -14,6 +14,16 @@ pub struct Article {
     pub social: HashMap<String, String>,
 }
 
+macro_rules! extract_field {
+    ($data:expr, $field:expr) => {
+        $data
+            .get($field)
+            .unwrap_or(&Pod::String("".to_string()))
+            .as_string()
+            .unwrap_or_default()
+    };
+}
+
 impl From<ParsedEntity> for Article {
     fn from(parsed_entity: ParsedEntity) -> Self {
         let data = parsed_entity
@@ -22,38 +32,35 @@ impl From<ParsedEntity> for Article {
             .unwrap()
             .as_hashmap()
             .unwrap_or_default();
-        let title = data
-            .get("title")
-            .unwrap_or(&Pod::String("".to_string()))
-            .as_string()
-            .unwrap_or_default();
-        let description = data
-            .get("description")
-            .unwrap_or(&Pod::String("".to_string()))
-            .as_string()
-            .unwrap_or_default();
-        let author = data
-            .get("author")
-            .unwrap_or(&Pod::String("".to_string()))
-            .as_string()
-            .unwrap_or_default();
-        let github_user = data
-            .get("github_user")
-            .unwrap_or(&Pod::String("".to_string()))
-            .as_string()
-            .unwrap_or_default();
-        let slug = data
-            .get("slug")
-            .unwrap_or(&Pod::String("".to_string()))
-            .as_string()
-            .unwrap_or_default();
+        let title = extract_field!(data, "title");
+        let description = extract_field!(data, "description");
+        let author = extract_field!(data, "data");
+        let github_user = extract_field!(data, "github_user");
+        let slug = extract_field!(data, "slug");
         let content = parsed_entity.content;
 
-        let date = data
-            .get("date")
-            .unwrap_or(&Pod::String("".to_string()))
-            .as_string()
-            .unwrap_or_default();
+        let date = {
+            let date_str = extract_field!(data, "date");
+            let mut splitted = date_str.split('-');
+            let year = splitted
+                .next()
+                .unwrap_or_default()
+                .parse::<i32>()
+                .unwrap_or_default();
+            let month = splitted
+                .next()
+                .unwrap_or_default()
+                .parse::<u32>()
+                .unwrap_or_default();
+            let day = splitted
+                .next()
+                .unwrap_or_default()
+                .parse::<u32>()
+                .unwrap_or_default();
+            let date = NaiveDate::from_ymd_opt(year, month, day).unwrap();
+            date.format_localized("%e de %B del %Y", Locale::es_ES)
+                .to_string()
+        };
 
         let default_social = Pod::Hash(HashMap::new());
         let social = data
@@ -66,28 +73,6 @@ impl From<ParsedEntity> for Article {
                     .collect::<HashMap<String, String>>()
             })
             .unwrap();
-        // let social = Social::try_from(social).ok();
-
-        let mut splitted = date.split('-');
-
-        let year = splitted
-            .next()
-            .unwrap_or_default()
-            .parse::<i32>()
-            .unwrap_or_default();
-        let month = splitted
-            .next()
-            .unwrap_or_default()
-            .parse::<u32>()
-            .unwrap_or_default();
-        let day = splitted
-            .next()
-            .unwrap_or_default()
-            .parse::<u32>()
-            .unwrap_or_default();
-
-        let date = NaiveDate::from_ymd_opt(year, month, day).unwrap();
-        let date = date.format_localized("%e de %B del %Y", Locale::es_ES);
 
         Self {
             title,
