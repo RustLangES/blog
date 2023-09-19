@@ -1,6 +1,16 @@
-use crate::{async_component::Async, components::layout::Layout, list_articles};
+use crate::{
+    async_component::Async,
+    components::{
+        layout::Layout,
+        mdx::{
+            center::{Center, CenterProps},
+            youtube::{Youtube, YoutubeProps},
+        },
+    },
+    list_articles,
+};
 use leptos::*;
-use leptos_mdx::mdx::{Components, Mdx};
+use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
 
 #[component]
 pub fn Homepage() -> impl IntoView {
@@ -27,7 +37,28 @@ async fn list_of_articles() -> impl IntoView {
                 .map(|article| {
                     let binding = article.content.to_string().clone();
                     let description = binding.split('\n').take(3).collect::<Vec<&str>>().join("\n");
-                    let components = Components::new();
+                    let mut components = Components::new();
+                    components
+                        .add_props(
+                            "youtube".to_string(),
+                            Youtube,
+                            |props: MdxComponentProps| {
+                                let video_id = props.attributes.get("video").unwrap().clone();
+                                YoutubeProps {
+                                    video: video_id.unwrap(),
+                                }
+                            },
+                        );
+                    components
+                        .add_props(
+                            "center".to_string(),
+                            Center,
+                            |props: MdxComponentProps| {
+                                CenterProps {
+                                    children: props.children,
+                                }
+                            },
+                        );
                     view! {
                         <li class="group flex flex-col gap-y-1 border border-black p-2 sm:p-6 hover:bg-orange-500 bg-orange-200 drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
                             <a href=format!("./articles/{}.html", article.slug)>

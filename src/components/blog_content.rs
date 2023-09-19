@@ -1,10 +1,37 @@
-use crate::{components::icons::StrToIcon, models::article::Article};
+use crate::{
+    components::{
+        icons::StrToIcon,
+        mdx::{
+            center::{Center, CenterProps},
+            youtube::{Youtube, YoutubeProps},
+        },
+    },
+    models::article::Article,
+};
 use leptos::*;
-use leptos_mdx::mdx::{Components, Mdx};
+use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
 
 #[component]
 pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
-    let components = Components::new();
+    let mut components = Components::new();
+
+    components.add_props(
+        "youtube".to_string(),
+        Youtube,
+        |props: MdxComponentProps| {
+            let video_id = props.attributes.get("video").unwrap().clone();
+
+            YoutubeProps {
+                video: video_id.unwrap(),
+            }
+        },
+    );
+
+    components.add_props("center".to_string(), Center, |props: MdxComponentProps| {
+        CenterProps {
+            children: props.children,
+        }
+    });
 
     view! {
         <div class="group flex flex-col gap-y-6 border border-black p-6 bg-orange-100 drop-shadow-[0_0_0_rgba(0,0,0)] transition justify-between">

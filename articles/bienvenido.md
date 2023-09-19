@@ -33,3 +33,9 @@ los videojuegos, etc.
 Rust es un lenguaje de programación de sistemas que se enfoca en la seguridad,
 la velocidad y la concurrencia. Su sintaxis es similar a la de C++, pero
 introduce conceptos nuevos que lo hacen más seguro y más fácil de usar.
+
+Dejamos este video de referencia:
+
+<center>
+<youtube video="KOABboz7PBs"></youtube>
+</center>
