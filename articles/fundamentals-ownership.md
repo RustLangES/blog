@@ -1,6 +1,8 @@
 ---
 title: Fundamentals | Ownership
+description: El Ownership es una característica fundamental del lenguaje que se utiliza para gestionar la asignación y liberación de memoria de manera segura y prevenir errores.
 author: Michael Cardoza
+github_user: michaelcardoza
 date: 2023-09-18
 tags:
   - rust

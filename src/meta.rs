@@ -16,15 +16,6 @@ pub fn Head(children: Children) -> impl IntoView {
     ctx.head_els.borrow_mut().push(children());
 }
 
-#[component]
-pub fn Title(children: Children) -> impl IntoView {
-    view! {
-        <Dedup key="title">
-            <title>{children()}</title>
-        </Dedup>
-    }
-}
-
 #[component(transparent)]
 pub fn Dedup(#[prop(into)] key: String, children: Children) -> impl IntoView {
     let ctx = expect_context::<ShellCtx>();

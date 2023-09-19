@@ -3,28 +3,32 @@ use leptos::*;
 
 use crate::{
     components::header::Header,
-    meta::{Head, Html, Title},
+    meta::{Head, Html},
 };
+
+fn get_year() -> i32 {
+    chrono::Utc::now().year()
+}
 
 #[component]
 // This is a common Layout component that will be used by all pages.
-pub fn Layout(children: Children) -> impl IntoView {
-    let year = chrono::Utc::now().year();
-
+pub fn Layout(
+    #[prop(into, default=format!("Blog de Rust Lang en Español {}", get_year()))] title: String,
+    #[prop(into, default="Somos una comunidad de Rust hispana, buscamos la promoción del lenguaje de programación Rust.".to_string())]
+    description: String,
+    children: Children,
+) -> impl IntoView {
     view! {
         <Html attrs=vec![("lang", "es")]/>
-        <Title>{format!("Blog de Rust Lang en Español {year}")}</Title>
         <Head>
             <meta charset="utf-8"/>
-            <meta property="og:site_name" content=format!("Blog de Rust Lang en Español {year}")/>
-            <meta property="og:title" content=format!("Blog de Rust Lang en Español {year}")/>
+            <title>{title.clone()}</title>
+            <meta property="og:title" content=title.clone()/>
+            <meta name="description" content=description.clone()/>
+            <meta property="og:description" content=description.clone()/>
             <meta
-                property="og:description"
-                content="Somos una comunidad de Rust hispana, buscamos la promoción del lenguaje de programación Rust."
-            />
-            <meta
-                name="description"
-                content="Somos una comunidad de Rust hispana, buscamos la promoción del lenguaje de programación Rust."
+                property="og:site_name"
+                content=format!("Blog de Rust Lang en Español {}", get_year())
             />
             <meta property="og:url" content="https://rustlanges.github.io"/>
             <meta property="og:image" content="https://rustlanges.github.io/preview_concept.png"/>

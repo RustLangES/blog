@@ -13,7 +13,9 @@ Pasos:
     ```md
     ---
     title: Mi Articulo
+    description: La descripcion de mi articulo      
     author: RustLangES
+    github_user: RustLangES
     date: 2023-09-17
     tags:
       - rust

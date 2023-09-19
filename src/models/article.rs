@@ -5,7 +5,9 @@ use gray_matter::{ParsedEntity, Pod};
 
 pub struct Article {
     pub title: String,
+    pub description: String,
     pub author: String,
+    pub github_user: String,
     pub slug: String,
     pub content: String,
     pub date: String,
@@ -25,8 +27,18 @@ impl From<ParsedEntity> for Article {
             .unwrap_or(&Pod::String("".to_string()))
             .as_string()
             .unwrap_or_default();
+        let description = data
+            .get("description")
+            .unwrap_or(&Pod::String("".to_string()))
+            .as_string()
+            .unwrap_or_default();
         let author = data
             .get("author")
+            .unwrap_or(&Pod::String("".to_string()))
+            .as_string()
+            .unwrap_or_default();
+        let github_user = data
+            .get("github_user")
             .unwrap_or(&Pod::String("".to_string()))
             .as_string()
             .unwrap_or_default();
@@ -79,7 +91,9 @@ impl From<ParsedEntity> for Article {
 
         Self {
             title,
+            description,
             author,
+            github_user,
             slug,
             content,
             social,

@@ -2,17 +2,20 @@ use leptos::*;
 
 use crate::{
     components::{blog_content::BlogContent, layout::Layout},
-    meta::Title,
     models::article::Article,
 };
 
 #[component]
 pub fn ArticlePage(article: Article) -> impl IntoView {
     let title = article.title.clone();
+    let description = format!(
+        "{} - By @{}",
+        article.description.clone(),
+        article.github_user.clone()
+    );
     view! {
         <>
-            <Title>{title}</Title>
-            <Layout>
+            <Layout title=title description=description>
                 <BlogContent article=article/>
             </Layout>
             <script
