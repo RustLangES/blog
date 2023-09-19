@@ -290,3 +290,9 @@
 .markdown-container h2 {
   @apply text-3xl font-bold text-gray-900;
 }
+
+.markdown-container pre{
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 3px 0px black;
+}
