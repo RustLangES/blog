@@ -18,6 +18,7 @@ Pasos:
     tags:
       - rust
       - comunidad
+    # Aqui compartes tus redes sociales
     social:
       github: https://github.com/RustLangES
     # twitter:
