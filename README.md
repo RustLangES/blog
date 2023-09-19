@@ -10,7 +10,7 @@ Pasos:
 - Haz fork de este proyecto
 - Crea un archivo Markdown en la carpeta `articles`
 - Escribe tu articulo con este formato
-    ```
+    ```md
     ---
     title: Mi Articulo
     author: RustLangES
