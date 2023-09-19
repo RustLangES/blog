@@ -34,6 +34,7 @@ pub fn Layout(children: Children) -> impl IntoView {
             />
             <meta name="twitter:card" content="summary_large_image"/>
             <meta name="twitter:site" content="@rustlang"/>
+            <link rel="icon" href="/LogoSegunMichael-134de58fcd9af94e.ico"/>
             {if cfg!(debug_assertions) {
                 view! { <link rel="stylesheet" href="/output.css"/> }
             } else {
