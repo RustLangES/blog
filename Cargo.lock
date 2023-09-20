@@ -2382,6 +2382,7 @@ dependencies = [
  "leptos-mdx",
  "lol_html",
  "rusty-hook",
+ "serde",
  "tokio",
  "tokio-util",
 ]

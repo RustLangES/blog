@@ -7,14 +7,18 @@ edition = "2021"
 
 [dependencies]
 futures = "0.3.28"
-leptos = { git = "https://github.com/leptos-rs/leptos.git", branch = "islands", features = [ "ssr", "islands" ] }
+leptos = { git = "https://github.com/leptos-rs/leptos.git", branch = "islands", features = [
+	"ssr",
+	"islands",
+] }
 lol_html = "1.1.1"
 tokio = { version = "1", features = ["full"] }
 tokio-util = "0.7.8"
 gray_matter = "0.2.6"
-icu = { version = "1.2.0", features = ["std"]}
+icu = { version = "1.2.0", features = ["std"] }
 chrono = { version = "0.4.31", features = ["serde", "unstable-locales"] }
 leptos-mdx = { git = "https://github.com/Pitasi/leptos-mdx.git" }
+serde = { version = "1", features = ['derive'] }
 
 [dev-dependencies]
 rusty-hook = "0.11.2"
