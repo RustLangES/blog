@@ -6,29 +6,33 @@
 </p>
 
 ## 🤝🏼 Agrega tu articulo
+
 Pasos:
+
 - Haz fork de este proyecto
 - Crea un archivo Markdown en la carpeta `articles`
 - Escribe tu articulo con este formato
-    ```md
-    ---
-    title: Mi Articulo
-    description: La descripcion de mi articulo      
-    author: RustLangES
-    github_user: RustLangES
-    date: 2023-09-17
-    tags:
-      - rust
-      - comunidad
-    # Aqui compartes tus redes sociales
-    social:
-      github: https://github.com/RustLangES
-    # twitter:
-    # website:
-    ---
 
-    El Contenido de tu articulo
-    ```
+  ```md
+  ---
+  title: Mi Articulo
+  description: La descripcion de mi articulo
+  author: RustLangES
+  github_user: RustLangES
+  date: 2023-09-17
+  tags:
+    - rust
+    - comunidad
+  # Aqui compartes tus redes sociales
+  social:
+    github: https://github.com/RustLangES
+  # twitter:
+  # website:
+  ---
+
+  El Contenido de tu articulo
+  ```
+
 - Haz una PR con tus cambios
 - Espera nuestra revision
 - Disfruta de tu articulo publicado 🎊
@@ -38,15 +42,27 @@ Pasos:
 # Desarrollo
 
 ## Requisitos
+
 - [Rust](https://rust-lang.org/tools/install)
 - [NodeJs](https://nodejs.org)
 - [cargo-watch](https://crates.io/crates/cargo-watch)
 
 ## Ejecutar
+
 ```
 # generar la web
 cargo watch -x run --shell "npx tailwindcss -i ./input.css -o ./out/output.css && cargo run"
 
 # lanzar un servidor web provicional con python3
-python3 -m http.server -d out 
+python3 -m http.server -d out
+```
+
+```
+# En cualquier linux distro
+
+## Iniciar cargo watch y http server
+./server start
+
+## Apagar ambos servicios
+./server stop
 ```
