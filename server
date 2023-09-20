@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ "$1" = "start" ] 
+then
+	nohup cargo watch -x run --shell "npx tailwindcss -i ./input.css -o ./out/output.css && cargo run" &
+	nohup python3 -m http.server -d out &
+fi
+
+if [ "$1" = "stop" ] 
+then
+
+	kill -9 $(sudo netstat -npl --inet | awk '/:8000/' | awk -F "[ /]+" '{print $7}')
+	pkill cargo-watch
+fi
