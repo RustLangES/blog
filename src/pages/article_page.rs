@@ -8,11 +8,14 @@ use crate::{
 #[component]
 pub fn ArticlePage(article: Article) -> impl IntoView {
     let title = article.title.clone();
-    let description = format!(
-        "{} - By @{}",
-        article.description.clone(),
-        article.github_user.clone()
-    );
+
+    let author = if let Some(github_user) = article.github_user.clone() {
+        github_user
+    } else {
+        article.author.clone()
+    };
+
+    let description = format!("{} - By @{}", article.description.clone(), author);
     view! {
         <>
             <Layout title=title description=description>

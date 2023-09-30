@@ -3,6 +3,8 @@ use std::collections::HashMap;
 use chrono::{Locale, NaiveDate};
 use serde::{Deserialize, Deserializer, Serialize};
 
+use super::devto_article::DevToArticle;
+
 #[derive(Serialize, Deserialize)]
 pub struct Article {
     #[serde(default)]
@@ -12,14 +14,35 @@ pub struct Article {
     #[serde(default)]
     pub author: String,
     #[serde(default)]
-    pub github_user: String,
+    pub github_user: Option<String>,
     #[serde(default)]
     pub slug: String,
     #[serde(default)]
     pub content: String,
     #[serde(deserialize_with = "parse_date")]
     pub date: String,
-    pub social: HashMap<String, String>,
+    pub social: Option<HashMap<String, String>>,
+}
+
+impl From<DevToArticle> for Article {
+    fn from(devto_article: DevToArticle) -> Self {
+        Article {
+            title: devto_article.title,
+            description: devto_article.description,
+            author: devto_article.user.name,
+            github_user: Some(devto_article.user.github_username.clone()),
+            social: Some(HashMap::from([
+                ("twitter".to_string(), devto_article.user.twitter_username),
+                (
+                    "github".to_string(),
+                    devto_article.user.github_username.clone(),
+                ),
+            ])),
+            slug: devto_article.slug,
+            date: devto_article.published_at,
+            content: devto_article.content.unwrap_or_default(),
+        }
+    }
 }
 
 fn parse_date<'de, D>(de: D) -> Result<String, D::Error>

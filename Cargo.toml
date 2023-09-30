@@ -18,7 +18,9 @@ gray_matter = "0.2.6"
 icu = { version = "1.2.0", features = ["std"] }
 chrono = { version = "0.4.31", features = ["serde", "unstable-locales"] }
 leptos-mdx = { git = "https://github.com/Pitasi/leptos-mdx.git" }
-serde = { version = "1", features = ['derive'] }
+serde = { version = "1", features = ["derive"] }
+reqwest = { version = "0.11.20", features = ["json"] }
+serde_json = "1.0.107"
 
 [dev-dependencies]
 rusty-hook = "0.11.2"

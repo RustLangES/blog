@@ -5,6 +5,7 @@ pub mod models;
 pub mod pages;
 pub mod render;
 pub mod ssg;
+pub mod utils;
 
 use std::{fs, path::Path};
 
@@ -12,12 +13,22 @@ use gray_matter::{engine::YAML, Matter};
 use models::article::Article;
 use pages::article_page::ArticlePageProps;
 use ssg::Ssg;
+use utils::fetch_dev_to::fetch_dev_to;
 
 use crate::pages::{article_page::ArticlePage, home::Homepage};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let articles = list_articles().await?;
+    let mut articles = list_articles().await?;
+
+    let dev_to_articles = fetch_dev_to().await?;
+
+    articles.append(
+        &mut dev_to_articles
+            .into_iter()
+            .map(Article::from)
+            .collect::<Vec<Article>>(),
+    );
 
     tokio::fs::create_dir_all("./out/articles").await?;
 
