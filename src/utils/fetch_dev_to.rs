@@ -35,6 +35,6 @@ pub async fn get_article_by_id(id: u32) -> Result<HashMap<String, Value>, reqwes
         .await?
         .json::<HashMap<String, Value>>()
         .await?;
-    println!("{:#?}", resp);
+
     Ok(resp)
 }

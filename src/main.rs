@@ -19,16 +19,7 @@ use crate::pages::{article_page::ArticlePage, home::Homepage};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut articles = list_articles().await?;
-
-    let dev_to_articles = fetch_dev_to().await?;
-
-    articles.append(
-        &mut dev_to_articles
-            .into_iter()
-            .map(Article::from)
-            .collect::<Vec<Article>>(),
-    );
+    let articles = list_articles().await?;
 
     tokio::fs::create_dir_all("./out/articles").await?;
 
@@ -70,6 +61,15 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
         }
         articles.push(article);
     }
+
+    let dev_to_articles = fetch_dev_to().await?;
+
+    articles.append(
+        &mut dev_to_articles
+            .into_iter()
+            .map(Article::from)
+            .collect::<Vec<Article>>(),
+    );
 
     Ok(articles)
 }
