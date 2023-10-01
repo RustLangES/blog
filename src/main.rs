@@ -48,9 +48,7 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
         let file = path?.path();
         let algo = fs::read_to_string(file.clone())?;
         let matter = Matter::<YAML>::new();
-        let Some(parsed_entity) = matter.parse_with_struct(&algo) else {
-            continue;
-        };
+        let parsed_entity = matter.parse_with_struct(&algo).unwrap();
         let content = parsed_entity.content.clone();
         let mut article: Article = parsed_entity.data;
         article.content = content;
@@ -58,6 +56,14 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
             // path without extension
             let filename_without_extension = file.file_stem().unwrap().to_str().unwrap();
             article.slug = filename_without_extension.to_string();
+        }
+        if article.date_string.is_none() {
+            article.date_string = Some(
+                article
+                    .date
+                    .format_localized("%e de %B del %Y", chrono::Locale::es_ES)
+                    .to_string(),
+            );
         }
         articles.push(article);
     }
