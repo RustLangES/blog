@@ -45,7 +45,8 @@ where
 
 impl From<DevToArticle> for Article {
     fn from(devto_article: DevToArticle) -> Self {
-        let date_time = NaiveDate::parse_from_str(&devto_article.published_at, "%Y-%m-%dT%H:%M:%SZ").unwrap();
+        let date_time =
+            NaiveDate::parse_from_str(&devto_article.published_at, "%Y-%m-%dT%H:%M:%SZ").unwrap();
 
         Article {
             title: devto_article.title,
@@ -70,7 +71,9 @@ impl From<DevToArticle> for Article {
                 ),
             ])),
             slug: devto_article.slug,
-            date_string: date_time.format_localized("%e de %B del %Y", Locale::es_ES).to_string(),
+            date_string: date_time
+                .format_localized("%e de %B del %Y", Locale::es_ES)
+                .to_string(),
             content: devto_article.content.unwrap_or_default(),
             devto: true,
         }
