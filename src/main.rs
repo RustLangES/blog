@@ -48,7 +48,10 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
         let file = path?.path();
         let algo = fs::read_to_string(file.clone())?;
         let matter = Matter::<YAML>::new();
-        let parsed_entity = matter.parse_with_struct(&algo).unwrap();
+        let Some(parsed_entity) = matter.parse_with_struct(&algo) else {
+            println!("Error parsing file: {:?}", file);
+            continue;
+        };
         let content = parsed_entity.content.clone();
         let mut article: Article = parsed_entity.data;
         article.content = content;
@@ -76,6 +79,8 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
             .map(Article::from)
             .collect::<Vec<Article>>(),
     );
+
+    articles.sort_by(|a, b| b.date.cmp(&a.date));
 
     Ok(articles)
 }
