@@ -1576,7 +1576,7 @@ dependencies = [
 [[package]]
 name = "leptos-mdx"
 version = "0.1.0"
-source = "git+https://github.com/Pitasi/leptos-mdx.git#a0a56912726121b394bfa20038ffd084e3e2f054"
+source = "git+https://github.com/RustLangES/leptos-mdx.git#f5e04965061850e32a4a73bccf7faf6b9d2e273c"
 dependencies = [
  "comrak",
  "frontmatter",
