@@ -71,9 +71,11 @@ impl From<DevToArticle> for Article {
                 ),
             ])),
             slug: devto_article.slug,
-            date_string: date_time
-                .format_localized("%e de %B del %Y", Locale::es_ES)
-                .to_string(),
+            date_string: Some(
+                date_time
+                    .format_localized("%e de %B del %Y", Locale::es_ES)
+                    .to_string(),
+            ),
             content: devto_article.content.unwrap_or_default(),
             devto: true,
         }
