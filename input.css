@@ -296,3 +296,7 @@
   border-radius: 10px;
   box-shadow: 0 0 3px 0px black;
 }
+
+.markdown-container pre code {
+  overflow-x: auto;
+}

@@ -23,6 +23,7 @@ pub fn Layout(
         <Head>
             <meta charset="utf-8"/>
             <title>{title.clone()}</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
             <meta property="og:title" content=title.clone()/>
             <meta name="description" content=description.clone()/>
             <meta property="og:description" content=description.clone()/>
