@@ -18,7 +18,10 @@ pub async fn fetch_dev_to() -> Result<DevToArticles, reqwest::Error> {
 
     for article in resp.iter_mut() {
         let article_complete = get_article_by_id(article.id).await?;
-        article.content = Some(article_complete.get("body_markdown").unwrap().to_string());
+        let Value::String(content) = article_complete.get("body_markdown").unwrap() else {
+            continue;
+        };
+        article.content = Some(content.to_string());
     }
 
     Ok(resp)

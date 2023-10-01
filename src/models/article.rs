@@ -22,6 +22,8 @@ pub struct Article {
     #[serde(deserialize_with = "parse_date")]
     pub date: String,
     pub social: Option<HashMap<String, String>>,
+    #[serde(default)]
+    pub devto: bool,
 }
 
 impl From<DevToArticle> for Article {
@@ -32,15 +34,25 @@ impl From<DevToArticle> for Article {
             author: devto_article.user.name,
             github_user: Some(devto_article.user.github_username.clone()),
             social: Some(HashMap::from([
-                ("twitter".to_string(), devto_article.user.twitter_username),
+                (
+                    "twitter".to_string(),
+                    format!(
+                        "https://twitter.com/{}",
+                        devto_article.user.twitter_username
+                    ),
+                ),
                 (
                     "github".to_string(),
-                    devto_article.user.github_username.clone(),
+                    format!(
+                        "https://github.com/{}",
+                        devto_article.user.github_username.clone()
+                    ),
                 ),
             ])),
             slug: devto_article.slug,
             date: devto_article.published_at,
             content: devto_article.content.unwrap_or_default(),
+            devto: true,
         }
     }
 }
