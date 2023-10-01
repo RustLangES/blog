@@ -78,7 +78,7 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                             .collect::<Vec<_>>()}
                     </div>
                 </div>
-                <span class="text-gray-400 text-sm items-center">{article.date}</span>
+                <span class="text-gray-400 text-sm items-center">{article.date_string}</span>
             </div>
             <div class="markdown-container">
                 <Mdx source=article.content.to_string() components=components/>

@@ -64,7 +64,7 @@ async fn list_of_articles() -> impl IntoView {
                             <a href=format!("./articles/{}.html", article.slug)>
                                 <h3 class="text-xl font-semibold">{article.title}</h3>
                             </a>
-                            <p>{article.date}</p>
+                            <p>{article.date_string}</p>
                             <div class="text-sm markdown-container">
                                 <Mdx source=description.to_string() components=components/>
                             </div>
