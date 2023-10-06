@@ -287,10 +287,6 @@
   @apply flex flex-col gap-2;
 }
 
-.markdown-container h2 {
-  @apply text-3xl font-bold text-gray-900;
-}
-
 .markdown-container pre{
   padding: 10px;
   border-radius: 10px;
@@ -299,4 +295,28 @@
 
 .markdown-container pre code {
   overflow-x: auto;
+}
+
+.markdown-container h1{
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  @apply text-4xl font-bold text-gray-900;
+}
+
+.markdown-container h2 {
+  @apply text-3xl font-bold text-gray-900;
+  @apply mt-4;
+}
+
+.markdown-container ul {
+  @apply list-disc;
+  margin-left: 20px; /* Añade un margen a la izquierda para separar la lista del texto */
+  padding-left: 20px;
+}
+
+.markdown-container ol {
+  @apply list-decimal;
+  margin-left: 20px; /* Añade un margen a la izquierda para separar la lista del texto */
+  padding-left: 20px;
 }
