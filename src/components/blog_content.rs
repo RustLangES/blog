@@ -80,7 +80,7 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                 </div>
                 <span class="text-gray-400 text-sm items-center">{article.date_string}</span>
             </div>
-            <div class="markdown-container">
+            <div class="markdown-container prose max-w-none">
                 <Mdx source=article.content.to_string() components=components/>
             </div>
         </div>

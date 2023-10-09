@@ -36,7 +36,16 @@ async fn list_of_articles() -> impl IntoView {
                 .into_iter()
                 .map(|article| {
                     let binding = article.content.clone();
-                    let description = binding.split('\n').take(3).collect::<Vec<&str>>().join("\n");
+                    let mut description = binding
+                        .split('\n')
+                        .take(3)
+                        .collect::<Vec<&str>>()
+                        .join("\n")
+                        .to_string();
+                    if description.len() > 190 {
+                        description = description[0..190].to_string();
+                        description.push_str("...");
+                    }
                     let mut components = Components::new();
                     components
                         .add_props(

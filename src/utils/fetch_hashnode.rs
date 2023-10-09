@@ -1,6 +1,4 @@
-use crate::models::hashnode_article::{
-    ArticleFetched, ArticleFetchedPost, Data, HashnodeResponse,
-};
+use crate::models::hashnode_article::{ArticleFetched, ArticleFetchedPost, Data, HashnodeResponse};
 use serde::Serialize;
 
 #[derive(Serialize)]
