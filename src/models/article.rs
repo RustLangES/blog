@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use chrono::{Locale, NaiveDate};
 use serde::{Deserialize, Deserializer, Serialize};
 
-use super::devto_article::DevToArticle;
+use super::{devto_article::DevToArticle, hashnode_article::ArticleFetchedPost};
 
 #[derive(Serialize, Deserialize)]
 pub struct Article {
@@ -78,6 +78,46 @@ impl From<DevToArticle> for Article {
             ),
             content: devto_article.content.unwrap_or_default(),
             devto: true,
+        }
+    }
+}
+
+impl From<ArticleFetchedPost> for Article {
+    fn from(hashnode_article: ArticleFetchedPost) -> Self {
+        let date_time =
+            NaiveDate::parse_from_str(&hashnode_article.date_added, "%Y-%m-%dT%H:%M:%S%.fZ")
+                .unwrap();
+
+        Article {
+            title: hashnode_article.title,
+            description: hashnode_article.brief,
+            author: hashnode_article.publication.username,
+            github_user: hashnode_article
+                .publication
+                .links
+                .github
+                .split('/')
+                .last()
+                .map(|s| s.to_string()),
+            date: date_time,
+            social: Some(HashMap::from([
+                (
+                    "twitter".to_string(),
+                    hashnode_article.publication.links.twitter,
+                ),
+                (
+                    "github".to_string(),
+                    hashnode_article.publication.links.github,
+                ),
+            ])),
+            slug: hashnode_article.slug,
+            content: hashnode_article.content_markdown,
+            date_string: Some(
+                date_time
+                    .format_localized("%e de %B del %Y", Locale::es_ES)
+                    .to_string(),
+            ),
+            devto: false,
         }
     }
 }
