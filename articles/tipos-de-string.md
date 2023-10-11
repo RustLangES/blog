@@ -12,8 +12,6 @@ social:
   twitter: https://twitter.com/sergioribera_rs
   website: https://bento.me/sergioribera
 ---
-Aunque parezca raro leer que Rust tiene mas de un tipo de string, déjame te cuento a que se refiere.
-
 Primero tenemos que partir por la premisa de:
 
 ## Que es un String?
@@ -75,6 +73,37 @@ En Rust, las cadenas de caracteres son una colección de caracteres Unicode, lo 
 > NOTA: Cuando se dice que una cadena de caracteres es de "propiedad" u "owned" en el contexto de Rust, significa que esa cadena está bajo el control exclusivo del programa y es responsable de su gestión de memoria. En otras palabras, la cadena de caracteres es propiedad del programa y se encargará de liberar automáticamente la memoria asignada a la cadena una vez que ya no sea necesaria. Esto es una parte fundamental del sistema de gestión de memoria de Rust y es una de las características clave que lo hacen seguro y eficiente.
 > En Rust, las cadenas de caracteres de propiedad se representan con el tipo de dato String. Cuando creas una cadena String, estás asignando y administrando explícitamente la memoria necesaria para almacenar la cadena y su contenido. Esto permite que el programa realice operaciones de modificación en la cadena, como agregar o quitar caracteres, sin correr riesgo de desbordamientos de búfer o corrupción de memoria.
 
+## 🐄 Cow (Clone On Write)
+El tipo Cow (en realidad `Cow<'a, B>`) en Rust es una estructura de datos que representa una cadena de caracteres y se utiliza para evitar copias innecesarias de datos al trabajar con cadenas. La abreviatura "Cow" significa "Borrowed" (prestado) o "Cloned" (clonado), dependiendo de si la cadena se toma prestada o se clona según sea necesario de manera eficiente.
+
+> NOTA: En este articulo estamos hablando de las cadenas de texto en Rust, por lo que para nosotros el `Cow` en realidad sera `Cow<'a, str>`, en donde gestionará una referencia de str
+
+Definición:
+```rs
+# mas informacion https://doc.rust-lang.org/std/borrow/enum.Cow.html
+pub enum Cow<'a, B>
+where
+    B: 'a + ToOwned + ?Sized,
+{
+    Borrowed(&'a B),
+    Owned(<B as ToOwned>::Owned),
+}
+```
+
+Como puedes notar, `Cow` es un enum que tiene dos variantes: `Borrowed` y `Owned`.
+- `Cow::Borrowed(&'a B)` se utiliza cuando se quiere trabajar con una referencia prestada a una cadena de caracteres existente.
+- `Cow::Owned(<B as ToOwned>::Owned)` se utiliza cuando se necesita una copia de la cadena, y esta se clona.
+
+```rs
+use std::borrow::Cow;
+
+let borrowed: Cow<str> = Cow::Borrowed("Hello");
+let owned: Cow<str> = Cow::Owned(String::from("Hola"));
+
+let borrowed_ref: &str = &borrowed;
+let owned_string: String = owned.into_owned();
+```
+
 ## Problemas con el String
 Si, aunque parezca raro leer que Rust pueda tener problemas con un tipo de dato, en realidad esto se refiere mas al mal uso que pueda existir, por eso te comento algunos problemas comunes que suele haber al respecto:
 
@@ -127,11 +156,58 @@ Paso a paso, primero necesito que entiendas los problemas que pueden existir en 
 Ahora que ya viste los tipos de strings que maneja Rust y los problemas que pueden existir, veamos algunas estrategias para abordar estos problemas y optimizar el manejo de grandes cantidades de texto en Rust.
 
 - Usa Referencias (&str) cuando sea posible: Cuando no necesitas modificar una cadena, utiliza referencias a cadenas de caracteres (&str) en lugar de clonar (String). Esto evita copias innecesarias y reduce el consumo de memoria.
+    ```rs
+    fn process_text(text: &str) {
+        println!("Procesando: {}", text);
+    }
+
+    fn main() {
+        let large_text = "Este es un texto largo que no se clona".to_string();
+        process_text(&large_text);  // Evita copiar la cadena
+    }
+    ```
 
 - Utiliza Cow<'a, str>: Cow te permite trabajar con referencias prestadas o datos clonados según sea necesario, lo que puede ser útil al procesar texto dinámico.
+    ```rs
+    use std::borrow::Cow;
+
+    fn process_text(text: Cow<str>) {
+        println!("Procesando: {}", text);
+    }
+
+    let borrowed_text: &str = "Texto prestado";
+    let owned_text: String = "Texto clonado".to_string();
+
+    process_text(Cow::Borrowed(borrowed_text));  // No se clona
+    process_text(Cow::Owned(owned_text));        // Se clona si es necesario
+    ```
 
 - Usa la asignación cuidadosa de capacidad: Al crear Strings, puedes asignar una capacidad inicial para evitar asignaciones de memoria excesivas. Esto se hace utilizando el método .with_capacity().
+    ```rs
+        let mut large_string = String::new();
+        large_string.reserve(1000);  // Asigna capacidad inicial
+        large_string.push_str("Texto largo...");
+    ```
 
 - Recicla y reutiliza Strings: Si necesitas crear y desechar muchas Strings en un bucle, considera reutilizar Strings existentes para reducir la asignación de memoria.
+    ```rs
+    let mut reused_string = String::with_capacity(1000);
+    for i in 1..100 {
+        reused_string.clear();  // Reutiliza la misma cadena
+        reused_string.push_str("Iteración ");
+        reused_string.push(i.to_string());
+        println!("{}", reused_string);
+    }
+    ```
 
 - Optimiza las operaciones de cadena: Al realizar operaciones de cadena, como concatenación, utiliza métodos que minimicen las copias, como push_str() o push() en lugar de + o format!().
+    ```rs
+    let mut result = String::new();
+    for i in 1..1000 {
+        result.push_str("Número: ");
+        result.push(i.to_string().as_str());  // Minimiza copias
+        result.push_str(", ");
+    }
+    ```
+
+## Rc<str> y Arc<str>
