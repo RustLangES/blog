@@ -209,5 +209,3 @@ Ahora que ya viste los tipos de strings que maneja Rust y los problemas que pued
         result.push_str(", ");
     }
     ```
-
-## Rc<str> y Arc<str>
