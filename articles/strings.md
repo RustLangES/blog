@@ -3,10 +3,11 @@ title: String en Rust
 description: El manejo de texto es algo muy importante en cualquier tipo de aplicacion, por lo que conocer los tipos de datos que proporiciona el lenguaje es muy importante, ademas de saber como poder manejar los datos de manera eficiente
 author: SergioRibera
 github_user: SergioRibera
-date: 2023-09-21
+date: 2023-10-11
 tags:
 - rust
 - data-type
+- strings
 social:
   github: https://github.com/SergioRibera
   twitter: https://twitter.com/sergioribera_rs
