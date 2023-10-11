@@ -35,18 +35,18 @@ Para permitir la representación multilenguaje a nivel mundial existe un estánd
 Antes de ver los Strings en Rust, tenemos que ver los strings en otros lenguajes para poder apreciar el valor que propone Rust en sus implementaciones
 
 ## Cadenas de caracteres en C
-En C, las cadenas de caracteres son arreglos de caracteres que terminan con el carácter nulo '\0'. Este enfoque es propenso a errores, ya que no se realiza un seguimiento explícito de la longitud de la cadena, lo que puede llevar a desbordamientos de búfer y problemas de seguridad.
+En C, las cadenas de caracteres son arreglos de caracteres que terminan con el carácter nulo '\0'. Este enfoque es propenso a errores, ya que no se realiza un seguimiento explícito de la longitud de la cadena, lo que puede llevar a desbordamientos de búfer (Buffer overflow) y problemas de seguridad.
 
 1. No se Realiza un Seguimiento de la Longitud: A diferencia de los lenguajes de programación modernos, C no realiza un seguimiento automático de la longitud de las cadenas. Esto significa que debes usar funciones como `strlen()` para determinar la longitud de una cadena antes de manipularla. Si olvidas hacerlo o calculas incorrectamente la longitud, puedes introducir errores de acceso a memoria no válida.
 
-2. No es Seguro contra Desbordamientos: La función `strcpy()` en C, que se utiliza para copiar una cadena en otra, no realiza comprobaciones de límites. Si la cadena de origen es más larga que la de destino, se producirá un desbordamiento de búfer, lo que puede ser explotado por un atacante.
+2. No es Seguro contra Desbordamientos: La función `strcpy()` en C, que se utiliza para copiar una cadena en otra, no realiza comprobaciones de límites. Si la cadena de origen es más larga que la de destino, se producirá un desbordamiento de búfer (Buffer overflow), lo que puede ser explotado por un atacante.
 
 Aquí un pequeño ejemplo:
 
 ```c
 char destination[10];
 char source[] = "Esta cadena es demasiado larga para el destino";
-strcpy(destination, source);  // Desbordamiento de búfer
+strcpy(destination, source);  // Desbordamiento de búfer (Buffer overflow)
 ```
 
 3. Dificultades con Caracteres Multibyte: C no maneja naturalmente caracteres multibyte, lo que puede ser problemático en aplicaciones internacionales que requieren soporte para varios idiomas. La manipulación de caracteres multibyte puede ser propensa a errores y no es trivial en C.
@@ -72,7 +72,7 @@ En Rust, las cadenas de caracteres son una colección de caracteres Unicode, lo 
 - str: Es el tipo de dato más general y se utiliza para representar una referencia a una cadena de caracteres sin asignación específica. Es el tipo subyacente de &str y se utiliza raramente directamente en el código.
 
 > NOTA: Cuando se dice que una cadena de caracteres es de "propiedad" u "owned" en el contexto de Rust, significa que esa cadena está bajo el control exclusivo del programa y es responsable de su gestión de memoria. En otras palabras, la cadena de caracteres es propiedad del programa y se encargará de liberar automáticamente la memoria asignada a la cadena una vez que ya no sea necesaria. Esto es una parte fundamental del sistema de gestión de memoria de Rust y es una de las características clave que lo hacen seguro y eficiente.
-> En Rust, las cadenas de caracteres de propiedad se representan con el tipo de dato String. Cuando creas una cadena String, estás asignando y administrando explícitamente la memoria necesaria para almacenar la cadena y su contenido. Esto permite que el programa realice operaciones de modificación en la cadena, como agregar o quitar caracteres, sin correr riesgo de desbordamientos de búfer o corrupción de memoria.
+> En Rust, las cadenas de caracteres de propiedad se representan con el tipo de dato String. Cuando creas una cadena String, estás asignando y administrando explícitamente la memoria necesaria para almacenar la cadena y su contenido. Esto permite que el programa realice operaciones de modificación en la cadena, como agregar o quitar caracteres, sin correr riesgo de desbordamientos de búfer (Buffer overflow) o corrupción de memoria.
 
 ## 🐄 Cow (Clone On Write)
 El tipo Cow (en realidad `Cow<'a, B>`) en Rust es una estructura de datos que representa una cadena de caracteres y se utiliza para evitar copias innecesarias de datos al trabajar con cadenas. La abreviatura "Cow" significa "Clone on Write" (Clonar al escribir)", dependiendo de si la cadena se toma prestada o se clona según sea necesario de manera eficiente.
