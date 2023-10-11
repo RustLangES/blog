@@ -35,8 +35,17 @@ async fn list_of_articles() -> impl IntoView {
             {articles
                 .into_iter()
                 .map(|article| {
-                    let binding = article.content.to_string().clone();
-                    let description = binding.split('\n').take(3).collect::<Vec<&str>>().join("\n");
+                    let binding = article.content.clone();
+                    let mut description = binding
+                        .split('\n')
+                        .take(3)
+                        .collect::<Vec<&str>>()
+                        .join("\n")
+                        .to_string();
+                    if description.len() > 190 {
+                        description = description[0..190].to_string();
+                        description.push_str("...");
+                    }
                     let mut components = Components::new();
                     components
                         .add_props(
@@ -60,11 +69,11 @@ async fn list_of_articles() -> impl IntoView {
                             },
                         );
                     view! {
-                        <li class="group flex flex-col gap-y-1 border border-black p-2 sm:p-6 hover:bg-orange-500 bg-orange-200 drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
+                        <li class="group flex flex-col gap-y-1 border border-black p-2 sm:p-6 bg-orange-200 hover:bg-orange-300 drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
                             <a href=format!("./articles/{}.html", article.slug)>
                                 <h3 class="text-xl font-semibold">{article.title}</h3>
                             </a>
-                            <p>{article.date}</p>
+                            <p>{article.date_string}</p>
                             <div class="text-sm markdown-container">
                                 <Mdx source=description.to_string() components=components/>
                             </div>

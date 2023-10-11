@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::{
     components::{
         icons::StrToIcon,
@@ -14,6 +16,11 @@ use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
 #[component]
 pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
     let mut components = Components::new();
+    let social = if let Some(social) = article.social.clone() {
+        social
+    } else {
+        HashMap::new()
+    };
 
     components.add_props(
         "youtube".to_string(),
@@ -49,7 +56,7 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                     } else {
                         view! { <></> }
                     }}
-                    {if !article.social.is_empty() {
+                    {if !social.is_empty() {
                         view! {
                             <>
                                 <hr class="h-[0.875rem] w-px bg-gray-700 border-0"/>
@@ -59,8 +66,7 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                         view! { <></> }
                     }}
                     <div class="flex flex-row gap-2 items-center">
-                        {article
-                            .social
+                        {social
                             .iter()
                             .map(|(net, url)| {
                                 view! {
@@ -72,9 +78,9 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                             .collect::<Vec<_>>()}
                     </div>
                 </div>
-                <span class="text-gray-400 text-sm items-center">{article.date}</span>
+                <span class="text-gray-400 text-sm items-center">{article.date_string}</span>
             </div>
-            <div class="markdown-container">
+            <div class="markdown-container prose max-w-none">
                 <Mdx source=article.content.to_string() components=components/>
             </div>
         </div>

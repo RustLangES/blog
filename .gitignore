@@ -1,3 +1,5 @@
 /target
 out
 .idea/
+node_modules/
+style/output.css

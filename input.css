@@ -284,15 +284,17 @@
 }
 
 .markdown-container{
-  @apply flex flex-col gap-2;
+  @apply flex flex-col;
 }
 
-.markdown-container h2 {
-  @apply text-3xl font-bold text-gray-900;
+.prose > * {
+  @apply my-2;
+}
+
+.prose > ul > li > p{
+  @apply my-0;
 }
 
 .markdown-container pre{
-  padding: 10px;
-  border-radius: 10px;
   box-shadow: 0 0 3px 0px black;
 }
