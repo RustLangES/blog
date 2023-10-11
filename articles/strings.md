@@ -63,7 +63,7 @@ En Rust, las cadenas de caracteres son una colección de caracteres Unicode, lo 
     let name: &str = "Sergio Ribera"; // Cadena de texto de tipo &'static str
     ```
 
-- String: Este tipo representa una cadena de caracteres de propiedad (owned). Se trata de una cadena de texto que es propiedad exclusiva del programa. Puedes modificar una cadena String, añadir o eliminar caracteres, lo que la hace útil para construir y manipular cadenas de texto. Aunque parezca raro es mejor pensar en este tipo de dato como un `Vec<str>` ya que es un arreglo de caracteres alojados en la memoria dinámica (Heap).
+- String: Este tipo representa una cadena de caracteres de propiedad (owned). Se trata de una cadena de texto que es propiedad exclusiva del programa. Puedes modificar una cadena String, añadir o eliminar caracteres, lo que la hace útil para construir y manipular cadenas de texto. Aunque parezca raro es mejor pensar en este tipo de dato como un `Vec<u8>` ya que es un arreglo de caracteres alojados en la memoria dinámica (Heap).
     ```rs
     let name: String = String::from("Sergio Ribera");
     // El programa se encargará automáticamente de liberar la memoria utilizada por `name` cuando ya no sea necesaria, generalmente cuando la variable sale de ámbito.
@@ -75,7 +75,7 @@ En Rust, las cadenas de caracteres son una colección de caracteres Unicode, lo 
 > En Rust, las cadenas de caracteres de propiedad se representan con el tipo de dato String. Cuando creas una cadena String, estás asignando y administrando explícitamente la memoria necesaria para almacenar la cadena y su contenido. Esto permite que el programa realice operaciones de modificación en la cadena, como agregar o quitar caracteres, sin correr riesgo de desbordamientos de búfer o corrupción de memoria.
 
 ## 🐄 Cow (Clone On Write)
-El tipo Cow (en realidad `Cow<'a, B>`) en Rust es una estructura de datos que representa una cadena de caracteres y se utiliza para evitar copias innecesarias de datos al trabajar con cadenas. La abreviatura "Cow" significa "Borrowed" (prestado) o "Cloned" (clonado), dependiendo de si la cadena se toma prestada o se clona según sea necesario de manera eficiente.
+El tipo Cow (en realidad `Cow<'a, B>`) en Rust es una estructura de datos que representa una cadena de caracteres y se utiliza para evitar copias innecesarias de datos al trabajar con cadenas. La abreviatura "Cow" significa "Clone on Write" (Clonar al escribir)", dependiendo de si la cadena se toma prestada o se clona según sea necesario de manera eficiente.
 
 > NOTA: En este articulo estamos hablando de las cadenas de texto en Rust, por lo que para nosotros el `Cow` en realidad sera `Cow<'a, str>`, en donde gestionará una referencia de str
 
