@@ -1,7 +1,7 @@
 ---
 title: String en Rust
 description: El manejo de texto es algo muy importante en cualquier tipo de aplicacion, por lo que conocer los tipos de datos que proporiciona el lenguaje es muy importante, ademas de saber como poder manejar los datos de manera eficiente
-author: SergioRibera
+author: Sergio Ribera
 github_user: SergioRibera
 date: 2023-10-11
 tags:
@@ -210,3 +210,12 @@ Ahora que ya viste los tipos de strings que maneja Rust y los problemas que pued
         result.push_str(", ");
     }
     ```
+
+## Conclusión
+En resumen, los Strings desempeñan un papel fundamental en la programación, ya que representan texto legible por humanos en aplicaciones y sistemas. En la mayoría de los lenguajes de programación, un String es una secuencia de caracteres que puede contener letras, números, símbolos especiales y otros elementos de texto.
+
+Sin embargo, el manejo de Strings puede presentar desafíos y problemas comunes en términos de consumo de memoria, copias innecesarias y fragmentación de la memoria. Estos problemas se hacen evidentes en lenguajes como C, donde el seguimiento de la longitud de las cadenas y la seguridad son preocupaciones principales.
+
+Rust aborda estos problemas ofreciendo tipos de cadenas de caracteres seguros y eficientes. El uso de referencias (&str) siempre que sea posible, junto con la estructura Cow<'a, str>, permite minimizar copias innecesarias y administrar eficazmente el consumo de memoria. Además, Rust proporciona métodos para asignar capacidad inicial y reutilizar cadenas, optimizando así las operaciones de cadena.
+
+En resumen, Rust ofrece soluciones efectivas para los problemas comunes relacionados con los Strings, lo que lo convierte en un lenguaje potente y seguro para el manejo de texto y cadenas de caracteres en aplicaciones modernas. La comprensión y aplicación de estas estrategias permiten a los desarrolladores aprovechar al máximo el potencial de Rust en el procesamiento y manipulación de texto de manera segura y eficiente.
