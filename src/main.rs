@@ -7,11 +7,17 @@ pub mod render;
 pub mod ssg;
 pub mod utils;
 
-use std::{fs::{self, ReadDir}, path::Path};
+use std::{
+    fs::{self, ReadDir},
+    path::Path,
+};
 
 use gray_matter::{engine::YAML, Matter};
 use models::article::Article;
-use pages::{article_page::ArticlePageProps, esta_semana_en_rust::{EstaSemanaEnRust, EstaSemanaEnRustProps}};
+use pages::{
+    article_page::ArticlePageProps,
+    esta_semana_en_rust::{EstaSemanaEnRust, EstaSemanaEnRustProps},
+};
 use ssg::Ssg;
 use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode};
 
@@ -31,12 +37,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     for article in articles {
         if article.number_of_week.is_some() {
-            ssg.gen(
-                &format!("articles/{}.html", article.slug),
-                || EstaSemanaEnRust(EstaSemanaEnRustProps { article }),
-            )
+            ssg.gen(&format!("articles/{}.html", article.slug), || {
+                EstaSemanaEnRust(EstaSemanaEnRustProps { article })
+            })
             .await?;
-        }else {
+        } else {
             ssg.gen(&format!("articles/{}.html", article.slug), || {
                 ArticlePage(ArticlePageProps { article })
             })

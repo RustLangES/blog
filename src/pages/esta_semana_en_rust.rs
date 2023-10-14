@@ -1,7 +1,7 @@
 use leptos::*;
 
 use crate::{
-    components::{esta_semana_en_rust::{layout::Layout, blog_content::BlogContent}},
+    components::esta_semana_en_rust::{blog_content::BlogContent, layout::Layout},
     models::article::Article,
 };
 

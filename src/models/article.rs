@@ -124,9 +124,7 @@ impl From<ArticleFetchedPost> for Article {
     }
 }
 
-
 impl Article {
-
     pub fn has_author(&self) -> bool {
         if let Some(author) = &self.author {
             !author.is_empty()
