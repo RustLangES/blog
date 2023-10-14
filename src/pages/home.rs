@@ -35,17 +35,22 @@ async fn list_of_articles() -> impl IntoView {
             {articles
                 .into_iter()
                 .map(|article| {
-                    let binding = article.content.clone();
-                    let mut description = binding
-                        .split('\n')
-                        .take(3)
-                        .collect::<Vec<&str>>()
-                        .join("\n")
-                        .to_string();
-                    if description.len() > 190 {
-                        description = description[0..190].to_string();
-                        description.push_str("...");
-                    }
+                    let description = if article.description.is_empty() {
+                        let binding = article.content.clone();
+                        let mut content = binding
+                            .split('\n')
+                            .take(3)
+                            .collect::<Vec<&str>>()
+                            .join("\n")
+                            .to_string();
+                        if content.len() > 190 {
+                            content = content[0..190].to_string();
+                            content.push_str("...");
+                        }
+                        content
+                    } else {
+                        article.description.clone()
+                    };
                     let mut components = Components::new();
                     components
                         .add_props(

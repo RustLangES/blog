@@ -2,7 +2,7 @@ use chrono::Datelike;
 use leptos::*;
 
 use crate::{
-    components::Header,
+    components::esta_semana_en_rust::header::Header,
     meta::{Head, Html},
 };
 
@@ -19,7 +19,7 @@ pub fn Layout(
     children: Children,
 ) -> impl IntoView {
     view! {
-        <Html attrs=vec![("lang", "es")] class="bg-orange-200"/>
+        <Html attrs=vec![("lang", "es")] class="bg-slate-800"/>
         <Head>
             <meta charset="utf-8"/>
             <title>{title.clone()}</title>

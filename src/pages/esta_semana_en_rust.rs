@@ -1,12 +1,12 @@
 use leptos::*;
 
 use crate::{
-    components::{blog_content::BlogContent, layout::Layout},
+    components::{esta_semana_en_rust::{layout::Layout, blog_content::BlogContent}},
     models::article::Article,
 };
 
 #[component]
-pub fn ArticlePage(article: Article) -> impl IntoView {
+pub fn EstaSemanaEnRust(article: Article) -> impl IntoView {
     let title = article.title.clone();
 
     let author = if let Some(github_user) = article.github_user.clone() {
@@ -26,7 +26,7 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
                 repo="RustLangES/blog"
                 issue-term="title"
                 label="comentarios 💬"
-                theme="github-light"
+                theme="github-dark"
                 crossorigin="anonymous"
                 async
             ></script>

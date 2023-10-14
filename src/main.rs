@@ -7,11 +7,11 @@ pub mod render;
 pub mod ssg;
 pub mod utils;
 
-use std::{fs, path::Path};
+use std::{fs::{self, ReadDir}, path::Path};
 
 use gray_matter::{engine::YAML, Matter};
 use models::article::Article;
-use pages::article_page::ArticlePageProps;
+use pages::{article_page::ArticlePageProps, esta_semana_en_rust::{EstaSemanaEnRust, EstaSemanaEnRustProps}};
 use ssg::Ssg;
 use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode};
 
@@ -30,18 +30,54 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     ssg.gen("index.html", Homepage).await?;
 
     for article in articles {
-        ssg.gen(&format!("articles/{}.html", article.slug), || {
-            ArticlePage(ArticlePageProps { article })
-        })
-        .await?;
+        if article.number_of_week.is_some() {
+            ssg.gen(
+                &format!("articles/{}.html", article.slug),
+                || EstaSemanaEnRust(EstaSemanaEnRustProps { article }),
+            )
+            .await?;
+        }else {
+            ssg.gen(&format!("articles/{}.html", article.slug), || {
+                ArticlePage(ArticlePageProps { article })
+            })
+            .await?;
+        }
     }
 
     Ok(())
 }
 
 async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
-    let paths = fs::read_dir("./articles")?;
+    let mut articles = Vec::with_capacity(10);
+    let article_folder = fs::read_dir("./articles")?;
+    articles.append(&mut posts_from_folder(article_folder)?);
 
+    let esta_semana_en_rust_folder = fs::read_dir("./esta_semana_en_rust")?;
+    articles.append(&mut posts_from_folder(esta_semana_en_rust_folder)?);
+
+    let dev_to_articles = fetch_dev_to().await?;
+    let hashnode_articles = fetch_hashnode().await?;
+
+    articles.append(
+        &mut dev_to_articles
+            .into_iter()
+            .map(Article::from)
+            .collect::<Vec<Article>>(),
+    );
+
+    articles.append(
+        &mut hashnode_articles
+            .into_iter()
+            .map(Article::from)
+            .collect::<Vec<Article>>(),
+    );
+
+    articles.sort_by(|a, b| b.date.cmp(&a.date));
+
+    Ok(articles)
+}
+
+fn posts_from_folder(paths: ReadDir) -> Result<Vec<Article>, Box<dyn std::error::Error>> {
     let mut articles = Vec::with_capacity(10);
 
     for path in paths {
@@ -70,25 +106,5 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
         }
         articles.push(article);
     }
-
-    let dev_to_articles = fetch_dev_to().await?;
-    let hashnode_articles = fetch_hashnode().await?;
-
-    articles.append(
-        &mut dev_to_articles
-            .into_iter()
-            .map(Article::from)
-            .collect::<Vec<Article>>(),
-    );
-
-    articles.append(
-        &mut hashnode_articles
-            .into_iter()
-            .map(Article::from)
-            .collect::<Vec<Article>>(),
-    );
-
-    articles.sort_by(|a, b| b.date.cmp(&a.date));
-
     Ok(articles)
 }

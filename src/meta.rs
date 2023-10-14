@@ -3,9 +3,9 @@ use std::{cell::RefCell, collections::HashMap, rc::Rc};
 use leptos::{ssr::render_to_string, *};
 
 #[component]
-pub fn Html(#[prop(into)] mut attrs: Attrs) -> impl IntoView {
+pub fn Html(#[prop(into)] mut attrs: Attrs,#[prop(optional,into, default= "".to_string())] class: String) -> impl IntoView {
     let ctx = expect_context::<ShellCtx>();
-    let mut class = Attrs::from(vec![("class", "bg-orange-200")]);
+    let mut class = Attrs::from(vec![("class", class.as_str())]);
     ctx.body_attrs.borrow_mut().append(&mut class);
     ctx.html_attrs.borrow_mut().append(&mut attrs);
 }

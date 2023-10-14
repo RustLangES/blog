@@ -7,13 +7,13 @@ pub fn Header() -> impl IntoView {
     let (is_open, set_is_open) = create_signal(false);
 
     view! {
-        <header class="border-b border-b-black/20 bg-orange-200">
+        <header class="border-b border-b-black/20 bg-slate-900">
             <div class="container mx-auto px-4 flex items-center justify-between flex-col lg:flex-row">
                 <div class="flex justify-between w-full lg:w-auto">
                     <a href="/" exact=true class="flex items-center gap-x-4">
                         <img
                             src="https://www.rust-lang.org/static/images/rust-logo-blk.svg"
-                            class="max-h-20 rounded-full"
+                            class="max-h-20 rounded-full invert"
                             height="80"
                             width="80"
                             alt="Rust Lang en Español"
@@ -33,7 +33,7 @@ pub fn Header() -> impl IntoView {
                         if is_open.get() { "block" } else { "hidden lg:block" },
                     )
                 }>
-                    <ul class="flex items-center gap-6 flex-col lg:flex-row lg:items-center">
+                    <ul class="flex items-center gap-6 flex-col lg:flex-row lg:items-center text-white">
                         <li>
                             <a href="https://rustlanges.github.io/rust-book-es" target="_blank">
                                 "Aprende"
@@ -46,7 +46,7 @@ pub fn Header() -> impl IntoView {
                             <a href="/blog">"Blog"</a>
                         </li>
                         <li>
-                            <ul class="lg:ml-4 flex items-center gap-x-6">
+                            <ul class="lg:ml-4 flex items-center gap-x-6 text-black">
                                 <li>
                                     <ButtonLink href="https://github.com/RustLangES">
                                         "Github"
