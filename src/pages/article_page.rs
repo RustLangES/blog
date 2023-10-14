@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{component, view, IntoView};
 
 use crate::{
     components::{blog_content::BlogContent, layout::Layout},
@@ -15,7 +15,7 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
         article.author.clone().unwrap_or_default()
     };
 
-    let description = format!("{} - By @{}", article.description.clone(), author);
+    let description = format!("{} - By @{}", article.description, author);
     view! {
         <>
             <Layout title=title description=description>

@@ -1,5 +1,8 @@
 use futures::Future;
-use leptos::*;
+use leptos::{
+    component, create_resource, IntoView, Resource, Serializable, SerializationError, SignalGet,
+    Suspense, SuspenseProps, View,
+};
 
 #[component]
 /// Async wraps an async function that returns an IntoView into a Suspense.

@@ -10,6 +10,7 @@ pub struct Ssg<'a> {
 }
 
 impl<'a> Ssg<'a> {
+    #[must_use]
     pub fn new(out_dir: &'a Path) -> Self {
         Self { out_dir }
     }

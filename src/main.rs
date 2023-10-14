@@ -14,18 +14,25 @@ use std::{
 
 use gray_matter::{engine::YAML, Matter};
 use models::article::Article;
+use once_cell::sync::Lazy;
 use pages::{
     article_page::ArticlePageProps,
     esta_semana_en_rust::{EstaSemanaEnRust, EstaSemanaEnRustProps},
 };
 use ssg::Ssg;
+use tokio::sync::RwLock;
 use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode};
 
 use crate::pages::{article_page::ArticlePage, home::Homepage};
 
+pub static ARTICLES: Lazy<RwLock<Vec<Article>>> =
+    Lazy::new(|| RwLock::new(Vec::with_capacity(1010)));
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let articles = list_articles().await?;
+
+    ARTICLES.write().await.extend(articles.clone());
 
     tokio::fs::create_dir_all("./out/articles").await?;
 
@@ -90,7 +97,7 @@ fn posts_from_folder(paths: ReadDir) -> Result<Vec<Article>, Box<dyn std::error:
         let algo = fs::read_to_string(file.clone())?;
         let matter = Matter::<YAML>::new();
         let Some(parsed_entity) = matter.parse_with_struct(&algo) else {
-            println!("Error parsing file: {:?}", file);
+            println!("Error parsing file: {file:?}");
             continue;
         };
         let content = parsed_entity.content.clone();

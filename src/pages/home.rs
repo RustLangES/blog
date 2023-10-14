@@ -1,15 +1,17 @@
 use crate::{
     async_component::Async,
     components::{
+        feature_articles::featured_articles,
         layout::Layout,
         mdx::{
             center::{Center, CenterProps},
             youtube::{Youtube, YoutubeProps},
         },
     },
-    list_articles,
+    models::article::Article,
+    ARTICLES,
 };
-use leptos::*;
+use leptos::{component, view, CollectView, IntoAttribute, IntoView};
 use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
 
 #[component]
@@ -22,27 +24,32 @@ pub fn Homepage() -> impl IntoView {
             <p class="text-xl">
                 "Revisa que esta pasando en la comunidad de Rust Lang en Español."
             </p>
+            <Async view=featured_articles/>
             <Async view=list_of_articles/>
         </Layout>
     }
 }
 
 async fn list_of_articles() -> impl IntoView {
-    let articles = list_articles().await.unwrap_or_default();
+    let articles = ARTICLES.read().await.clone();
+    let mut invalid_tags = vec![
+        "esta semana en rust".to_string(),
+        "anuncio de la comunidad".to_string(),
+    ];
 
     view! {
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 gap-y-8 py-5">
             {articles
                 .into_iter()
+                .filter(|article| filter_common_articles(article.clone(), &mut invalid_tags))
                 .map(|article| {
                     let description = if article.description.is_empty() {
-                        let binding = article.content.clone();
+                        let binding = article.content;
                         let mut content = binding
                             .split('\n')
                             .take(3)
                             .collect::<Vec<&str>>()
-                            .join("\n")
-                            .to_string();
+                            .join("\n");
                         if content.len() > 190 {
                             content = content[0..190].to_string();
                             content.push_str("...");
@@ -80,7 +87,7 @@ async fn list_of_articles() -> impl IntoView {
                             </a>
                             <p>{article.date_string}</p>
                             <div class="text-sm markdown-container">
-                                <Mdx source=description.to_string() components=components/>
+                                <Mdx source=description components=components/>
                             </div>
                             <a
                                 class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
@@ -88,10 +95,48 @@ async fn list_of_articles() -> impl IntoView {
                             >
                                 "Leer más"
                             </a>
+                            <div>
+                                <span>Tags:</span>
+                                <ul class="flex gap-1">
+                                    {article
+                                        .tags
+                                        .unwrap_or_default()
+                                        .into_iter()
+                                        .map(|tag| {
+                                            view! {
+                                                <>
+                                                    // <a
+                                                    // class="text-sm text-orange-500 hover:text-orange-600"
+                                                    // href=format!("./tags/{}.html", tag)
+                                                    // >
+                                                    <li class="inline-block text-sm text-orange-500 hover:text-orange-600">
+                                                        <div class="inline-block bg-white rounded-md p-1 drop-shadow-sm">
+                                                            {tag}
+                                                        </div>
+                                                    </li>
+                                                </>
+                                            }
+                                        })
+                                        .collect_view()}
+                                </ul>
+                            </div>
                         </li>
                     }
                 })
                 .collect_view()}
         </div>
+    }
+}
+
+pub fn filter_common_articles(article: Article, invalid_tags: &mut Vec<String>) -> bool {
+    if let Some(tags) = &article.tags {
+        let invalid_tag = invalid_tags.iter().position(|tag| tags.contains(tag));
+        if let Some(invalid_tag) = invalid_tag {
+            invalid_tags.remove(invalid_tag);
+            return false;
+        }
+        true
+    } else {
+        true
     }
 }

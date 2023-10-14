@@ -6,7 +6,7 @@
   "dependencies": {},
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "0.0.0-insiders.44fb67b"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

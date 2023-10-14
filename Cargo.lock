@@ -2496,6 +2496,7 @@ dependencies = [
  "leptos",
  "leptos-mdx",
  "lol_html",
+ "once_cell",
  "reqwest",
  "rusty-hook",
  "serde",

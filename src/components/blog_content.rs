@@ -10,7 +10,7 @@ use crate::{
     },
     models::article::Article,
 };
-use leptos::*;
+use leptos::{component, view, IntoAttribute, IntoView};
 use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
 
 #[component]
@@ -81,7 +81,7 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                 <span class="text-gray-400 text-sm items-center">{article.date_string}</span>
             </div>
             <div class="markdown-container prose max-w-none">
-                <Mdx source=article.content.to_string() components=components/>
+                <Mdx source=article.content components=components/>
             </div>
         </div>
     }

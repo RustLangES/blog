@@ -25,7 +25,7 @@ pub async fn fetch_dev_to() -> Result<DevToArticles, reqwest::Error> {
         .json::<DevToArticles>()
         .await?;
 
-    for article in resp.iter_mut() {
+    for article in &mut resp {
         let article_complete = get_article_by_id(article.id, &client).await?;
         let Value::String(content) = article_complete.get("body_markdown").unwrap() else {
             continue;
@@ -40,7 +40,7 @@ pub async fn get_article_by_id(
     id: u32,
     client: &Client,
 ) -> Result<HashMap<String, Value>, reqwest::Error> {
-    let url = format!("https://dev.to/api/articles/{}", id);
+    let url = format!("https://dev.to/api/articles/{id}");
     let resp = client
         .get(&url)
         .send()

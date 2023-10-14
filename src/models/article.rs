@@ -19,6 +19,8 @@ pub struct Article {
     #[serde(default)]
     pub content: String,
     #[serde(default)]
+    pub tags: Option<Vec<String>>,
+    #[serde(default)]
     pub number_of_week: Option<u32>,
     #[serde(
         rename(deserialize = "date"),
@@ -48,7 +50,7 @@ impl From<DevToArticle> for Article {
         let date_time =
             NaiveDate::parse_from_str(&devto_article.published_at, "%Y-%m-%dT%H:%M:%SZ").unwrap();
 
-        Article {
+        Self {
             title: devto_article.title,
             description: devto_article.description,
             author: Some(devto_article.user.name),
@@ -64,10 +66,7 @@ impl From<DevToArticle> for Article {
                 ),
                 (
                     "github".to_string(),
-                    format!(
-                        "https://github.com/{}",
-                        devto_article.user.github_username.clone()
-                    ),
+                    format!("https://github.com/{}", devto_article.user.github_username),
                 ),
             ])),
             slug: devto_article.slug,
@@ -78,6 +77,7 @@ impl From<DevToArticle> for Article {
             ),
             content: devto_article.content.unwrap_or_default(),
             devto: true,
+            tags: Some(devto_article.tag_list),
             ..Default::default()
         }
     }
@@ -89,7 +89,7 @@ impl From<ArticleFetchedPost> for Article {
             NaiveDate::parse_from_str(&hashnode_article.date_added, "%Y-%m-%dT%H:%M:%S%.fZ")
                 .unwrap();
 
-        Article {
+        Self {
             title: hashnode_article.title,
             description: hashnode_article.brief,
             author: Some(hashnode_article.publication.username),
@@ -99,7 +99,7 @@ impl From<ArticleFetchedPost> for Article {
                 .github
                 .split('/')
                 .last()
-                .map(|s| s.to_string()),
+                .map(std::string::ToString::to_string),
             date: date_time,
             social: Some(HashMap::from([
                 (
@@ -119,12 +119,20 @@ impl From<ArticleFetchedPost> for Article {
                     .to_string(),
             ),
             devto: false,
+            tags: Some(
+                hashnode_article
+                    .tags
+                    .iter()
+                    .map(|tag| tag.name.clone())
+                    .collect(),
+            ),
             ..Default::default()
         }
     }
 }
 
 impl Article {
+    #[must_use]
     pub fn has_author(&self) -> bool {
         if let Some(author) = &self.author {
             !author.is_empty()

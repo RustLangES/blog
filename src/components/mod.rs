@@ -8,3 +8,5 @@ pub mod esta_semana_en_rust;
 pub mod icons;
 pub mod layout;
 pub mod mdx;
+
+pub mod feature_articles;

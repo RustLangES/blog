@@ -1,6 +1,9 @@
 use std::{cell::RefCell, collections::HashMap, rc::Rc};
 
-use leptos::{ssr::render_to_string, *};
+use leptos::{
+    component, expect_context, ssr::render_to_string, view, Children, CollectView, Fragment,
+    IntoView,
+};
 
 #[component]
 pub fn Html(
@@ -27,7 +30,7 @@ pub fn Dedup(#[prop(into)] key: String, children: Children) -> impl IntoView {
 }
 
 #[derive(Clone, Default)]
-/// ShellCtx holds all the elements that will be rendered to the <head> of the page.
+/// `ShellCtx` holds all the elements that will be rendered to the <head> of the page.
 /// It can be modified by any component by accessing the context, but it's suggested to be used in
 /// conjunction with the exported components <Dedup />, <Title />, <Html />, ....
 pub struct ShellCtx {
@@ -38,10 +41,12 @@ pub struct ShellCtx {
 }
 
 impl ShellCtx {
+    #[must_use]
     pub fn new() -> Self {
         Self::default()
     }
 
+    #[must_use]
     pub fn render(self, inner_body: String) -> String {
         let head = render_to_string(move || {
             view! {
@@ -67,10 +72,12 @@ pub struct Attrs {
 }
 
 impl Attrs {
+    #[must_use]
     pub fn new() -> Self {
         Self { attrs: vec![] }
     }
 
+    #[must_use]
     pub fn render(&self) -> String {
         self.attrs
             .iter()
@@ -89,7 +96,7 @@ impl From<Vec<(&str, &str)>> for Attrs {
         Self {
             attrs: attrs
                 .iter()
-                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .map(|(k, v)| ((*k).to_string(), (*v).to_string()))
                 .collect(),
         }
     }

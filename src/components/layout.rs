@@ -1,5 +1,5 @@
 use chrono::Datelike;
-use leptos::*;
+use leptos::{component, view, Children, IntoView};
 
 use crate::{
     components::Header,

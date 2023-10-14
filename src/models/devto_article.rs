@@ -3,7 +3,7 @@ use serde_json::Value;
 
 pub type DevToArticles = Vec<DevToArticle>;
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DevToArticle {
     #[serde(rename = "type_of")]
@@ -52,7 +52,7 @@ pub struct DevToArticle {
     pub content: Option<String>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct User {
     pub name: String,

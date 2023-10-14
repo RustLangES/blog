@@ -6,7 +6,7 @@ date: 2023-10-11
 tags:
   - rust
   - comunidad
-  - esta-semana-en-rust
+  - "esta semana en rust"
 ---
 
 Hola y bienvenidos al primer post de *Esta semana en Rust*.

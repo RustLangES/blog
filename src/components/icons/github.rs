@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{component, view, IntoAttribute, IntoView};
 
 #[component]
 pub fn GithubIcon(

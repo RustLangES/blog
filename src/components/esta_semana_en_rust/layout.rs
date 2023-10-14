@@ -1,5 +1,5 @@
 use chrono::Datelike;
-use leptos::*;
+use leptos::{component, view, Children, IntoView};
 
 use crate::{
     components::esta_semana_en_rust::header::Header,

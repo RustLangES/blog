@@ -7,6 +7,7 @@ date: 2023-09-17
 tags:
   - rust
   - comunidad
+  - "anuncio de la comunidad"
 social:
   github: https://github.com/RustLangES
   website: https://rustlanges.github.io
