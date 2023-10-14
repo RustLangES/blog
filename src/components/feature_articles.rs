@@ -98,7 +98,7 @@ pub fn EstaSemanaEnRustCard(article: Article) -> impl IntoView {
             <div class="bg-anuncios h-full w-full bg-opacity-70"></div>
             // Big Header of the card with capital letter and the number of the week of the article
             <div class="absolute flex flex-row bg-black/50 text-white w-full h-full items-center z-10 top-0 left-0 p-5">
-                <div class="w-full h-full flex flex-col gap-5 lg:pr-10 pt-10">
+                <div class="w-full h-full flex flex-col gap-5 lg:pr-10 md:pt-10">
                     <div class="w-full items-center justify-between">
                         <h2 class="text-2xl lg:text-[3.5rem] font-semibold font-work-sans tracking-widest max-w-[24ch] text-balance">
                             "Esta semana en Rust"
