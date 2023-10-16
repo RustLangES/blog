@@ -46,7 +46,7 @@ Pasos:
 - [Rust](https://rust-lang.org/tools/install)
 - [NodeJs](https://nodejs.org)
 - [cargo-watch](https://crates.io/crates/cargo-watch)
-- [leptosfmt](https://crates.io/crates/leptosfmt))
+- [leptosfmt](https://crates.io/crates/leptosfmt)
 
 # Generar la web
 ```
