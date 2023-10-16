@@ -18,13 +18,16 @@ use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
 pub fn Homepage() -> impl IntoView {
     view! {
         <Layout>
-            <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left my-2">
+            <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left mt-2">
                 "Blog"
             </h1>
-            <p class="text-xl">
+            <p class="text-xl mb-3">
                 "Revisa que esta pasando en la comunidad de Rust Lang en Español."
             </p>
             <Async view=featured_articles/>
+            <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left my-4">
+                "Artículos"
+            </h1>
             <Async view=list_of_articles/>
         </Layout>
     }
@@ -38,7 +41,7 @@ async fn list_of_articles() -> impl IntoView {
     ];
 
     view! {
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 gap-y-8 py-5">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 gap-y-8 pb-5">
             {articles
                 .into_iter()
                 .filter(|article| filter_common_articles(article.clone(), &mut invalid_tags))
@@ -89,15 +92,9 @@ async fn list_of_articles() -> impl IntoView {
                             <div class="text-sm markdown-container">
                                 <Mdx source=description components=components/>
                             </div>
-                            <a
-                                class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
-                                href=format!("./articles/{}.html", article.slug)
-                            >
-                                "Leer más"
-                            </a>
                             <div>
-                                <span>Tags:</span>
-                                <ul class="flex gap-1">
+                                <span class="pt-4 font-bold">Tags:</span>
+                                <ul class="flex gap-1 py-4">
                                     {article
                                         .tags
                                         .unwrap_or_default()
@@ -109,8 +106,8 @@ async fn list_of_articles() -> impl IntoView {
                                                     // class="text-sm text-orange-500 hover:text-orange-600"
                                                     // href=format!("./tags/{}.html", tag)
                                                     // >
-                                                    <li class="inline-block text-sm text-orange-500 hover:text-orange-600">
-                                                        <div class="inline-block bg-white rounded-md p-1 drop-shadow-sm">
+                                                    <li class="inline-block text-sm font-bold text-orange-500 hover:text-orange-600">
+                                                        <div class="inline-block bg-white rounded-md p-1 drop-shadow-sm px-2">
                                                             {tag}
                                                         </div>
                                                     </li>
@@ -120,6 +117,12 @@ async fn list_of_articles() -> impl IntoView {
                                         .collect_view()}
                                 </ul>
                             </div>
+                            <a
+                                class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
+                                href=format!("./articles/{}.html", article.slug)
+                            >
+                                "Leer más"
+                            </a>
                         </li>
                     }
                 })
