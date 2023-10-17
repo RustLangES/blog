@@ -25,6 +25,17 @@ pub async fn fetch_dev_to() -> Result<DevToArticles, reqwest::Error> {
         .json::<DevToArticles>()
         .await?;
 
+    let url = "https://dev.to/api/articles?tag=rust,%20español";
+
+    resp.extend(
+        client
+            .get(url)
+            .send()
+            .await?
+            .json::<DevToArticles>()
+            .await?,
+    );
+
     for article in &mut resp {
         let article_complete = get_article_by_id(article.id, &client).await?;
         let Value::String(content) = article_complete.get("body_markdown").unwrap() else {
