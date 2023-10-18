@@ -50,6 +50,8 @@ pub struct DevToArticle {
     pub user: User,
     #[serde(skip_deserializing)]
     pub content: Option<String>,
+    #[serde(skip_deserializing)]
+    pub content_html: Option<String>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

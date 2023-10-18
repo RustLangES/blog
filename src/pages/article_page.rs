@@ -19,7 +19,7 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
     view! {
         <>
             <Layout title=title description=description>
-                <BlogContent article=article/>
+                <BlogContent is_html=article.devto article=article/>
             </Layout>
             <script
                 src="https://utteranc.es/client.js"

@@ -41,7 +41,11 @@ pub async fn fetch_dev_to() -> Result<DevToArticles, reqwest::Error> {
         let Value::String(content) = article_complete.get("body_markdown").unwrap() else {
             continue;
         };
+        let Value::String(content_html) = article_complete.get("body_html").unwrap() else {
+            continue;
+        };
         article.content = Some(content.to_string());
+        article.content_html = Some(content_html.to_string());
     }
 
     Ok(resp)

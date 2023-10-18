@@ -298,3 +298,7 @@
 .markdown-container pre{
   box-shadow: 0 0 3px 0px black;
 }
+
+.highlight__panel.js-actions-panel{
+  @apply hidden;
+}

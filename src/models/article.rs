@@ -75,7 +75,8 @@ impl From<DevToArticle> for Article {
                     .format_localized("%e de %B del %Y", Locale::es_ES)
                     .to_string(),
             ),
-            content: devto_article.content.unwrap_or_default(),
+            content: devto_article.content_html.unwrap_or_default(),
+
             devto: true,
             tags: Some(devto_article.tag_list),
             ..Default::default()

@@ -14,7 +14,10 @@ use leptos::{component, view, IntoAttribute, IntoView};
 use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
 
 #[component]
-pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
+pub fn BlogContent(
+    #[prop()] article: Article,
+    #[prop(default = false)] is_html: bool,
+) -> impl IntoView {
     let mut components = Components::new();
     let social = if let Some(social) = article.social.clone() {
         social
@@ -81,7 +84,16 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                 <span class="text-gray-400 text-sm items-center">{article.date_string}</span>
             </div>
             <div class="markdown-container prose max-w-none">
-                <Mdx source=article.content components=components/>
+                {if is_html {
+                    view! { <div class="prose max-w-none" inner_html=article.content></div> }
+                } else {
+                    view! {
+                        <div>
+                            <Mdx source=article.content components=components/>
+                        </div>
+                    }
+                }}
+
             </div>
         </div>
     }
