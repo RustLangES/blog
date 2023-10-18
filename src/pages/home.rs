@@ -2,6 +2,7 @@ use crate::{
     async_component::Async,
     components::{
         feature_articles::featured_articles,
+        icons::StrToIcon,
         layout::Layout,
         mdx::{
             center::{Center, CenterProps},
@@ -96,7 +97,7 @@ fn grid_of_articles(articles: Vec<Article>) -> impl IntoView {
                             },
                         );
                     view! {
-                        <li class="group flex flex-col gap-y-1 border border-black p-2 sm:p-6 bg-orange-200 hover:bg-orange-300 drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
+                        <li class="group flex flex-col gap-y-1 border border-black p-2 sm:p-6 bg-orange-200 hover:bg-[#fdc686] drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
                             <a href=format!("./articles/{}.html", article.slug)>
                                 <h3 class="text-xl font-semibold">{article.title}</h3>
                             </a>
@@ -129,12 +130,15 @@ fn grid_of_articles(articles: Vec<Article>) -> impl IntoView {
                                         .collect_view()}
                                 </ul>
                             </div>
-                            <a
-                                class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
-                                href=format!("./articles/{}.html", article.slug)
-                            >
-                                "Leer más"
-                            </a>
+                            <div class="flex justify-end items-end">
+                                <a
+                                    class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
+                                    href=format!("./articles/{}.html", article.slug)
+                                >
+                                    "Leer más"
+                                    <StrToIcon v="next" class="fill-white" size=16/>
+                                </a>
+                            </div>
                         </li>
                     }
                 })
