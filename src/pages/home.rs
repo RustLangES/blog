@@ -41,13 +41,13 @@ pub fn Homepage(articles: Option<Vec<Article>>, show_featured: bool) -> impl Int
             <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left my-4">
                 "Artículos"
             </h1>
-            <GridOfArticles articles=articles/>
+            <GridOfArticles articles=articles is_home=show_featured/>
         </Layout>
     }
 }
 
 #[component]
-fn grid_of_articles(articles: Vec<Article>) -> impl IntoView {
+fn grid_of_articles(articles: Vec<Article>, is_home: bool) -> impl IntoView {
     let mut invalid_tags = vec![
         "esta semana en rust".to_string(),
         "anuncio de la comunidad".to_string(),
@@ -119,8 +119,13 @@ fn grid_of_articles(articles: Vec<Article>) -> impl IntoView {
                                                     <li class="inline-block text-sm font-bold text-orange-500 hover:text-orange-600">
                                                         <a
                                                             class="inline-block bg-white rounded-md p-1 drop-shadow-sm px-2"
-                                                            href=format!("./tags/{}.html", tag)
+                                                            href=if is_home {
+                                                                format!("./tags/{}.html", tag)
+                                                            } else {
+                                                                format!("./../tags/{}.html", tag)
+                                                            }
                                                         >
+
                                                             {tag}
                                                         </a>
                                                     </li>
@@ -133,8 +138,13 @@ fn grid_of_articles(articles: Vec<Article>) -> impl IntoView {
                             <div class="flex justify-end items-end">
                                 <a
                                     class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
-                                    href=format!("./articles/{}.html", article.slug)
+                                    href=if is_home {
+                                        format!("./articles/{}.html", article.slug)
+                                    } else {
+                                        format!("./../articles/{}.html", article.slug)
+                                    }
                                 >
+
                                     "Leer más"
                                     <StrToIcon v="next" class="fill-white" size=16/>
                                 </a>
