@@ -18,6 +18,7 @@ use once_cell::sync::Lazy;
 use pages::{
     article_page::ArticlePageProps,
     esta_semana_en_rust::{EstaSemanaEnRust, EstaSemanaEnRustProps},
+    home::HomepageProps,
 };
 use ssg::Ssg;
 use tokio::sync::RwLock;
@@ -31,18 +32,59 @@ pub static ARTICLES: Lazy<RwLock<Vec<Article>>> =
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let articles = list_articles().await?;
-
-    ARTICLES.write().await.extend(articles.clone());
-
-    tokio::fs::create_dir_all("./out/articles").await?;
-
-    // initialize the Ssg context
+    ARTICLES.write().await.extend(articles.clone()); // Set the articles in the ARTICLES static variable
     let ssg = Ssg::new(Path::new("./out"));
 
     // generate the pages
-    ssg.gen("index.html", Homepage).await?;
+    generate_homepage(&ssg).await?;
 
-    for article in articles {
+    generate_post_pages(articles.clone(), &ssg).await?;
+
+    generate_esta_semana_en_rust(articles.clone(), &ssg).await?;
+
+    generate_tag_pages(articles, &ssg).await?;
+
+    Ok(())
+}
+
+async fn generate_homepage<'a>(ssg: &Ssg<'a>) -> Result<(), Box<dyn std::error::Error>> {
+    ssg.gen("index.html", || {
+        Homepage(HomepageProps {
+            articles: None,
+            show_featured: true,
+        })
+    })
+    .await?;
+
+    Ok(())
+}
+
+async fn generate_esta_semana_en_rust<'a>(
+    articles: Vec<Article>,
+    ssg: &Ssg<'a>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let articles = articles
+        .into_iter()
+        .filter(|article| article.number_of_week.is_some())
+        .collect::<Vec<Article>>();
+
+    for article in articles.clone() {
+        ssg.gen(&format!("articles/{}.html", article.slug), || {
+            EstaSemanaEnRust(EstaSemanaEnRustProps { article })
+        })
+        .await?;
+    }
+
+    Ok(())
+}
+
+async fn generate_post_pages<'a>(
+    articles: Vec<Article>,
+    ssg: &Ssg<'a>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    tokio::fs::create_dir_all("./out/articles").await?;
+
+    for article in articles.clone() {
         if article.number_of_week.is_some() {
             ssg.gen(&format!("articles/{}.html", article.slug), || {
                 EstaSemanaEnRust(EstaSemanaEnRustProps { article })
@@ -55,7 +97,44 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .await?;
         }
     }
+    Ok(())
+}
 
+async fn generate_tag_pages<'a>(
+    articles: Vec<Article>,
+    ssg: &Ssg<'a>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let tags = articles
+        .iter()
+        .filter_map(|article| article.tags.clone())
+        .flatten()
+        .collect::<Vec<String>>();
+
+    tokio::fs::create_dir_all("./out/tags").await?;
+
+    for tag in tags {
+        let articles_to_show = articles
+            .clone()
+            .into_iter()
+            .filter(|article| {
+                if let Some(tags) = article.tags.clone() {
+                    tags.contains(&tag)
+                } else {
+                    false
+                }
+            })
+            .collect::<Vec<Article>>();
+
+        let tag = tag.to_lowercase().replace(' ', "-");
+
+        ssg.gen(&format!("tags/{tag}.html"), || {
+            Homepage(HomepageProps {
+                articles: Some(articles_to_show),
+                show_featured: false,
+            })
+        })
+        .await?;
+    }
     Ok(())
 }
 
