@@ -287,11 +287,11 @@
   @apply flex flex-col;
 }
 
-.prose > * {
+.prose > *, .prose div > * {
   @apply my-2;
 }
 
-.prose > ul > li > p{
+.prose ul > li > p, .prose ol > li > p{
   @apply my-0;
 }
 
