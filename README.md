@@ -52,6 +52,9 @@ Pasos:
 ```
 - npm install
 
+# Instalar Linter 
+- cargo install leptosfmt
+
 - cargo watch -x run --shell "npx tailwindcss -i ./input.css -o ./out/output.css && cargo run"
 
 # lanzar un servidor web provicional con python3
@@ -79,3 +82,28 @@ Pasos:
 ## Apagar ambos servicios
 ./server.bat stop
 ```
+
+## Aclaraciones
+
+Si commiteas habra un githook que corra los linters.
+Es posible que encuentre errores de formato o mejoras que se pueden hacer.
+
+Para ver estos cambios puedes ejecutar
+
+```
+cargo clippy
+```
+
+Esto te mostrara algunos cambios que puedes hacer para mejorar el codigo.
+Cosas redudantes o que quizás no tengan sentido.
+
+¡Hara tu código más idiomático!
+
+Otro en menor medida podría ser:
+
+```
+leptosfmt src
+```
+
+Este te formateara el código de forma automática.
+Puede llegar a romper algunas cosas de los componentes si se hizo un cambio allí.
