@@ -5,7 +5,7 @@
 <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/RustLangES/blog/deploy.yml?label=deploy" />
 </p>
 
-## 🤝🏼 Agrega tu articulo
+# 🤝🏼 Agrega tu articulo
 
 Pasos:
 
@@ -46,23 +46,36 @@ Pasos:
 - [Rust](https://rust-lang.org/tools/install)
 - [NodeJs](https://nodejs.org)
 - [cargo-watch](https://crates.io/crates/cargo-watch)
+- [leptosfmt](https://crates.io/crates/leptosfmt)
 
-## Ejecutar
-
+# Generar la web
 ```
-# generar la web
-cargo watch -x run --shell "npx tailwindcss -i ./input.css -o ./out/output.css && cargo run"
+- npm install
+
+- cargo watch -x run --shell "npx tailwindcss -i ./input.css -o ./out/output.css && cargo run"
 
 # lanzar un servidor web provicional con python3
-python3 -m http.server -d out
+- python3 -m http.server -d out
+
+# [alternativa] lanzar un servidor web rústico 😏
+- cargo install basic-http-server
+- basic-http-server out -a "0.0.0.0:8000"
 ```
 
-```
 # En cualquier linux distro
-
-## Iniciar cargo watch y http server
+```
+# Iniciar cargo watch y http server
 ./server start
 
-## Apagar ambos servicios
+# Apagar ambos servicios
 ./server stop
+```
+
+# En cualquier windows
+```
+## Iniciar cargo watch y http server
+./server.bat start
+
+## Apagar ambos servicios
+./server.bat stop
 ```
