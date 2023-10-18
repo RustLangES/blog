@@ -124,7 +124,7 @@ impl From<ArticleFetchedPost> for Article {
                 hashnode_article
                     .tags
                     .iter()
-                    .map(|tag| tag.name.clone())
+                    .map(|tag| tag.name.clone().to_lowercase().replace(' ', "-"))
                     .collect(),
             ),
             ..Default::default()

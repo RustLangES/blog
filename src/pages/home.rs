@@ -11,11 +11,18 @@ use crate::{
     models::article::Article,
     ARTICLES,
 };
+use futures::executor::block_on;
 use leptos::{component, view, CollectView, IntoAttribute, IntoView};
 use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
 
+async fn fetch_articles() -> Vec<Article> {
+    ARTICLES.read().await.clone()
+}
+
 #[component]
-pub fn Homepage() -> impl IntoView {
+pub fn Homepage(articles: Option<Vec<Article>>, show_featured: bool) -> impl IntoView {
+    let articles = articles.unwrap_or(block_on(fetch_articles()));
+
     view! {
         <Layout>
             <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left mt-2">
@@ -24,17 +31,22 @@ pub fn Homepage() -> impl IntoView {
             <p class="text-xl mb-3">
                 "Revisa que esta pasando en la comunidad de Rust Lang en Español."
             </p>
-            <Async view=featured_articles/>
+            {if show_featured {
+                view! { <Async view=featured_articles/> }
+            } else {
+                view! { <></> }.into_view()
+            }}
+
             <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left my-4">
                 "Artículos"
             </h1>
-            <Async view=list_of_articles/>
+            <GridOfArticles articles=articles/>
         </Layout>
     }
 }
 
-async fn list_of_articles() -> impl IntoView {
-    let articles = ARTICLES.read().await.clone();
+#[component]
+fn grid_of_articles(articles: Vec<Article>) -> impl IntoView {
     let mut invalid_tags = vec![
         "esta semana en rust".to_string(),
         "anuncio de la comunidad".to_string(),
@@ -100,16 +112,16 @@ async fn list_of_articles() -> impl IntoView {
                                         .unwrap_or_default()
                                         .into_iter()
                                         .map(|tag| {
+                                            let tag = tag.to_lowercase().replace(' ', "-");
                                             view! {
                                                 <>
-                                                    // <a
-                                                    // class="text-sm text-orange-500 hover:text-orange-600"
-                                                    // href=format!("./tags/{}.html", tag)
-                                                    // >
                                                     <li class="inline-block text-sm font-bold text-orange-500 hover:text-orange-600">
-                                                        <div class="inline-block bg-white rounded-md p-1 drop-shadow-sm px-2">
+                                                        <a
+                                                            class="inline-block bg-white rounded-md p-1 drop-shadow-sm px-2"
+                                                            href=format!("/tags/{}.html", tag)
+                                                        >
                                                             {tag}
-                                                        </div>
+                                                        </a>
                                                     </li>
                                                 </>
                                             }

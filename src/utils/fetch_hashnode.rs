@@ -54,7 +54,8 @@ pub async fn fetch_hashnode() -> Result<Vec<ArticleFetchedPost>, Box<dyn std::er
             .post
             .tags
             .iter()
-            .any(|tag| tag.name == "Rust")
+            .map(|tag| tag.name.to_lowercase().replace(' ', "-"))
+            .any(|tag| tag == "rust")
         {
             articles.push(article_complete.post);
         }

@@ -44,6 +44,12 @@ pub async fn fetch_dev_to() -> Result<DevToArticles, reqwest::Error> {
         let Value::String(content_html) = article_complete.get("body_html").unwrap() else {
             continue;
         };
+        article.tag_list = article
+            .tag_list
+            .clone()
+            .iter()
+            .map(|tag| tag.to_lowercase().replace(' ', "-"))
+            .collect();
         article.content = Some(content.to_string());
         article.content_html = Some(content_html.to_string());
     }
