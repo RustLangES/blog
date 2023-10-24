@@ -1,6 +1,22 @@
 name: Generate This Week in Rust
 on:
   workflow_dispatch:
+    inputs:
+      MS_TRANSLATE_API_KEY:
+        default: ${{ secrets.MS_TRANSLATE_API_KEY }}
+        description: Esta es la API con la que se conecta con el servicio
+        required: true
+        type: string
+      MS_TRANSLATE_API_ENDPOINT:
+        default: ${{ secrets.MS_TRANSLATE_API_ENDPOINT }}
+        description: Esta es la URL de la API a la que se conecta
+        required: true
+        type: string
+      MS_TRANSLATE_REGION:
+        default: ${{ secrets.MS_TRANSLATE_REGION }}
+        description: Esta es la region a la que se conecta con el servicio
+        required: true
+        type: string
   schedule:
     - cron: "0 0 * * *"
 
@@ -11,46 +27,29 @@ jobs:
     outputs:
       content: ${{ steps.output_file.outputs.content }}
     steps:
-      - name: Define Current Date
-        run: |
-          # export CURR_DATE=$(date +%F)
-          export CURR_DATE="2023-10-18"
-          echo "::set-env name=DATE::$CURR_DATE"
-      - name: Download the Article
-        id: download_article
-        run: curl "https://raw.githubusercontent.com/rust-lang/this-week-in-rust/master/content/$DATE-this-week-in-rust.md" --fail-with-body -o "$DATE-tmp.md"
-      - name: Remove Unnecesary Lines
-        run: tail -n +6 "$DATE-tmp.md" > "$DATE-tmp.md"
-      - name: Add emoji
-        run: sed -i -e 's/## Updates from Rust Community/## Updates from Rust Community 🥰/g' "$DATE-tmp.md"
-      - name: Set Output Content File
-        id: output_file
-        run: |
-          CONTENT=$(cat "$DATE-tmp.md")
-          echo "content=$CONTENT" >> "$GITHUB_OUTPUT"
-
-  translate:
-    runs-on: ubuntu-22.04
-    needs: [get]
-    steps:
       - uses: actions/checkout@v3
       - name: Define Current Date
         run: |
           # export CURR_DATE=$(date +%F)
-          export CURR_DATE="2023-10-18"
-          echo "::set-env name=DATE::$CURR_DATE"
-      - uses: fabasoad/translation-action@main
-        id: translation_step
+          echo 'DATE=2023-10-18'>>$GITHUB_ENV
+      - name: Download the Article
+        id: download_article
+        run: |
+          wget "https://raw.githubusercontent.com/rust-lang/this-week-in-rust/master/content/$DATE-this-week-in-rust.md" -O "$DATE-tmp.md"
+      - name: Remove Unnecesary Lines
+        run: tail -n +6 "$DATE-tmp.md">$DATE.md
+      - name: Add emoji
+        run: sed -i -e 's/## Updates from Rust Community/## Updates from Rust Community 🥰/g' "$DATE.md"
+      # Translate process
+      - uses: actions/setup-python@v4
         with:
-          provider: google
-          lang: en-es
-          source: ${{ needs.get.outputs.content }}
+          python-version: "3.10"
       - name: Create Translated File
         run: |
           week=$(ls esta_semana_en_rust | wc -l);
           week=$((week + 1));
           echo "---">"$DATE-this-week-in-rust.md"
-          echo "title: \"Esta semana en Rust #1\"">>"$DATE-this-week-in-rust.md"
+          echo "title: \"Esta semana en Rust #$week\"">>"$DATE-this-week-in-rust.md"
           echo "number_of_week: $week">>"$DATE-this-week-in-rust.md"
           echo "description: Esta semana en Rust es un blog semanal sobre el lenguaje de programación Rust, sus comunidades y su ecosistema.">>"$DATE-this-week-in-rust.md"
           echo "date: $DATE">>"$DATE-this-week-in-rust.md"
@@ -59,9 +58,22 @@ jobs:
           echo "  - comunidad">>"$DATE-this-week-in-rust.md"
           echo '  - "esta semana en rust"'>>"$DATE-this-week-in-rust.md"
           echo -e "---\n">>"$DATE-this-week-in-rust.md"
-          echo "${{ steps.translation_step.outputs.text }}">>"$DATE-this-week-in-rust.md"
-      # Just for test
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.CURR_DATE }}
-          path: ${{ env.CURR_DATE }}-this-week-in-rust.md
+      - name: Translate File
+        id: translation_step
+        env:
+          API_ENDPOINT: ${{ github.event.inputs.MS_TRANSLATE_API_ENDPOINT }}
+          API_KEY: ${{ github.event.inputs.MS_TRANSLATE_API_KEY }}
+          REGION: ${{ github.event.inputs.MS_TRANSLATE_REGION }}
+        run: |
+          pip install uuid requests
+          python3 gen_translated.py
+          mv "$DATE-this-week-in-rust.md" "./esta_semana_en_rust/$DATE-this-week-in-rust.md"
+      - name: Commit report
+        run: |
+          week=$(ls esta_semana_en_rust | wc -l);
+          week=$((week + 1));
+          git config --global user.name 'RustLangES'
+          git config --global user.email 'RustLangES@users.noreply.github.com'
+          git add esta_semana_en_rust/*.md
+          git commit -am "Semana #$week publicada"
+          git push

@@ -5,8 +5,10 @@ on:
     branches:
       - main
     paths-ignore:
+      - ".github/workflows/**.yml"
       - ".rusty-hook.toml"
       - "**/Makefile.toml"
+      - "**.py"
       - "README.md"
 
 permissions:

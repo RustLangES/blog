@@ -9,6 +9,7 @@ on:
       - ".rusty-hook.toml"
       - ".github/workflows/**.yml"
       - "**/Makefile.toml"
+      - "**.py"
       - "README.md"
 
 jobs:
