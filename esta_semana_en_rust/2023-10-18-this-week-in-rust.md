@@ -53,9 +53,9 @@ Si encuentra algún error en la edición de esta semana, [envíe un PR](https://
 * [Reflexiones de EuroRust 2023: ¿Para qué sirve una conferencia?](https://lucumr.pocoo.org/2023/10/14/eurorust-whats-a-conference/)
 * [audio] [RustShip: Graphite - Gráficos Rasterizados y Vectoriales en Rust](https://ieni.dev/2023/10/%EF%B8%8F-graphite-raster-and-vector-graphics-in-rust-rustship-4/)
 
-## Caja de la semana
+## Crate de la semana
 
-La caja de esta semana es [rinf](https://github.com/cunarist/rinf), una biblioteca para escribir Rust en Flutter.
+El crate de esta semana es [rinf](https://github.com/cunarist/rinf), una biblioteca para escribir Rust en Flutter.
 
 ¡Gracias a [Kim Dong-Hyun](https://users.rust-lang.org/t/crate-of-the-week/2704/1249) por la autosugerencia!
 
@@ -116,7 +116,7 @@ Se presentaron 409 solicitudes de incorporación de cambios [fusionadas en la ú
 * [hacer que las revisiones de "solicitar cambios" se apliquen 'S-waiting-on-author'](https://github.com/rust-lang/rust/pull/116661)
 * [en caso de error de tipo que implique el cierre, evite ICE](https://github.com/rust-lang/rust/pull/116676)
 * [en el error de tipo del argumento de llamada de cierre, apunte a llamadas anteriores que afectaron a la inferencia](https://github.com/rust-lang/rust/pull/116250)
-* [opt-dist: deshabilitar características no utilizadas para cajas en mesa](https://github.com/rust-lang/rust/pull/116790)
+* [opt-dist: deshabilitar características no utilizadas para crates en mesa](https://github.com/rust-lang/rust/pull/116790)
 * [Pasar las marcas de corrección de compatibilidad de rustc usando la variable de entorno](https://github.com/rust-lang/rust/pull/116448)
 * [evitar más pelusas de patrón inalcanzables espurias](https://github.com/rust-lang/rust/pull/116715)
 * [evitar que se muestren métodos de impls generales de rasgos extranjeros no disponibles para que aparezcan en los resultados de búsqueda](https://github.com/rust-lang/rust/pull/116597)
@@ -167,7 +167,7 @@ Se presentaron 409 solicitudes de incorporación de cambios [fusionadas en la ú
 * [rustfmt: soporte let-chains](https://github.com/rust-lang/rustfmt/pull/5910)
 * [rustdoc-search: añadir desambiguador impl a los elementos asociados duplicados](https://github.com/rust-lang/rust/pull/109422)
 * [rustdoc: oculta '#[repr(transparent)]' si no forma parte de la ABI pública](https://github.com/rust-lang/rust/pull/115439)
-* [rustdoc: mostrar el nombre de la caja junto al logotipo más pequeño](https://github.com/rust-lang/rust/pull/115948)
+* [rustdoc: mostrar el nombre de la crate junto al logotipo más pequeño](https://github.com/rust-lang/rust/pull/115948)
 * [clippy: 'get_first': pelusa en rebanadas no primitivas](https://github.com/rust-lang/rust-clippy/pull/11609)
 * [clippy: 'manual_is_ascii_check': Comprueba también 'is_ascii_hexdigt'](https://github.com/rust-lang/rust-clippy/pull/11659)
 * [clippy: 'unnecessary_lazy_eval': reduce la aplicabilidad si el cierre tiene una anotación de tipo de retorno](https://github.com/rust-lang/rust-clippy/pull/11673)
@@ -186,7 +186,7 @@ Regresiones. Incluía una serie de recuentos de instrucciones de regresión de P
 no importa para los tiempos de ciclo, además de una misteriosa regresión a 'check_match' y
 'mir_borrowck' de la reelaboración de la división del constructor (consulte el informe sobre la 116391 de PR para
 detalles), y un impresionante conjunto de mejoras a partir de la inserción automática
-pequeñas funciones en todas las cajas (consulte el informe sobre PR 116505 para obtener más detalles).
+pequeñas funciones en todas las crates (consulte el informe sobre PR 116505 para obtener más detalles).
 
 Triaje realizado por **@pnkfelix**.
 Rango de revisión: [84d44dd1.. B9832E72](https://perf.rust-lang.org/?start=84d44dd1d8ec1e98fff94272ba4f96b2a1f044ca&end=b9832e72c9223f4e96049aa5911effd258b92591&absolute=false&stat=instructions%3Au)
