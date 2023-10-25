@@ -68,8 +68,8 @@ jobs:
       - name: Commit report
         run: |
           week=$(ls esta_semana_en_rust | wc -l);
-          git config --global user.name 'RustLangES'
-          git config --global user.email 'RustLangES@users.noreply.github.com'
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git add esta_semana_en_rust/*.md
           git commit -am "Semana $week publicada"
           git push
