@@ -1,6 +1,6 @@
 ---
-title: "Esta semana en Rust #3"
-number_of_week: 3
+title: "Esta semana en Rust #2"
+number_of_week: 2
 description: Esta semana en Rust es un blog semanal sobre el lenguaje de programación Rust, sus comunidades y su ecosistema.
 date: 2023-10-18
 tags:
