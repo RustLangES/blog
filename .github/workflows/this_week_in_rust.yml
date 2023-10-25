@@ -2,21 +2,9 @@ name: Generate This Week in Rust
 on:
   workflow_dispatch:
     inputs:
-      MS_TRANSLATE_API_KEY:
-        default: ${{ secrets.MS_TRANSLATE_API_KEY }}
-        description: Esta es la API con la que se conecta con el servicio
-        required: true
+      CUSTOM_DATE:
         type: string
-      MS_TRANSLATE_API_ENDPOINT:
-        default: ${{ secrets.MS_TRANSLATE_API_ENDPOINT }}
-        description: Esta es la URL de la API a la que se conecta
-        required: true
-        type: string
-      MS_TRANSLATE_REGION:
-        default: ${{ secrets.MS_TRANSLATE_REGION }}
-        description: Esta es la region a la que se conecta con el servicio
-        required: true
-        type: string
+        description: En caso de que se necesite ejecutar una fecha puntual
   schedule:
     - cron: "0 0 * * *"
 
@@ -30,16 +18,19 @@ jobs:
       - uses: actions/checkout@v3
       - name: Define Current Date
         run: |
-          # export CURR_DATE=$(date +%F)
-          echo 'DATE=2023-10-18'>>$GITHUB_ENV
+          tmp_date=${{ github.event.inputs.CUSTOM_DATE }}
+          if [ ! -z "$tmp_date" -a "$tmp_date" != " " ]; then
+            echo "DATE=$tmp_date">>$GITHUB_ENV
+            exit 0
+          fi
+          export CURR_DATE=$(date +%F)
+          echo "DATE=$CURR_DATE">>$GITHUB_ENV
       - name: Download the Article
         id: download_article
         run: |
           wget "https://raw.githubusercontent.com/rust-lang/this-week-in-rust/master/content/$DATE-this-week-in-rust.md" -O "$DATE-tmp.md"
       - name: Remove Unnecesary Lines
         run: tail -n +6 "$DATE-tmp.md">$DATE.md
-      - name: Add emoji
-        run: sed -i -e 's/## Updates from Rust Community/## Updates from Rust Community 🥰/g' "$DATE.md"
       # Translate process
       - uses: actions/setup-python@v4
         with:
@@ -61,12 +52,18 @@ jobs:
       - name: Translate File
         id: translation_step
         env:
-          API_ENDPOINT: ${{ github.event.inputs.MS_TRANSLATE_API_ENDPOINT }}
-          API_KEY: ${{ github.event.inputs.MS_TRANSLATE_API_KEY }}
-          REGION: ${{ github.event.inputs.MS_TRANSLATE_REGION }}
+          API_ENDPOINT: ${{ secrets.MS_TRANSLATE_API_ENDPOINT }}
+          API_KEY: ${{ secrets.MS_TRANSLATE_API_KEY }}
+          REGION: ${{ secrets.MS_TRANSLATE_REGION }}
         run: |
           pip install uuid requests
           python3 gen_translated.py
+      - name: Fixes
+        run: |
+          sed -i -e 's/## Actualizaciones de la comunidad de Rust/## Actualizaciones de la comunidad de Rust 🥰/g' "$DATE-this-week-in-rust.md"
+          sed -i -e 's/] \(http/]\(http/g' "$DATE-this-week-in-rust.md"
+          sed -i -e 's/Óxido/Rust/g' "$DATE-this-week-in-rust.md"
+          sed -i -e 's/óxido/Rust/g' "$DATE-this-week-in-rust.md"
           mv "$DATE-this-week-in-rust.md" "./esta_semana_en_rust/$DATE-this-week-in-rust.md"
       - name: Commit report
         run: |

@@ -19,14 +19,14 @@ path = '/translate?api-version=3.0'
 params = '&from=en&to=es'
 constructed_url = endpoint + path + params
 
-raw_file_name = 'DATE'
-if not raw_file_name in os.environ:
-    raise Exception('Please set/export the environment variable: {}'.format(endpoint_var_name))
-raw_file_name = os.environ[raw_file_name]
+raw_date = 'DATE'
+if not raw_date in os.environ:
+    raise Exception('Please set/export the environment variable: {}'.format(raw_date))
+raw_date = os.environ[raw_date]
 
-if not os.path.isfile(raw_file_name + ".md"):
-    raise Exception('The file not exists: {}'.format(raw_file_name))
-raw_file = open(raw_file_name + ".md", 'r')
+if not os.path.isfile(raw_date + ".md"):
+    raise Exception('The file not exists: {}'.format(raw_date))
+raw_file = open(raw_date + ".md", 'r')
 
 headers = {
     'Ocp-Apim-Subscription-Key': resource_key,
@@ -47,5 +47,5 @@ raw_file.close()
 print(json.dumps(response, indent=4))
 
 # generate ouput
-with open(raw_file_name + "-this-week-in-rust.md", 'a') as fh:
+with open(raw_date + "-this-week-in-rust.md", 'a') as fh:
     print(response[0]["translations"][0]["text"], file = fh)
