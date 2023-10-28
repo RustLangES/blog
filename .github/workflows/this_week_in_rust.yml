@@ -6,7 +6,7 @@ on:
         type: string
         description: En caso de que se necesite ejecutar una fecha puntual
   schedule:
-    - cron: "0 0 * * 3"
+    - cron: "0 0 * * 4"
 
 jobs:
   get:
