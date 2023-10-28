@@ -10,6 +10,10 @@ on:
       - "**/Makefile.toml"
       - "**.py"
       - "README.md"
+  workflow_run:
+    workflows: ["Generate This Week in Rust"]
+    types:
+      - completed
 
 permissions:
   contents: read
