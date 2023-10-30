@@ -44,51 +44,15 @@ jobs:
           name: out
           path: ./out
 
-  sitemap_job:
-    name: Generate a sitemap
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: out
-          path: .
-      - name: Display structure of downloaded files
-        run: ls -R
-      - name: Untar Artifact
-        run: tar -xvf ./artifact.tar
-      - name: Remove Artifact
-        run: rm ./artifact.tar
-      - name: Display structure of downloaded files
-        run: ls -R
-      - name: Generate the sitemap
-        id: sitemap
-        uses: cicirello/generate-sitemap@v1
-        with:
-          base-url-path: https://rustlanges.github.io/blog/
-
-      - name: Output stats
-        run: |
-          echo "sitemap-path = ${{ steps.sitemap.outputs.sitemap-path }}"
-          echo "url-count = ${{ steps.sitemap.outputs.url-count }}"
-          echo "excluded-count = ${{ steps.sitemap.outputs.excluded-count }}"
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: .
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: sitemap_job
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          artifact_name: out
