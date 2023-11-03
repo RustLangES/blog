@@ -23,7 +23,7 @@ jobs:
             echo "DATE=$tmp_date">>$GITHUB_ENV
             exit 0
           fi
-          export CURR_DATE=$(date +%F)
+          export CURR_DATE=$(date -d "48 hours ago" +%F)
           echo "DATE=$CURR_DATE">>$GITHUB_ENV
       - name: Download the Article
         id: download_article
