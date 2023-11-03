@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use chrono::{Locale, NaiveDate};
+use rss::{Category, Guid, Item, Source};
 use serde::{Deserialize, Deserializer, Serialize};
 
 use super::{devto_article::DevToArticle, hashnode_article::ArticleFetchedPost};
@@ -29,6 +30,8 @@ pub struct Article {
     pub date: NaiveDate,
     #[serde(default)]
     pub date_string: Option<String>,
+    #[serde(default)]
+    pub rfc_date: Option<String>,
     pub social: Option<HashMap<String, String>>,
     #[serde(default)]
     pub devto: bool,
@@ -127,6 +130,45 @@ impl From<ArticleFetchedPost> for Article {
                     .map(|tag| tag.name.clone().to_lowercase().replace(' ', "-"))
                     .collect(),
             ),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<&Article> for Item {
+    fn from(value: &Article) -> Self {
+        // let date = value.date.format("%a,%e %b %T +0000");
+        let link = format!(
+            "https://rustlanges.github.io/blog/articles/{}.html",
+            value.slug.clone()
+        );
+        Item {
+            title: Some(value.title.clone()),
+            link: Some(link),
+            description: Some(value.description.clone()),
+            author: value.author.clone(),
+            categories: value
+                .tags
+                .clone()
+                .map(|c| {
+                    c.iter()
+                        .map(|c| Category {
+                            name: c.to_string(),
+                            domain: None,
+                        })
+                        .collect::<Vec<_>>()
+                })
+                .unwrap_or_default(),
+            guid: Some(Guid {
+                value: value.slug.clone(),
+                permalink: false,
+            }),
+            pub_date: value.rfc_date.clone(),
+            source: Some(Source {
+                url: "https://github.com/RustLangES/blog".to_string(),
+                title: Some("Repositorio del Blog".to_string()),
+            }),
+            content: None,
             ..Default::default()
         }
     }
