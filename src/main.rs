@@ -146,22 +146,24 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
     let esta_semana_en_rust_folder = fs::read_dir("./esta_semana_en_rust")?;
     articles.append(&mut posts_from_folder(esta_semana_en_rust_folder)?);
 
-    let dev_to_articles = fetch_dev_to().await?;
-    let hashnode_articles = fetch_hashnode().await?;
+    if !cfg!(debug_assertions) {
+        let dev_to_articles = fetch_dev_to().await?;
+        let hashnode_articles = fetch_hashnode().await?;
 
-    articles.append(
-        &mut dev_to_articles
-            .into_iter()
-            .map(Article::from)
-            .collect::<Vec<Article>>(),
-    );
+        articles.append(
+            &mut dev_to_articles
+                .into_iter()
+                .map(Article::from)
+                .collect::<Vec<Article>>(),
+        );
 
-    articles.append(
-        &mut hashnode_articles
-            .into_iter()
-            .map(Article::from)
-            .collect::<Vec<Article>>(),
-    );
+        articles.append(
+            &mut hashnode_articles
+                .into_iter()
+                .map(Article::from)
+                .collect::<Vec<Article>>(),
+        );
+    }
 
     articles.sort_by(|a, b| b.date.cmp(&a.date));
 

@@ -53,11 +53,19 @@ fn grid_of_articles(articles: Vec<Article>, is_home: bool) -> impl IntoView {
         "anuncio de la comunidad".to_string(),
     ];
 
+    let articles = if is_home {
+        articles
+            .into_iter()
+            .filter(|article| filter_common_articles(article.clone(), &mut invalid_tags))
+            .collect::<Vec<Article>>()
+            .into_iter()
+    } else {
+        articles.into_iter()
+    };
+
     view! {
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 gap-y-8 pb-5">
             {articles
-                .into_iter()
-                .filter(|article| filter_common_articles(article.clone(), &mut invalid_tags))
                 .map(|article| {
                     let description = if article.description.is_empty() {
                         let binding = article.content;
