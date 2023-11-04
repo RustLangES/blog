@@ -22,7 +22,7 @@ use pages::{
 };
 use ssg::Ssg;
 use tokio::sync::RwLock;
-use utils::generate_this_week_feed_rss;
+use utils::generate_feed_rss;
 use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode};
 
 use crate::pages::{article_page::ArticlePage, home::Homepage};
@@ -69,7 +69,13 @@ async fn generate_esta_semana_en_rust<'a>(
         .filter(|article| article.number_of_week.is_some())
         .collect::<Vec<Article>>();
 
-    generate_this_week_feed_rss(&articles);
+    generate_feed_rss(
+        &articles,
+        "./out/this_week_feed.xml",
+        "Esta Semana en Rust",
+        "Revisa que esta pasando en la comunidad de Rust Lang en Español",
+        "tags/esta-semana-en-rust.html",
+    );
 
     for article in articles.clone() {
         ssg.gen(&format!("articles/{}.html", article.slug), || {
@@ -86,6 +92,22 @@ async fn generate_post_pages<'a>(
     ssg: &Ssg<'a>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     tokio::fs::create_dir_all("./out/articles").await?;
+
+    {
+        let articles = articles
+            .clone()
+            .into_iter()
+            .filter(|a| a.number_of_week.is_none())
+            .collect::<Vec<Article>>();
+
+        generate_feed_rss(
+            &articles,
+            "./out/feed.xml",
+            "Blog de RustLangES",
+            "Enterate del mejor contenido en Español sobre Rust",
+            "",
+        );
+    }
 
     for article in articles.clone() {
         if article.number_of_week.is_some() {
