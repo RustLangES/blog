@@ -137,7 +137,6 @@ impl From<ArticleFetchedPost> for Article {
 
 impl From<&Article> for Item {
     fn from(value: &Article) -> Self {
-        // let date = value.date.format("%a,%e %b %T +0000");
         let link = format!(
             "https://rustlanges.github.io/blog/articles/{}.html",
             value.slug.clone()
