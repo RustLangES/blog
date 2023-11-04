@@ -74,7 +74,7 @@ async fn generate_esta_semana_en_rust<'a>(
         "./out/this_week_feed.xml",
         "Esta Semana en Rust",
         "Revisa que esta pasando en la comunidad de Rust Lang en Español",
-        "tags/esta-semana-en-rust.html",
+        Some("tags/esta-semana-en-rust.html"),
     );
 
     for article in articles.clone() {
@@ -105,7 +105,7 @@ async fn generate_post_pages<'a>(
             "./out/feed.xml",
             "Blog de RustLangES",
             "Enterate del mejor contenido en Español sobre Rust",
-            "",
+            None,
         );
     }
 

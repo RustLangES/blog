@@ -14,7 +14,7 @@ pub fn generate_feed_rss(
     out_file: &str,
     title: &str,
     description: &str,
-    link_path: &str,
+    link_path: Option<&str>,
 ) {
     let categories = articles
         .iter()
@@ -46,7 +46,10 @@ pub fn generate_feed_rss(
         .language(Some("es".to_string()))
         .title(title.to_string())
         .description(description.to_string())
-        .link(format!("https://rustlanges.github.io/blog/{link_path}"))
+        .link(format!(
+            "https://rustlanges.github.io/blog/{}",
+            link_path.unwrap_or_default()
+        ))
         .categories(categories)
         .items(items)
         .build();
