@@ -24,9 +24,7 @@ jobs:
             exit 0
           fi
           export CURR_DATE=$(date -d "48 hours ago" +%F)
-          export CURR_RFC_DATE=$(date -R -d "$CURR_DATE 00:00:00")
           echo "DATE=$CURR_DATE">>$GITHUB_ENV
-          echo "DATE_RFC=$CURR_RFC_DATE">>$GITHUB_ENV
       - name: Download the Article
         id: download_article
         run: |
@@ -46,7 +44,6 @@ jobs:
           echo "number_of_week: $week">>"$DATE-this-week-in-rust.md"
           echo "description: Esta semana en Rust es un blog semanal sobre el lenguaje de programación Rust, sus comunidades y su ecosistema.">>"$DATE-this-week-in-rust.md"
           echo "date: $DATE">>"$DATE-this-week-in-rust.md"
-          echo 'rfc_date: $DATE_RFC'>>"$DATE-this-week-in-rust.md"
           echo "tags:">>"$DATE-this-week-in-rust.md"
           echo "  - rust">>"$DATE-this-week-in-rust.md"
           echo "  - comunidad">>"$DATE-this-week-in-rust.md"

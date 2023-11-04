@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use chrono::{Locale, NaiveDate};
+use chrono::{DateTime, Datelike, FixedOffset, Locale, NaiveDate, NaiveDateTime};
 use rss::{Category, Guid, Item, Source};
 use serde::{Deserialize, Deserializer, Serialize};
 
@@ -30,8 +30,6 @@ pub struct Article {
     pub date: NaiveDate,
     #[serde(default)]
     pub date_string: Option<String>,
-    #[serde(default)]
-    pub rfc_date: Option<String>,
     pub social: Option<HashMap<String, String>>,
     #[serde(default)]
     pub devto: bool,
@@ -137,6 +135,16 @@ impl From<ArticleFetchedPost> for Article {
 
 impl From<&Article> for Item {
     fn from(value: &Article) -> Self {
+        let date: NaiveDate =
+            NaiveDate::from_ymd_opt(value.date.year(), value.date.month(), value.date.day())
+                .unwrap();
+        let datetime: NaiveDateTime = date.and_hms_opt(0, 0, 0).unwrap();
+        let offset = FixedOffset::west_opt(5 * 3600).unwrap();
+        let datetime_with_timezone =
+            DateTime::<FixedOffset>::from_naive_utc_and_offset(datetime, offset);
+        let formated_datetime_with_timezone = datetime_with_timezone
+            .format("%a, %d %b %Y %T %z")
+            .to_string();
         let link = format!(
             "https://rustlanges.github.io/blog/articles/{}.html",
             value.slug.clone()
@@ -162,7 +170,7 @@ impl From<&Article> for Item {
                 value: value.slug.clone(),
                 permalink: false,
             }),
-            pub_date: value.rfc_date.clone(),
+            pub_date: Some(formated_datetime_with_timezone),
             source: Some(Source {
                 url: "https://github.com/RustLangES/blog".to_string(),
                 title: Some("Repositorio del Blog".to_string()),
