@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
-use chrono::{Locale, NaiveDate};
+use chrono::{DateTime, Datelike, FixedOffset, Locale, NaiveDate, NaiveDateTime};
+use rss::{Category, Guid, Item, Source};
 use serde::{Deserialize, Deserializer, Serialize};
 
 use super::{devto_article::DevToArticle, hashnode_article::ArticleFetchedPost};
@@ -127,6 +128,54 @@ impl From<ArticleFetchedPost> for Article {
                     .map(|tag| tag.name.clone().to_lowercase().replace(' ', "-"))
                     .collect(),
             ),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<&Article> for Item {
+    fn from(value: &Article) -> Self {
+        let date: NaiveDate =
+            NaiveDate::from_ymd_opt(value.date.year(), value.date.month(), value.date.day())
+                .unwrap();
+        let datetime: NaiveDateTime = date.and_hms_opt(0, 0, 0).unwrap();
+        let offset = FixedOffset::west_opt(5 * 3600).unwrap();
+        let datetime_with_timezone =
+            DateTime::<FixedOffset>::from_naive_utc_and_offset(datetime, offset);
+        let formated_datetime_with_timezone = datetime_with_timezone
+            .format("%a, %d %b %Y %T %z")
+            .to_string();
+        let link = format!(
+            "https://rustlanges.github.io/blog/articles/{}.html",
+            value.slug.clone()
+        );
+        Item {
+            title: Some(value.title.clone()),
+            link: Some(link),
+            description: Some(value.description.clone()),
+            author: value.author.clone(),
+            categories: value
+                .tags
+                .clone()
+                .map(|c| {
+                    c.iter()
+                        .map(|c| Category {
+                            name: c.to_string(),
+                            domain: None,
+                        })
+                        .collect::<Vec<_>>()
+                })
+                .unwrap_or_default(),
+            guid: Some(Guid {
+                value: value.slug.clone(),
+                permalink: false,
+            }),
+            pub_date: Some(formated_datetime_with_timezone),
+            source: Some(Source {
+                url: "https://github.com/RustLangES/blog".to_string(),
+                title: Some("Repositorio del Blog".to_string()),
+            }),
+            content: None,
             ..Default::default()
         }
     }

@@ -22,6 +22,7 @@ use pages::{
 };
 use ssg::Ssg;
 use tokio::sync::RwLock;
+use utils::generate_this_week_feed_rss;
 use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode};
 
 use crate::pages::{article_page::ArticlePage, home::Homepage};
@@ -67,6 +68,8 @@ async fn generate_esta_semana_en_rust<'a>(
         .into_iter()
         .filter(|article| article.number_of_week.is_some())
         .collect::<Vec<Article>>();
+
+    generate_this_week_feed_rss(&articles);
 
     for article in articles.clone() {
         ssg.gen(&format!("articles/{}.html", article.slug), || {
