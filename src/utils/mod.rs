@@ -9,7 +9,13 @@ use crate::models::article::Article;
 pub mod fetch_dev_to;
 pub mod fetch_hashnode;
 
-pub fn generate_this_week_feed_rss(articles: &[Article]) {
+pub fn generate_feed_rss(
+    articles: &[Article],
+    out_file: &str,
+    title: &str,
+    description: &str,
+    link_path: Option<&str>,
+) {
     let categories = articles
         .iter()
         .flat_map(|a| a.tags.clone().unwrap_or_default())
@@ -38,9 +44,12 @@ pub fn generate_this_week_feed_rss(articles: &[Article]) {
 
     let channel = ChannelBuilder::default()
         .language(Some("es".to_string()))
-        .title("Esta Semana en Rust".to_string())
-        .description("Revisa que esta pasando en la comunidad de Rust Lang en Español".to_string())
-        .link("https://rustlanges.github.io/blog/tags/esta-semana-en-rust.html".to_string())
+        .title(title.to_string())
+        .description(description.to_string())
+        .link(format!(
+            "https://rustlanges.github.io/blog/{}",
+            link_path.unwrap_or_default()
+        ))
         .categories(categories)
         .items(items)
         .build();
@@ -49,6 +58,6 @@ pub fn generate_this_week_feed_rss(articles: &[Article]) {
 
     let channel_str = channel.to_string();
 
-    fs::write("./out/this_week_feed.xml", channel_str).unwrap();
-    println!("wrote ./out/this_week_feed.xml");
+    fs::write(out_file, channel_str).unwrap();
+    println!("wrote {out_file}");
 }
