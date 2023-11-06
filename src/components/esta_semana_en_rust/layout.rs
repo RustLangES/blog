@@ -55,6 +55,14 @@ pub fn Layout(
                 }
                 "}
             </style>
+            <script type="module">
+                {"
+                const API = 'https://rust-lang-en-espanol-api.shuttleapp.rs';
+                const previous_domain = document.referrer || 'Undefined';
+                
+                await fetch(API + '/track/count?reference=' + previous_domain, { method: 'POST' });
+                "}
+            </script>
         </Head>
 
         // Async is a component from the async_component module.
