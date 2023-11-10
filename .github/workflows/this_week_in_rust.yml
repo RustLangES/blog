@@ -6,7 +6,7 @@ on:
         type: string
         description: En caso de que se necesite ejecutar una fecha puntual
   schedule:
-    - cron: "0 0 * * 5"
+    - cron: "0 0 * * 6"
 
 jobs:
   get:
@@ -23,7 +23,7 @@ jobs:
             echo "DATE=$tmp_date">>$GITHUB_ENV
             exit 0
           fi
-          export CURR_DATE=$(date -d "48 hours ago" +%F)
+          export CURR_DATE=$(date -d "3 days ago" +%F)
           echo "DATE=$CURR_DATE">>$GITHUB_ENV
       - name: Download the Article
         id: download_article
