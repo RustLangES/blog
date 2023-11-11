@@ -29,14 +29,8 @@ pub fn generate_feed_rss(
         })
         .collect::<Vec<Category>>();
 
-    let min = if articles.len() < 4 {
-        0
-    } else {
-        articles.len() - 4
-    };
-
     let items = articles
-        .get(min..)
+        .get(..4)
         .unwrap_or_default()
         .iter()
         .map(|a| a.into())
