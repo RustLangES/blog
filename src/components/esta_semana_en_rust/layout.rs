@@ -60,6 +60,9 @@ pub fn Layout(
                 const API = 'https://rust-lang-en-espanol-api.shuttleapp.rs';
                 let previous_domain = document.referrer || 'Undefined';
                 if (previous_domain != 'Undefined') { previous_domain = new URL(previous_domain).host; }
+                const urlParams = new URLSearchParams(window.location.search);
+                const fromParam = urlParams.get('from');
+                if (fromParam != null) previous_domain = fromParam;
                 await fetch(API + '/track/count?reference=' + previous_domain, { method: 'POST' });
                 "}
             </script>
