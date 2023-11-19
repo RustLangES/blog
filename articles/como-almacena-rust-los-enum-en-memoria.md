@@ -40,20 +40,21 @@ Vamos a utilizar la siguiente función para observar como se organizan los bytes
 
 ```rust 
 use std::mem;
+use std::slice
 
-fn get_bytes<T>(input: &T) -> &[u8] {
+fn print_bytes<T>(input: &T){
     let size = mem::size_of::<T>();
     let bytes = unsafe {
-        std::slice::from_raw_parts(
+        slice::from_raw_parts(
             input as *const T as *const u8,
             size
         )
     };
-    bytes
+    println!("{:?}",bytes);
 }
 ```
 
-La función tomará una referencia a nuestros enums y devolverá una referencia a un slice que contiene los bytes del input. La función es segura porque una referencia siempre es válida, por lo que el puntero usado en from_raw_parts también es válido. Además, como estamos convirtiendo este puntero a un puntero sobre un conjunto de bytes, el tamaño del input será la longitud de la dirección en memoria, por lo que la referencia devuelta por from_raw_parts es correcta.
+La función tomará una referencia a nuestros enums y mostrará por pantalla sus bytes. La función es segura porque una referencia siempre es válida, por lo que el puntero usado en from_raw_parts también es válido. Además, como estamos convirtiendo este puntero a un puntero sobre un conjunto de bytes, el tamaño del input será la longitud de la dirección en memoria, por lo que la referencia devuelta por from_raw_parts es correcta.
 
 ## Vamos al lío!
 
@@ -65,8 +66,8 @@ enum FirstEx{
     B
 }
 
-println!("{:?}", get_bytes(&FirstEx::A)); // [0]
-println!("{:?}", get_bytes(&FirstEx::B)); // [1]
+print_bytes(&FirstEx::A); // [0]
+print_bytes(&FirstEx::B); // [1]
 ```
 
 Como las variantes del enum no tienen contenido, lo único que necesitamos para distinguirlas es el discriminante de cada variante. Hemos dicho que el discriminante se representa como un isize, pero este enum tiene tamaño de un solo byte. Si ejecutamos nuestra función get_bytes, vemos que los bytes asociados a la variante A son [0] y los bytes asociados a la variante B son [1]. En este caso, es suficiente con un byte para representar el discriminante, por lo que el compilador almacena este enum en un byte.
@@ -85,11 +86,10 @@ enum SecondEx{
     B(u16)
 }
 
-println!("{:?}", get_bytes(&SecondEx::A)); // [0,0,0,0]
+print_bytes(&SecondEx::A); // [0,0,0,0]
 
-println!("{:?}", get_bytes(&SecondEx::B(13))); // [1,0,13,0]
+print_bytes(&SecondEx::B(13)); // [1,0,13,0]
 ```
-
 
 Si vemos los outputs, podríamos pensar que algo va mal ya que un u16 sólo ocupa dos bytes y nuestro enum tiene un tamaño de 4. Recordemos que el discriminante sigue aquí, por lo que la variante B necesitará dos bytes para almacenar su valor y algo de espacio extra para almacenar el discriminante. Como el contenido debe estar alineado este discriminante toma otros dos bytes, de ahí nuestra variante B de 4 bytes, que es también el tamaño del enum.
 
@@ -105,8 +105,8 @@ enum ThirdEx{
     B([u8;6])
 }
 
-println!("{:?}", get_bytes(&ThirdEx::A(3))); // [0,0,0,0,3,0,0,0]
-println!("{:?}", get_bytes(&ThirdEx::B([1,2,3,4,5,6]))); // [1,1,2,3,4,5,6,0]
+print_bytes(&ThirdEx::A(3)); // [0,0,0,0,3,0,0,0]
+print_bytes(&ThirdEx::B([1,2,3,4,5,6])); // [1,1,2,3,4,5,6,0]
 ```
 
 En este ejemplo, podemos ver que el tamaño del enum es 8 mientras que el tamaño de sus variantes son 4 y 7 respectivamente. Como el tamaño de cualquier tipo de dato debe ser múltiplo de su alineamiento, el tamaño del enum es 8 para poder contener los 7 bytes de las variantes B y cumplir con este requisito. Llama la atención que aquí los discriminantes tienen tamaños diferentes para cada variante, debido a que cada una tiene su propio alineamiento y contenido. 
@@ -123,7 +123,7 @@ Sin embargo en el tercer ejemplo, para distinguir A y B, no es necesario que los
 
 Ahora podemos también entender cómo se comportan las variantes sin campos dependiendo de las otras variantes del enum: como su único contenido significativo es el discriminante, su tamaño y alineamiento serán los menores posibles para poder comparar ese discriminante con los de otras variantes. Por suerte, no tenemos que preocuparnos de eso porque el compilador lo gestiona todo por nosotros :)
 
-Veamos otros tres ejemplos que muestran un poco más de la magia que el compilador es capaz de hacer:
+Veamos un poco más de la magia que el compilador es capaz de hacer:
 
 
 ```rust
@@ -132,26 +132,40 @@ enum FourthEx{
     B(String)
 } 
 
-println!("{:?}", get_bytes(&FourthEx::A(4))); // [0] * 8 + [4]+[0]*7 + [0]*8
-println!("{:?}", get_bytes(&FourthEx::B(String::from("Dev-otion")))); // [something]*8 + [9]+[0]*7 + [9]+[0]*7
+print_bytes(&FourthEx::A(4))); // [0] * 8 + [4]+[0]*7 + [0]*8
+print_bytes(&FourthEx::B(String::from("Dev-otion")))); // [something]*8 + [9]+[0]*7 + [9]+[0]*7
 ```
 
-Suponiendo que estamos usando una máquina de 64 bits y por tanto que el usize ocupa 8 bytes, este enum debería necesitar 32 bytes: el String necesita 24 bytes + 8 bytes para su discriminante, ya que su alineamiento es 8. Sin embargo, ¡sólo ocupa 24 bytes! Veamos, el tipo String es una colección de tres elementos: un puntero al heap, un usize que contiene su longitud y un usize que contiene su capacidad. El punto clave es el primero, como un puntero al heap no puede ser nulo en Rust, el compilador "otorga" un puntero nulo a la primera variante en sus primeros 8 bytes. De esta forma puede distinguir entre variantes simplemente mirando si el puntero es válido (B) o no (A). Nótese que esto no destruye ninguna regla de seguridad ya que el contenido de la variante A está en el stack, así que no estamos usando realmente un puntero nulo. Podemos almacenar felizmente el valor del i16 interno en el segundo trozo de 8 bytes que contiene la variante A. Observemos también que en este caso, ¡ni siquiera tenemos discriminantes!
+Suponiendo que estamos usando una máquina de 64 bits y por tanto que el usize ocupa 8 bytes, este enum debería necesitar 32 bytes: el String necesita 24 bytes + 8 bytes para su discriminante, ya que su alineamiento es 8. Sin embargo, ¡sólo ocupa 24 bytes! Veamos, el tipo String es una colección de tres elementos: un puntero al heap, un usize que contiene su longitud y un usize que contiene su capacidad. El punto clave es el primero, como un puntero al heap no puede ser nulo en Rust, el compilador "otorga" un puntero nulo a la primera variante en sus primeros 8 bytes. De esta forma puede distinguir entre variantes simplemente mirando si el puntero es válido (B) o no (A). Nótese que esto no destruye ninguna regla de seguridad ya que verdaderamente no estamos usando un puntero nulo, solo usamos los 8 primeros bytes igualados a 0 para identificar a la variante A. Podemos almacenar felizmente el valor del u64 interno en el segundo trozo de 8 bytes que contiene la variante A. Observemos también que en este caso, ¡ni siquiera tenemos discriminantes!
 
 Esto cambiaría claramente si hubíeramos añadido una nueva variante, un campo que apuntase al heap o un valor que viviese en el stack pero con un tamaño superior a 16 bytes en la variante A. En esos casos, los discriminantes serían necesarios de nuevo y el tamaño del enum crecería hasta los 32 bytes por lo menos.
+
+El campo contenido en la variante B no es el verdadero String, solo metadatos relacionados con él, por lo que podemos hacerlo todavía mejor:
+
+```rust
+enum FifthEx{
+  A(u64),
+  B(Box<String>)
+}
+
+print_bytes(&FifthEx::A(4)); // [0]*8 + [4]+[0]*7
+print_bytes(&FifthEx::B(Box::new(String::from("Dev-otion")))); // [1]+[0]*7 + [something]*8
+```
+
+Mandando estos metadatos al heap mediante un Box reducimos considerablemente el tamaño del enum, ya que pasamos de tener un puntero y dos usize a tener solamente un puntero. Es importante notar que en este caso el tamaño del enum es 16 bytes ya que necesitamos discriminantes: si el compilador usase el mismo truco que en el ejemplo anterior, no habría espacio para almacenar el u64 de la variante A. Sin embargo, si A no contuviera ningún campo, el truco volvería a ser posible y el enum ocuparía solo 8 bytes. Podemos ver que merece la pena usar smart pointers como Box dentro de algunas variantes en algunos casos para reducir el tamaño del enum.
 
 Veamos otro caso:
 
 ```rust
-enum FifthEx{
+enum SixthEx{
     A,
     B([u8;4],bool),
     C
 }
 
-println!("{:?}", get_bytes(&FifthEx::A)); // [2,0,0,0,0]
-println!("{:?}", get_bytes(&FifthEx::B([8,2,3,4],true))); // [1,8,2,3,4]
-println!("{:?}", get_bytes(&FifthEx::C)); // [4,0,0,0,0]
+print_bytes(&SixthEx::A)); // [2,0,0,0,0]
+print_bytes(&SixthEx::B([8,2,3,4],true))); // [1,8,2,3,4]
+print_bytes(&SixthEx::C)); // [4,0,0,0,0]
 ```
 
 En este caso, la variante B contiene 5 bytes y el enum tiene también un tamaño de 5 bytes. No hay necesidad de uno extra ya que el byte bool interior en la variante B sólo puede tomar dos valores: 0, 1. Por ello, podemos usar ese byte como "discriminante" para distinguirlo de las otras variantes.
@@ -164,15 +178,15 @@ Hay una modificación importante que hacer aquí, cambiar el array contenido en 
 
 
 ```rust
-enum SixthEx{
+enum SeventhEx{
     A,
     B([u16;4],bool),
     C
 }
 
-println!("{:?}", get_bytes(&SixthEx::A)); // [0]*8
-println!("{:?}", get_bytes(&SixthEx::B([8,2,3,4],false))); // [1, 1, 8, 0, 2, 0, 3, 0, 4, 0]
-println!("{:?}", get_bytes(&SixthEx::C)); // [2] + [0]*7
+print_bytes(&SeventhEx::A)); // [0]*8
+print_bytes(&SeventhEx::B([8,2,3,4],false))); // [1, 1, 8, 0, 2, 0, 3, 0, 4, 0]
+print_bytes(&SeventhEx::C)); // [2] + [0]*7
 ```
 
 A diferencia del ejemplo anterior, A y C tendrán un tamaño de 1 byte. El bool contenido en B es ahora el segundo byte en el array de bytes, siguiendo al discriminante. Como el bool sólo ocupa 1 byte, el compilador lo empaqueta dentro del alineamiento del discriminante, por lo que basta con 2 bytes para almacenar el discriminante y el bool. Pero los discriminantes están ahí y la comparación ya no es con el bool, y por lo tanto las variantes sin campos necesitan tener un tamaño de 1 byte. El tamaño del enum ha pasado de ser 5 bytes a ser 10, debido a que B necesita este espacio.
