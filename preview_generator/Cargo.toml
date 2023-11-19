@@ -1,0 +1,8 @@
+[package]
+name = "preview_generator"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+photon-rs = "0.3.2"
+rss = "2.0.6"
