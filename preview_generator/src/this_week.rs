@@ -1,8 +1,10 @@
-use std::fs::File;
-use std::io::BufReader;
-use rss::Channel;
+use image::RgbImage;
 
-pub fn generate(rss_file: String) {
-    let file = File::open(rss_file).unwrap();
-    let channel = Channel::read_from(BufReader::new(file)).unwrap();
+use crate::models::Article;
+use crate::PreviewGenerator;
+
+pub struct ThisWeekGenerator;
+
+impl PreviewGenerator for ThisWeekGenerator {
+    fn gen(&self, img: &mut RgbImage, article: Article, output: &str) {}
 }

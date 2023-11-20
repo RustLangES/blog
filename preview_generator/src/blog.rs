@@ -1,8 +1,11 @@
-use std::fs::File;
-use std::io::BufReader;
-use rss::Channel;
+use image::RgbImage;
 
-pub fn generate(rss_file: String) {
-    let file = File::open(rss_file).unwrap();
-    let channel = Channel::read_from(BufReader::new(file)).unwrap();
+use crate::PreviewGenerator;
+use crate::models::Article;
+
+pub struct BlogGenerator;
+
+impl PreviewGenerator for BlogGenerator {
+    fn gen(&self, img: &mut RgbImage, article: Article, output: &str) {
+    }
 }

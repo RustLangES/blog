@@ -4,5 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-photon-rs = "0.3.2"
-rss = "2.0.6"
+imageproc = "0.23.0"
+serde = { version = "1.0.192", features = ["derive"] }
+gray_matter = { version = "0.2.6", default-features = false, features = [
+    "yaml",
+] }
+image = { version = "0.24.7", default-features = false, features = ["webp"] }
