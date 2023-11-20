@@ -3,18 +3,31 @@ use std::fs;
 
 use gray_matter::engine::YAML;
 use gray_matter::Matter;
-use image::RgbImage;
+use image::RgbaImage;
 use models::Article;
+use rusttype::Font;
 
 mod blog;
 mod models;
 mod this_week;
+mod utils;
 
 pub const WIDTH: u32 = 1200;
 pub const HEIGHT: u32 = 630;
 
+const REGULAR_FONT_BYTES: &[u8] = include_bytes!("../assets/WorkSans-Regular.ttf");
+const BOLD_FONT_BYTES: &[u8] = include_bytes!("../assets/WorkSans-Bold.ttf");
+
 pub trait PreviewGenerator {
-    fn gen(&self, img: &mut RgbImage, article: Article, output: &str);
+    fn gen(
+        &self,
+        img: &mut RgbaImage,
+        file_name: String,
+        font: &Font,
+        bold: &Font,
+        article: Article,
+        output: &str,
+    );
 }
 
 fn main() {
@@ -40,16 +53,27 @@ fn main() {
 
 pub fn generate(folder: String, output: String, generator: &dyn PreviewGenerator) {
     let folder_content = fs::read_dir(folder).unwrap();
+    let font = Font::try_from_bytes(REGULAR_FONT_BYTES).unwrap();
+    let bold = Font::try_from_bytes(BOLD_FONT_BYTES).unwrap();
 
     for post_file in folder_content {
-        let file = post_file.unwrap().path();
+        let post_file = post_file.unwrap();
+        let file_name = post_file.file_name().to_str().unwrap().to_string();
+        let file = post_file.path();
         let content = fs::read_to_string(file).unwrap();
         let matter = Matter::<YAML>::new();
         let Some(article) = matter.parse_with_struct::<Article>(&content) else {
             continue;
         };
 
-        let mut img = RgbImage::new(WIDTH, HEIGHT);
-        generator.gen(&mut img, article.data, &output);
+        let mut img = RgbaImage::new(WIDTH, HEIGHT);
+        generator.gen(
+            &mut img,
+            file_name.replace(".md", ""),
+            &font,
+            &bold,
+            article.data,
+            &output,
+        );
     }
 }
