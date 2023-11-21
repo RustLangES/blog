@@ -33,10 +33,13 @@ pub fn Layout(
                 content=format!("Blog de Rust Lang en Español {}", get_year())
             />
             <meta property="og:url" content="https://rustlanges.github.io"/>
-            <meta property="og:image" content=format!("{slug}.png")/>
+            <meta
+                property="og:image"
+                content=format!("https://rustlanges.github.io/blog/articles/{slug}.png")
+            />
             <meta
                 property="twitter:image"
-                content="https://rustlanges.github.io/preview_concept.png"
+                content=format!("https://rustlanges.github.io/blog/articles/{slug}.png")
             />
             <meta name="twitter:card" content="summary_large_image"/>
             <meta name="twitter:site" content="@rustlang"/>
