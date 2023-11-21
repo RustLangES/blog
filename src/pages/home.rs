@@ -25,7 +25,7 @@ pub fn Homepage(articles: Option<Vec<Article>>, show_featured: bool) -> impl Int
     let articles = articles.unwrap_or(block_on(fetch_articles()));
 
     view! {
-        <Layout>
+        <Layout slug="https://rustlanges.github.io/preview_concept".to_string()>
             <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left mt-2">
                 "Blog"
             </h1>
