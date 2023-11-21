@@ -18,7 +18,7 @@ pub fn EstaSemanaEnRust(article: Article) -> impl IntoView {
     let description = format!("{} - By @{}", article.description, author);
     view! {
         <>
-            <Layout title=title description=description>
+            <Layout title=title description=description slug=article.slug.clone()>
                 <BlogContent article=article/>
             </Layout>
             <script

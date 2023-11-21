@@ -15,6 +15,7 @@ fn get_year() -> i32 {
 pub fn Layout(
     #[prop(into, default=format!("Blog de Rust Lang en Español {}", get_year()))] title: String,
     #[prop(into, default="Somos una comunidad de Rust hispana, buscamos la promoción del lenguaje de programación Rust.".to_string())]
+    slug: String,
     description: String,
     children: Children,
 ) -> impl IntoView {
@@ -32,10 +33,10 @@ pub fn Layout(
                 content=format!("Blog de Rust Lang en Español {}", get_year())
             />
             <meta property="og:url" content="https://rustlanges.github.io"/>
-            <meta property="og:image" content="https://rustlanges.github.io/preview_concept.png"/>
+            <meta property="og:image" content=format!("https://rustlanges.github.io/articles/{slug}.png")/>
             <meta
                 property="twitter:image"
-                content="https://rustlanges.github.io/preview_concept.png"
+                content=format!("https://rustlanges.github.io/articles/{slug}.png")
             />
             <meta name="twitter:card" content="summary_large_image"/>
             <meta name="twitter:site" content="@rustlang"/>
