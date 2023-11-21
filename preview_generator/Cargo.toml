@@ -1,0 +1,13 @@
+[package]
+name = "preview_generator"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+imageproc = "0.23.0"
+serde = { version = "1.0.192", features = ["derive"] }
+gray_matter = { version = "0.2.6", default-features = false, features = [
+    "yaml",
+] }
+image = { version = "0.24.7", default-features = false, features = ["webp", "png"] }
+rusttype = "0.9.3"

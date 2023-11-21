@@ -18,7 +18,7 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
     let description = format!("{} - By @{}", article.description, author);
     view! {
         <>
-            <Layout title=title description=description>
+            <Layout title=title description=description slug=article.slug.clone()>
                 <BlogContent is_html=article.devto article=article/>
             </Layout>
             <script

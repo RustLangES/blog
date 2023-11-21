@@ -34,6 +34,10 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Build
         run: npm i && npx tailwindcss -i ./input.css -o ./out/output.css && cargo run --release
+      - name: Generate Previews
+        run: |
+          cd preview_generator
+          cargo run --release -- blog ../articles ../out/articles
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
