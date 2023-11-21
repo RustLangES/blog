@@ -107,3 +107,7 @@ leptosfmt src
 
 Este te formateara el código de forma automática.
 Puede llegar a romper algunas cosas de los componentes si se hizo un cambio allí.
+
+## Agradecimientos
+Para la generacion de previews se utilizaron
+<a target="_blank" href="https://icons8.com/icon/8416/etiqueta-de-precio">Etiqueta de precio</a> icono de <a target="_blank" href="https://icons8.com">Icons8</a>

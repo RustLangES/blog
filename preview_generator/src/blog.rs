@@ -36,6 +36,8 @@ impl PreviewGenerator for BlogGenerator {
 
         // TODO: make efficient implementation
         let rustlanges = image::open("assets/RustLangES.png").unwrap();
+        let user_img = image::open("assets/user.png").unwrap();
+        let tag_img = image::open("assets/tag.png").unwrap();
 
         // Paint Background
         image::imageops::vertical_gradient(img, bg_color, bg_color);
@@ -85,32 +87,29 @@ impl PreviewGenerator for BlogGenerator {
             dark_color.clone(),
         );
         // User Section
+        append_image(
+            img,
+            &user_img.to_rgba8(),
+            padding_x as u32,
+            padding_y as u32 + (HEIGHT / 2) + 48,
+            255,
+        );
         imageproc::drawing::draw_text_mut(
             img,
             text_color.clone(),
-            padding_x,
+            padding_x + 65,
             padding_y + (HEIGHT as i32 / 2) + 48,
             Scale::uniform(description_size),
             font,
-            &format!(
-                "User: {}",
-                article.author.unwrap_or("Desconocido".to_string())
-            ),
+            &article.author.unwrap_or("Desconocido".to_string())
         );
 
         // Tags Section
         if let Some(tags) = article.tags.as_ref() {
-            imageproc::drawing::draw_text_mut(
-                img,
-                text_color.clone(),
-                padding_x,
-                padding_y + (HEIGHT as i32 / 2) + 48 * 2,
-                Scale::uniform(description_size),
-                font,
-                "Tags:",
-            );
-            let mut x = padding_x + 12 + 48 * 2;
+            let mut x = padding_x + 65;
             let y = padding_y + (HEIGHT as i32 / 2) + 12 + 48 * 2;
+
+            append_image(img, &tag_img.to_rgba8(), padding_x as u32, y as u32, 255);
 
             for tag in tags.iter() {
                 let (w, _) = make_tag(
