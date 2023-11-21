@@ -24,9 +24,8 @@ pub fn chunked_string(s: String, size: usize, max: usize) -> Vec<String> {
 
 pub fn append_image(img: &mut RgbaImage, other: &RgbaImage, x_min: u32, y_min: u32, new_alpha: u8) {
     let mut logo_x = 0;
-    let mut logo_y;
     for x in x_min..x_min + other.width() {
-        logo_y = 0;
+        let mut logo_y = 0;
         for y in y_min..y_min + other.height() {
             let pixel = other.get_pixel(logo_x, logo_y);
             logo_y += 1;
