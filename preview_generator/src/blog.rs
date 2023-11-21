@@ -5,7 +5,7 @@ use imageproc::rect::Rect;
 use rusttype::{Font, Scale};
 
 use crate::models::Article;
-use crate::utils::{append_image, chunked_string};
+use crate::utils::{append_image, chunked_string, make_tag};
 use crate::{PreviewGenerator, HEIGHT, WIDTH};
 
 pub struct BlogGenerator;
@@ -97,7 +97,36 @@ impl PreviewGenerator for BlogGenerator {
                 article.author.unwrap_or("Desconocido".to_string())
             ),
         );
+
         // Tags Section
+        if let Some(tags) = article.tags.as_ref() {
+            imageproc::drawing::draw_text_mut(
+                img,
+                text_color.clone(),
+                padding_x,
+                padding_y + (HEIGHT as i32 / 2) + 48 * 2,
+                Scale::uniform(description_size),
+                font,
+                "Tags:",
+            );
+            let mut x = padding_x + 12 + 48 * 2;
+            let y = padding_y + (HEIGHT as i32 / 2) + 12 + 48 * 2;
+
+            for tag in tags.iter() {
+                let (w, _) = make_tag(
+                    img,
+                    font,
+                    24.,
+                    tag_bg_color.clone(),
+                    tag_text_color.clone(),
+                    8,
+                    (x, y),
+                    (8, 8),
+                    tag.to_string(),
+                );
+                x += 12 + w;
+            }
+        }
 
         // Comunity Image
         let x_min = WIDTH - padding_x as u32 - rustlanges.width();
