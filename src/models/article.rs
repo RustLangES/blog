@@ -4,7 +4,7 @@ use chrono::{DateTime, Datelike, FixedOffset, Locale, NaiveDate, NaiveDateTime};
 use rss::{Category, Guid, Item, Source};
 use serde::{Deserialize, Deserializer, Serialize};
 
-use super::{devto_article::DevToArticle, hashnode_article::ArticleFetchedPost};
+use super::{devto_article::DevToArticle, hashnode_article::HashNodeArticle};
 
 #[derive(Serialize, Deserialize, Clone, Default)]
 pub struct Article {
@@ -85,16 +85,16 @@ impl From<DevToArticle> for Article {
     }
 }
 
-impl From<ArticleFetchedPost> for Article {
-    fn from(hashnode_article: ArticleFetchedPost) -> Self {
+impl From<HashNodeArticle> for Article {
+    fn from(hashnode_article: HashNodeArticle) -> Self {
         let date_time =
-            NaiveDate::parse_from_str(&hashnode_article.date_added, "%Y-%m-%dT%H:%M:%S%.fZ")
+            NaiveDate::parse_from_str(&hashnode_article.published_at, "%Y-%m-%dT%H:%M:%S%.fZ")
                 .unwrap();
 
         Self {
             title: hashnode_article.title,
             description: hashnode_article.brief,
-            author: Some(hashnode_article.publication.username),
+            author: Some(hashnode_article.publication.author.username),
             github_user: hashnode_article
                 .publication
                 .links
@@ -114,7 +114,7 @@ impl From<ArticleFetchedPost> for Article {
                 ),
             ])),
             slug: hashnode_article.slug,
-            content: hashnode_article.content_markdown,
+            content: hashnode_article.content.markdown,
             date_string: Some(
                 date_time
                     .format_localized("%e de %B del %Y", Locale::es_ES)
