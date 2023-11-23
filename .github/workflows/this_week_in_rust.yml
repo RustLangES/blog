@@ -56,7 +56,7 @@ jobs:
           API_KEY: ${{ secrets.MS_TRANSLATE_API_KEY }}
           REGION: ${{ secrets.MS_TRANSLATE_REGION }}
         run: |
-          pip install uuid requests
+          pip install uuid requests re
           python3 gen_translated.py
       - name: Fixes
         run: |
