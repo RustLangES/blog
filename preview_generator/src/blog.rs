@@ -4,8 +4,9 @@ use image::{Pixel, Rgba, RgbaImage};
 use imageproc::rect::Rect;
 use rusttype::{Font, Scale};
 
+use crate::components::rounded_tag;
 use crate::models::Article;
-use crate::utils::{append_image, chunked_string, make_tag};
+use crate::utils::{append_image, chunked_string};
 use crate::{PreviewGenerator, HEIGHT, WIDTH};
 
 pub struct BlogGenerator {
@@ -121,7 +122,7 @@ impl PreviewGenerator for BlogGenerator {
             append_image(img, &self.tag, padding_x as u32, y as u32, 255);
 
             for tag in tags.iter() {
-                let (w, _) = make_tag(
+                let (w, _) = rounded_tag(
                     img,
                     font,
                     24.,

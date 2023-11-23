@@ -1,12 +1,12 @@
 use std::path::PathBuf;
 
 use image::{Pixel, Rgba, RgbaImage};
-use imageproc::rect::Rect;
 use rusttype::{Font, Scale};
 
+use crate::components::circle_tag;
 use crate::models::Article;
 use crate::utils::{append_image, chunked_string};
-use crate::{PreviewGenerator, HEIGHT, WIDTH};
+use crate::{PreviewGenerator, WIDTH};
 
 pub struct ThisWeekGenerator {
     rustlanges: RgbaImage,
@@ -15,9 +15,16 @@ pub struct ThisWeekGenerator {
 
 impl Default for ThisWeekGenerator {
     fn default() -> Self {
+        let banner = image::open("assets/RustLangES.png").unwrap().to_rgba8();
+
         Self {
-            rustlanges: image::open("assets/RustLangES.png").unwrap().to_rgba8(),
-            banner: image::open("assets/this_week.jpg").unwrap().to_rgba8(),
+            rustlanges: image::imageops::resize(
+                &banner,
+                85,
+                85,
+                image::imageops::FilterType::Nearest,
+            ),
+            banner: image::open("assets/banner.png").unwrap().to_rgba8(),
         }
     }
 }
@@ -32,53 +39,80 @@ impl PreviewGenerator for ThisWeekGenerator {
         article: Article,
         output: &str,
     ) {
-        let (padding_x, padding_y) = (64, 32);
+        let top = 34;
+        let (padding_x, padding_y) = (30i32, 36i32);
 
-        let title_size = 64.;
-        let description_size = 48.;
+        let title_size = 36.;
+        let description_size = 60.;
 
-        let max_title_chars = 30;
+        let _max_title_chars = 30;
         let max_word_wrap = 6;
 
         let dark_color = Rgba::from_slice(&[253, 186, 116, 255]);
-        let text_color = Rgba::from_slice(&[0, 0, 0, 255]);
-        
-        // Paint Banner
-        append_image(img, &self.banner, 0, 0, 255);
+        let tag_color = Rgba::from_slice(&[0xF5, 0xC9, 0x98, 255]);
+        let text_color = Rgba::from_slice(&[0x69, 0x37, 0x00, 255]);
 
-        // Paint Bottom
-        imageproc::drawing::draw_filled_rect_mut(
+        // Paint Background
+        image::imageops::vertical_gradient(img, dark_color, dark_color);
+
+        // Banner Image
+        append_image(img, &self.banner, 0, 0, 225);
+
+        // Comunity Image
+        append_image(
             img,
-            Rect::at(0, HEIGHT as i32 / 2).of_size(WIDTH, HEIGHT / 2),
-            dark_color.clone(),
+            &self.rustlanges,
+            padding_x as u32,
+            top as u32 + padding_y as u32,
+            225,
         );
-
-        let top = HEIGHT as i32 / 2;
 
         // Title
         imageproc::drawing::draw_text_mut(
             img,
             text_color.clone(),
-            padding_x,
-            top + padding_y,
+            padding_x * 2 + 80,
+            top + padding_y + 10,
             Scale::uniform(title_size),
             bold,
-            &article
-                .title
-                .get(..max_title_chars)
-                .or_else(|| Some(&article.title))
-                .map(|s| {
-                    if s.len() >= max_title_chars {
-                        format!("{s}...")
-                    } else {
-                        s.to_string()
-                    }
-                })
-                .unwrap(),
+            &format!(
+                "Semana En Rust #{}",
+                article.title.split_once("#").map(|t| t.1).unwrap()
+            ),
         );
 
+        // Date
+        imageproc::drawing::draw_text_mut(
+            img,
+            text_color.clone(),
+            padding_x * 2 + 80,
+            top + padding_y + title_size as i32 + 10,
+            Scale::uniform(26.),
+            font,
+            &article.date.unwrap_or("".to_string()).replace("-", " / ")
+        );
+
+        if let Some(tags) = article.tags.as_ref() {
+            let mut x = WIDTH as i32 / 2 + 54;
+            let y = top + padding_y + 22;
+
+            for tag in tags.iter() {
+                let (w, _) = circle_tag(
+                    img,
+                    bold,
+                    24.,
+                    tag_color.clone(),
+                    text_color.clone(),
+                    (x, y),
+                    (8, 8),
+                    tag.to_string(),
+                );
+                x += 48 + w;
+            }
+        }
+
         // Description
-        for (i, s) in chunked_string(article.description, max_word_wrap, 3)
+        for (i, s) in chunked_string(article.description, max_word_wrap, 5)
             .iter()
             .enumerate()
         {
@@ -86,17 +120,12 @@ impl PreviewGenerator for ThisWeekGenerator {
                 img,
                 text_color.clone(),
                 padding_x,
-                top + padding_y + title_size as i32 + 28 + (description_size as i32 * i as i32 + 1),
+                top + padding_y + 168 + (description_size as i32 * i as i32 + 1),
                 Scale::uniform(description_size),
-                font,
+                bold,
                 &s,
             );
         }
-
-        // Comunity Image
-        let x_min = WIDTH - padding_x as u32 - self.rustlanges.width();
-        let y_min = HEIGHT - (HEIGHT / 4) - self.rustlanges.height() / 2;
-        append_image(img, &self.rustlanges, x_min, y_min, 115);
 
         // Save
         let mut output = PathBuf::from(&output);
