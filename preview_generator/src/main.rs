@@ -8,6 +8,7 @@ use models::Article;
 use rusttype::Font;
 
 mod blog;
+mod components;
 mod models;
 mod this_week;
 mod utils;
