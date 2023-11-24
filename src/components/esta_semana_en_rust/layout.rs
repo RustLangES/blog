@@ -35,11 +35,11 @@ pub fn Layout(
             <meta property="og:url" content="https://rustlanges.github.io"/>
             <meta
                 property="og:image"
-                content=format!("https://rustlanges.github.io/articles/{slug}.png")
+                content=format!("https://rustlanges.github.io/blog/articles/{slug}.png")
             />
             <meta
                 property="twitter:image"
-                content=format!("https://rustlanges.github.io/articles/{slug}.png")
+                content=format!("https://rustlanges.github.io/blog/articles/{slug}.png")
             />
             <meta name="twitter:card" content="summary_large_image"/>
             <meta name="twitter:site" content="@rustlang"/>
