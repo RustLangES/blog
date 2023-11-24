@@ -38,6 +38,7 @@ jobs:
         run: |
           cd preview_generator
           cargo run --release -- blog ../articles ../out/articles
+          cargo run --release -- this_week ../esta_semana_en_rust/ ../out/articles/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
