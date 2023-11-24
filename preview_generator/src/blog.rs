@@ -4,11 +4,26 @@ use image::{Pixel, Rgba, RgbaImage};
 use imageproc::rect::Rect;
 use rusttype::{Font, Scale};
 
+use crate::components::rounded_tag;
 use crate::models::Article;
-use crate::utils::{append_image, chunked_string, make_tag};
+use crate::utils::{append_image, chunked_string};
 use crate::{PreviewGenerator, HEIGHT, WIDTH};
 
-pub struct BlogGenerator;
+pub struct BlogGenerator {
+    rustlanges: RgbaImage,
+    user: RgbaImage,
+    tag: RgbaImage,
+}
+
+impl Default for BlogGenerator {
+    fn default() -> Self {
+        Self {
+            rustlanges: image::open("assets/RustLangES.png").unwrap().to_rgba8(),
+            user: image::open("assets/user.png").unwrap().to_rgba8(),
+            tag: image::open("assets/tag.png").unwrap().to_rgba8(),
+        }
+    }
+}
 
 impl PreviewGenerator for BlogGenerator {
     fn gen(
@@ -33,11 +48,6 @@ impl PreviewGenerator for BlogGenerator {
         let text_color = Rgba::from_slice(&[0, 0, 0, 255]);
         let tag_bg_color = Rgba::from_slice(&[255, 255, 255, 255]);
         let tag_text_color = Rgba::from_slice(&[249, 115, 22, 255]);
-
-        // TODO: make efficient implementation
-        let rustlanges = image::open("assets/RustLangES.png").unwrap();
-        let user_img = image::open("assets/user.png").unwrap();
-        let tag_img = image::open("assets/tag.png").unwrap();
 
         // Paint Background
         image::imageops::vertical_gradient(img, bg_color, bg_color);
@@ -89,7 +99,7 @@ impl PreviewGenerator for BlogGenerator {
         // User Section
         append_image(
             img,
-            &user_img.to_rgba8(),
+            &self.user,
             padding_x as u32,
             padding_y as u32 + (HEIGHT / 2) + 48,
             255,
@@ -101,7 +111,7 @@ impl PreviewGenerator for BlogGenerator {
             padding_y + (HEIGHT as i32 / 2) + 48,
             Scale::uniform(description_size),
             font,
-            &article.author.unwrap_or("Desconocido".to_string())
+            &article.author.unwrap_or("Desconocido".to_string()),
         );
 
         // Tags Section
@@ -109,10 +119,10 @@ impl PreviewGenerator for BlogGenerator {
             let mut x = padding_x + 65;
             let y = padding_y + (HEIGHT as i32 / 2) + 12 + 48 * 2;
 
-            append_image(img, &tag_img.to_rgba8(), padding_x as u32, y as u32, 255);
+            append_image(img, &self.tag, padding_x as u32, y as u32, 255);
 
             for tag in tags.iter() {
-                let (w, _) = make_tag(
+                let (w, _) = rounded_tag(
                     img,
                     font,
                     24.,
@@ -128,9 +138,9 @@ impl PreviewGenerator for BlogGenerator {
         }
 
         // Comunity Image
-        let x_min = WIDTH - padding_x as u32 - rustlanges.width();
-        let y_min = HEIGHT - (HEIGHT / 4) - rustlanges.height() / 2;
-        append_image(img, &rustlanges.to_rgba8(), x_min, y_min, 115);
+        let x_min = WIDTH - padding_x as u32 - self.rustlanges.width();
+        let y_min = HEIGHT - (HEIGHT / 4) - self.rustlanges.height() / 2;
+        append_image(img, &self.rustlanges, x_min, y_min, 115);
 
         // Save
         let mut output = PathBuf::from(&output);

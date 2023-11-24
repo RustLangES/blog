@@ -1,4 +1,5 @@
-import os, requests, uuid, json
+import os, requests, uuid
+import re
 
 key_var_name = 'API_KEY'
 if not key_var_name in os.environ:
@@ -44,8 +45,17 @@ response = request.json()
 
 raw_file.close()
 
-print(json.dumps(response, indent=4))
-
 # generate ouput
+meta_content = open(raw_date + "-this-week-in-rust.md", "r").read()
 with open(raw_date + "-this-week-in-rust.md", 'a') as fh:
-    print(response[0]["translations"][0]["text"], file = fh)
+    content = response[0]["translations"][0]["text"]
+    content = raw_file.read()
+    description: str = [line for line in content.split('\n') if line.startswith("El crate de esta semana es")][0]
+    finded = re.search(r'(\[(?P<caption>.*?)\])\((?P<image>.*?)(?P<description>\".*?\")?\)', description)
+    if finded is None:
+        description = "Esta semana en Rust es un blog semanal sobre el lenguaje de programación Rust, sus comunidades y su ecosistema."
+    else:
+        finded = finded.groupdict()
+        link_name = re.sub(r'\[.*\]\(.*\)', finded["caption"], description)
+        content = content.replace("Esta semana en Rust es un blog semanal sobre el lenguaje de programación Rust, sus comunidades y su ecosistema.", link_name)
+    fh.write(content)

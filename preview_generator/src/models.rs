@@ -15,5 +15,7 @@ pub struct Article {
     #[serde(default)]
     pub number_of_week: Option<u32>,
     #[serde(default)]
+    pub date: Option<String>,
+    #[serde(default)]
     pub date_string: Option<String>,
 }

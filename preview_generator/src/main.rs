@@ -8,6 +8,7 @@ use models::Article;
 use rusttype::Font;
 
 mod blog;
+mod components;
 mod models;
 mod this_week;
 mod utils;
@@ -42,16 +43,14 @@ fn main() {
         panic!("No hay la carpeta de salida en los argumentos");
     };
 
-    let generator: &dyn PreviewGenerator = match file_type.as_str() {
-        "blog" => &blog::BlogGenerator,
-        "this_week" => &this_week::ThisWeekGenerator,
+    match file_type.as_str() {
+        "blog" => generate(folder, output, blog::BlogGenerator::default()),
+        "this_week" => generate(folder, output, this_week::ThisWeekGenerator::default()),
         x => panic!("El tipo de archivo '{x}' no es admitido"),
     };
-
-    generate(folder, output, generator)
 }
 
-pub fn generate(folder: String, output: String, generator: &dyn PreviewGenerator) {
+pub fn generate<G: PreviewGenerator>(folder: String, output: String, generator: G) {
     let folder_content = fs::read_dir(folder).unwrap();
     let font = Font::try_from_bytes(REGULAR_FONT_BYTES).unwrap();
     let bold = Font::try_from_bytes(BOLD_FONT_BYTES).unwrap();
