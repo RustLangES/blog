@@ -48,14 +48,21 @@ raw_file.close()
 
 # generate ouput
 meta_content = open(raw_date + "-this-week-in-rust.md", "r").read()
-with open(raw_date + "-this-week-in-rust.md", 'a') as fh:
+with open(raw_date + "-this-week-in-rust.md", 'w') as fh:
     content = response[0]["translations"][0]["text"]
-    description: str = [line for line in content.split('\n') if line.startswith("El crate de esta semana es")][0]
+    description = [line for line in content.split('\n') if line.startswith("La caja de esta semana es")]
+    print(f"Match = {description}")
+    description = description[0]
     finded = re.search(r'(\[(?P<caption>.*?)\])\((?P<image>.*?)(?P<description>\".*?\")?\)', description)
     if finded is None:
+        print("No Encontrado")
         description = "Esta semana en Rust es un blog semanal sobre el lenguaje de programación Rust, sus comunidades y su ecosistema."
     else:
+        print("Encontrado!!")
         finded = finded.groupdict()
         link_name = re.sub(r'\[.*\]\(.*\)', finded["caption"], description)
-        content = content.replace("Esta semana en Rust es un blog semanal sobre el lenguaje de programación Rust, sus comunidades y su ecosistema.", link_name)
+        print(f"To Replace: {meta_content}")
+        new_content = meta_content.replace("Esta semana en Rust es un blog semanal sobre el lenguaje de programación Rust, sus comunidades y su ecosistema.", link_name)
+        print(f"Replacement Result: {new_content}")
+        content = new_content + '\n' + content
     fh.write(content)
