@@ -181,8 +181,8 @@ impl From<&Article> for Item {
                     "https://rustlanges.github.io/blog/articles/{}.png",
                     value.slug.clone()
                 ),
+                length: "626471".to_string(),
                 mime_type: "image/png".to_string(),
-                ..Default::default()
             }),
             ..Default::default()
         }
