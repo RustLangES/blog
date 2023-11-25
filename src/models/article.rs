@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use chrono::{DateTime, Datelike, FixedOffset, Locale, NaiveDate, NaiveDateTime};
-use rss::{Category, Guid, Item, Source};
+use rss::{Category, Enclosure, Guid, Item, Source};
 use serde::{Deserialize, Deserializer, Serialize};
 
 use super::{devto_article::DevToArticle, hashnode_article::HashNodeArticle};
@@ -176,6 +176,14 @@ impl From<&Article> for Item {
                 title: Some("Repositorio del Blog".to_string()),
             }),
             content: None,
+            enclosure: Some(Enclosure {
+                url: format!(
+                    "https://rustlanges.github.io/blog/articles/{}.png",
+                    value.slug.clone()
+                ),
+                mime_type: "image/png".to_string(),
+                ..Default::default()
+            }),
             ..Default::default()
         }
     }
