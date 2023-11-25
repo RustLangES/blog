@@ -37,6 +37,7 @@ headers = {
 }
 
 # You can pass more than one object in body.
+
 body = [{
     'text' : raw_file.read()
 }]
@@ -49,7 +50,6 @@ raw_file.close()
 meta_content = open(raw_date + "-this-week-in-rust.md", "r").read()
 with open(raw_date + "-this-week-in-rust.md", 'a') as fh:
     content = response[0]["translations"][0]["text"]
-    content = raw_file.read()
     description: str = [line for line in content.split('\n') if line.startswith("El crate de esta semana es")][0]
     finded = re.search(r'(\[(?P<caption>.*?)\])\((?P<image>.*?)(?P<description>\".*?\")?\)', description)
     if finded is None:
