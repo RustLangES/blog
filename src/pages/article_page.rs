@@ -21,15 +21,21 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
             <Layout title=title description=description slug=article.slug.clone()>
                 <BlogContent is_html=article.devto article=article/>
             </Layout>
-            <script
-                src="https://utteranc.es/client.js"
-                repo="RustLangES/blog"
-                issue-term="title"
-                label="comentarios 💬"
-                theme="github-light"
+            <script src="https://giscus.app/client.js"
+                data-repo="RustLangES/blog"
+                data-repo-id="R_kgDOKUmlrg"
+                data-category="Comentarios de Artículos"
+                data-category-id="DIC_kwDOKUmlrs4CbcBv"
+                data-mapping="title"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="bottom"
+                data-theme="light"
+                data-lang="es"
                 crossorigin="anonymous"
-                async
-            ></script>
+                async>
+            </script>
         </>
     }
 }
