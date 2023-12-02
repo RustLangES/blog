@@ -21,7 +21,8 @@ pub fn EstaSemanaEnRust(article: Article) -> impl IntoView {
             <Layout title=title description=description slug=article.slug.clone()>
                 <BlogContent article=article/>
             </Layout>
-            <script src="https://giscus.app/client.js"
+            <script
+                src="https://giscus.app/client.js"
                 data-repo="RustLangES/blog"
                 data-repo-id="R_kgDOKUmlrg"
                 data-category="Comentarios de Artículos"
@@ -34,8 +35,8 @@ pub fn EstaSemanaEnRust(article: Article) -> impl IntoView {
                 data-theme="dark_tritanopia"
                 data-lang="es"
                 crossorigin="anonymous"
-                async>
-            </script>
+                async
+            ></script>
         </>
     }
 }

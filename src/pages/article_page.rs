@@ -21,7 +21,8 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
             <Layout title=title description=description slug=article.slug.clone()>
                 <BlogContent is_html=article.devto article=article/>
             </Layout>
-            <script src="https://giscus.app/client.js"
+            <script
+                src="https://giscus.app/client.js"
                 data-repo="RustLangES/blog"
                 data-repo-id="R_kgDOKUmlrg"
                 data-category="Comentarios de Artículos"
@@ -34,8 +35,8 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
                 data-theme="light"
                 data-lang="es"
                 crossorigin="anonymous"
-                async>
-            </script>
+                async
+            ></script>
         </>
     }
 }
