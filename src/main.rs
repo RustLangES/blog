@@ -41,6 +41,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     generate_post_pages(articles.clone(), &ssg).await?;
 
+    generate_pages(articles.clone(), &ssg).await?;
+
     generate_esta_semana_en_rust(articles.clone(), &ssg).await?;
 
     generate_tag_pages(articles, &ssg).await?;
@@ -53,6 +55,8 @@ async fn generate_homepage<'a>(ssg: &Ssg<'a>) -> Result<(), Box<dyn std::error::
         Homepage(HomepageProps {
             articles: None,
             show_featured: true,
+            page: None,
+            max_page: 0,
         })
     })
     .await?;
@@ -156,6 +160,8 @@ async fn generate_tag_pages<'a>(
             Homepage(HomepageProps {
                 articles: Some(articles_to_show),
                 show_featured: false,
+                page: None,
+                max_page: 0,
             })
         })
         .await?;
@@ -171,7 +177,7 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
     let esta_semana_en_rust_folder = fs::read_dir("./esta_semana_en_rust")?;
     articles.append(&mut posts_from_folder(esta_semana_en_rust_folder)?);
 
-    if true {
+    if !cfg!(debug_assertions) {
         let dev_to_articles = fetch_dev_to().await?;
         let hashnode_articles = fetch_hashnode().await?;
 
@@ -225,4 +231,42 @@ fn posts_from_folder(paths: ReadDir) -> Result<Vec<Article>, Box<dyn std::error:
         articles.push(article);
     }
     Ok(articles)
+}
+
+async fn generate_pages<'a>(
+    mut articles: Vec<Article>,
+    ssg: &Ssg<'a>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let max_pages = (articles.len() - 2) / 6;
+    if let Some(last_this_week_in_rust) = articles.iter().position(|a| a.number_of_week.is_some()) {
+        articles.remove(last_this_week_in_rust);
+    }
+    if let Some(announce_position) = articles.iter().position(|a| {
+        a.tags
+            .as_ref()
+            .unwrap()
+            .contains(&"anuncio de la comunidad".to_string())
+    }) {
+        articles.remove(announce_position);
+    }
+
+    let mut articles = articles.chunks(6).collect::<Vec<_>>();
+    articles.remove(0);
+    let articles = articles.to_vec();
+
+    for (index, articles_to_show) in articles.iter().enumerate() {
+        let articles_to_show = articles_to_show.to_vec();
+
+        ssg.gen(&format!("pages/{}.html", index + 1), move || {
+            Homepage(HomepageProps {
+                articles: Some(articles_to_show),
+                show_featured: false,
+                page: Some(index + 1),
+                max_page: max_pages,
+            })
+        })
+        .await?;
+    }
+
+    Ok(())
 }

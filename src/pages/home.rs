@@ -21,8 +21,17 @@ async fn fetch_articles() -> Vec<Article> {
 }
 
 #[component]
-pub fn Homepage(articles: Option<Vec<Article>>, show_featured: bool) -> impl IntoView {
-    let articles = articles.unwrap_or(block_on(fetch_articles()));
+pub fn Homepage(
+    articles: Option<Vec<Article>>,
+    show_featured: bool,
+    page: Option<usize>,
+    max_page: usize,
+) -> impl IntoView {
+    let mut articles = articles.unwrap_or(block_on(fetch_articles()));
+
+    if show_featured {
+        articles = articles.into_iter().take(7).collect();
+    }
 
     view! {
         <Layout slug="https://rustlanges.github.io/preview_concept".to_string()>
@@ -38,9 +47,62 @@ pub fn Homepage(articles: Option<Vec<Article>>, show_featured: bool) -> impl Int
                 view! { <></> }.into_view()
             }}
 
-            <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left my-4">
-                "Artículos"
-            </h1>
+            <div class="flex w-full flex-row flex-1 items-center mt-6">
+                <div class="w-[50%] flex flex-row items-center">
+                    <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left my-4">
+                        "Artículos"
+                    </h1>
+                </div>
+                <div class="w-[50%] flex justify-end items-center gap-4">
+
+                    {if let Some(page) = page {
+                        let previous_page = if page == 1 {
+                            "..".to_string()
+                        } else {
+                            format!("../pages/{}.html", page - 1)
+                        };
+                        view! {
+                            <>
+                                <a
+                                    href=previous_page
+                                    class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
+                                >
+                                    <StrToIcon v="next" class="fill-white rotate-180" size=16/>
+                                    "Pagina anterior"
+                                </a>
+                                {if page == max_page {
+                                    view! {
+                                        <>
+                                            <a
+                                                href=format!("../pages/{}.html", page + 1)
+                                                class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
+                                            >
+                                                "Siguiente pagina"
+                                                <StrToIcon v="next" class="fill-white" size=16/>
+                                            </a>
+                                        </>
+                                    }
+                                } else {
+                                    view! { <></> }
+                                }}
+                            </>
+                        }
+                    } else {
+                        view! {
+                            <>
+                                <a
+                                    href="pages/1.html"
+                                    class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
+                                >
+                                    "Siguiente pagina"
+                                    <StrToIcon v="next" class="fill-white" size=16/>
+                                </a>
+                            </>
+                        }
+                    }}
+
+                </div>
+            </div>
             <GridOfArticles articles=articles is_home=show_featured/>
         </Layout>
     }
