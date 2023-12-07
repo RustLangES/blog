@@ -1,8 +1,6 @@
-use std::collections::HashSet;
-use std::fs;
+use std::{collections::HashSet, fs};
 
-use rss::validation::Validate;
-use rss::{Category, ChannelBuilder, Item};
+use rss::{validation::Validate, Category, ChannelBuilder, Item};
 
 use crate::models::article::Article;
 

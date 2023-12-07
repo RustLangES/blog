@@ -22,8 +22,7 @@ use pages::{
 };
 use ssg::Ssg;
 use tokio::sync::RwLock;
-use utils::generate_feed_rss;
-use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode};
+use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode, generate_feed_rss};
 
 use crate::pages::{article_page::ArticlePage, home::Homepage};
 
