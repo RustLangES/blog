@@ -1,21 +1,14 @@
 use crate::{
     async_component::Async,
     components::{
-        feature_articles::featured_articles,
-        icons::StrToIcon,
-        layout::Layout,
-        mdx::{
-            center::{Center, CenterProps},
-            youtube::{Youtube, YoutubeProps},
-        },
+        card_article::CardArticle, feature_articles::featured_articles, layout::Layout,
         pagination_buttons::PaginationButtons,
     },
     models::article::Article,
     ARTICLES,
 };
 use futures::executor::block_on;
-use leptos::{component, view, CollectView, IntoAttribute, IntoView};
-use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
+use leptos::{component, view, CollectView, IntoView};
 
 async fn fetch_articles() -> Vec<Article> {
     ARTICLES.read().await.clone()
@@ -83,106 +76,7 @@ fn grid_of_articles(articles: Vec<Article>, is_home: bool) -> impl IntoView {
 
     view! {
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 gap-y-8 pb-5">
-            {articles
-                .map(|article| {
-                    let description = if article.description.is_empty() {
-                        let binding = article.content;
-                        let mut content = binding
-                            .split('\n')
-                            .take(3)
-                            .collect::<Vec<&str>>()
-                            .join("\n");
-                        if content.len() > 190 {
-                            content = content[0..190].to_string();
-                            content.push_str("...");
-                        }
-                        content
-                    } else {
-                        article.description.clone()
-                    };
-                    let mut components = Components::new();
-                    components
-                        .add_props(
-                            "youtube".to_string(),
-                            Youtube,
-                            |props: MdxComponentProps| {
-                                let video_id = props.attributes.get("video").unwrap().clone();
-                                YoutubeProps {
-                                    video: video_id.unwrap(),
-                                }
-                            },
-                        );
-                    components
-                        .add_props(
-                            "center".to_string(),
-                            Center,
-                            |props: MdxComponentProps| {
-                                CenterProps {
-                                    children: props.children,
-                                }
-                            },
-                        );
-                    view! {
-                        <li class="group flex flex-col gap-y-1 border border-black p-2 sm:p-6 bg-orange-200 hover:bg-[#fdc686] drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
-                            <a href=if is_home {
-                                format!("./articles/{}.html", article.slug)
-                            } else {
-                                format!("./../articles/{}.html", article.slug)
-                            }>
-                                <h3 class="text-xl font-semibold">{article.title}</h3>
-                            </a>
-                            <p>{article.date_string}</p>
-                            <div class="text-sm markdown-container">
-                                <Mdx source=description components=components/>
-                            </div>
-                            <div>
-                                <span class="pt-4 font-bold">Tags:</span>
-                                <ul class="flex gap-1 py-4">
-                                    {article
-                                        .tags
-                                        .unwrap_or_default()
-                                        .into_iter()
-                                        .map(|tag| {
-                                            let tag = tag.to_lowercase().replace(' ', "-");
-                                            view! {
-                                                <>
-                                                    <li class="inline-block text-sm font-bold text-orange-500 hover:text-orange-600">
-                                                        <a
-                                                            class="inline-block bg-white rounded-md p-1 drop-shadow-sm px-2"
-                                                            href=if is_home {
-                                                                format!("./tags/{}.html", tag)
-                                                            } else {
-                                                                format!("./../tags/{}.html", tag)
-                                                            }
-                                                        >
-
-                                                            {tag}
-                                                        </a>
-                                                    </li>
-                                                </>
-                                            }
-                                        })
-                                        .collect_view()}
-                                </ul>
-                            </div>
-                            <div class="flex justify-end items-end">
-                                <a
-                                    class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
-                                    href=if is_home {
-                                        format!("./articles/{}.html", article.slug)
-                                    } else {
-                                        format!("./../articles/{}.html", article.slug)
-                                    }
-                                >
-
-                                    "Leer más"
-                                    <StrToIcon v="next" class="fill-white" size=16/>
-                                </a>
-                            </div>
-                        </li>
-                    }
-                })
-                .collect_view()}
+            {articles.map(|article| CardArticle((article, is_home).into())).collect_view()}
         </div>
     }
 }

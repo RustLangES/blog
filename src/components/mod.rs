@@ -10,4 +10,6 @@ pub mod icons;
 pub mod layout;
 pub mod mdx;
 
+pub mod card_article;
 pub mod feature_articles;
+pub mod markdown_render;
