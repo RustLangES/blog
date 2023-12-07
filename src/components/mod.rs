@@ -1,5 +1,6 @@
 pub mod blog_content;
 pub mod button_link;
+pub mod pagination_buttons;
 
 mod header;
 pub use header::*;

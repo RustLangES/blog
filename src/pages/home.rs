@@ -8,6 +8,7 @@ use crate::{
             center::{Center, CenterProps},
             youtube::{Youtube, YoutubeProps},
         },
+        pagination_buttons::PaginationButtons,
     },
     models::article::Article,
     ARTICLES,
@@ -32,6 +33,7 @@ pub fn Homepage(
     if show_featured {
         articles = articles.into_iter().take(7).collect();
     }
+    let hide_pagination = max_page == 0 && !show_featured;
 
     view! {
         <Layout slug="https://rustlanges.github.io/preview_concept".to_string()>
@@ -54,61 +56,7 @@ pub fn Homepage(
                     </h1>
                 </div>
                 <div class="w-[50%] flex justify-end items-center gap-4">
-
-                    {if max_page == 0 && !show_featured {
-                        view! { <></> }
-                    } else {
-                        view! {
-                            <>
-                                {if let Some(page) = page {
-                                    let previous_page = if page == 1 {
-                                        "..".to_string()
-                                    } else {
-                                        format!("../pages/{}.html", page - 1)
-                                    };
-                                    view! {
-                                        <>
-                                            <a
-                                                href=previous_page
-                                                class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
-                                            >
-                                                <StrToIcon v="next" class="fill-white rotate-180" size=16/>
-                                                "Pagina anterior"
-                                            </a>
-                                            {if page < max_page {
-                                                view! {
-                                                    <>
-                                                        <a
-                                                            href=format!("../pages/{}.html", page + 1)
-                                                            class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
-                                                        >
-                                                            "Siguiente pagina"
-                                                            <StrToIcon v="next" class="fill-white" size=16/>
-                                                        </a>
-                                                    </>
-                                                }
-                                            } else {
-                                                view! { <></> }
-                                            }}
-                                        </>
-                                    }
-                                } else {
-                                    view! {
-                                        <>
-                                            <a
-                                                href="pages/1.html"
-                                                class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
-                                            >
-                                                "Siguiente pagina"
-                                                <StrToIcon v="next" class="fill-white" size=16/>
-                                            </a>
-                                        </>
-                                    }
-                                }}
-                            </>
-                        }
-                    }}
-
+                    <PaginationButtons hide=hide_pagination current_page=page max_page/>
                 </div>
             </div>
             <GridOfArticles articles=articles is_home=show_featured/>
