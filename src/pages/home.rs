@@ -70,7 +70,7 @@ pub fn Homepage(
                                     <StrToIcon v="next" class="fill-white rotate-180" size=16/>
                                     "Pagina anterior"
                                 </a>
-                                {if page == max_page {
+                                {if page < max_page {
                                     view! {
                                         <>
                                             <a

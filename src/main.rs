@@ -239,7 +239,6 @@ async fn generate_pages<'a>(
 ) -> Result<(), Box<dyn std::error::Error>> {
     tokio::fs::create_dir_all("./out/pages").await?;
 
-    let max_pages = (articles.len() - 2) / 6;
     if let Some(last_this_week_in_rust) = articles.iter().position(|a| a.number_of_week.is_some()) {
         articles.remove(last_this_week_in_rust);
     }
@@ -251,7 +250,7 @@ async fn generate_pages<'a>(
     }) {
         articles.remove(announce_position);
     }
-
+    let max_pages = articles.len() / 6;
     let mut articles = articles.chunks(6).collect::<Vec<_>>();
     articles.remove(0);
     let articles = articles.to_vec();
