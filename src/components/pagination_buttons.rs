@@ -18,7 +18,7 @@ pub fn PaginationButtons(
                 view! {
                     <>
                         <PreviousPageButton page=current_page/>
-                        <NextPageButton page=current_page hide=hide_next_page_button/>
+                        <NextPageButton page=current_page max_page hide=hide_next_page_button/>
                     </>
                 }
             }}
@@ -54,17 +54,23 @@ pub fn PreviousPageButton(page: Option<usize>) -> impl IntoView {
 }
 
 #[component]
-pub fn NextPageButton(page: Option<usize>, hide: bool) -> impl IntoView {
+pub fn NextPageButton(page: Option<usize>, max_page: usize, hide: bool) -> impl IntoView {
     if hide {
         return view! { <></> };
     }
 
     let page = page.unwrap_or(0);
 
+    let link = if max_page == 0 {
+        format!("./pages/{}.html", page + 1)
+    } else {
+        format!("../pages/{}.html", page + 1)
+    };
+
     view! {
         <>
             <a
-                href=format!("../pages/{}.html", page + 1)
+                href=link
                 class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
             >
                 "Siguiente pagina"
