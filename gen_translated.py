@@ -37,9 +37,10 @@ headers = {
 }
 
 # You can pass more than one object in body.
+original_text = raw_file.read()
 
 body = [{
-    'text' : raw_file.read()
+    'text': original_text
 }]
 request = requests.post(constructed_url, headers=headers, json=body)
 response = request.json()
@@ -49,7 +50,16 @@ raw_file.close()
 # generate ouput
 meta_content = open(raw_date + "-this-week-in-rust.md", "r").read()
 with open(raw_date + "-this-week-in-rust.md", 'w') as fh:
-    content = response[0]["translations"][0]["text"]
+    print(response)
+    content = ""
+    if response and isinstance(response, list) and response[0] and "translations" in response[0] and response[0]["translations"]:
+        content = response[0]["translations"][0]["text"]
+    else:
+        content = original_text
+        print('No se pudo traducir')
+        print("Response: ")
+        print(response)
+
     description = [line for line in content.split('\n') if line.startswith("La caja de esta semana es")]
     print(f"Match = {description}")
     description = description[0]
@@ -65,4 +75,6 @@ with open(raw_date + "-this-week-in-rust.md", 'w') as fh:
         new_content = meta_content.replace("Esta semana en Rust es un blog semanal sobre el lenguaje de programación Rust, sus comunidades y su ecosistema.", link_name)
         print(f"Replacement Result: {new_content}")
         content = new_content + '\n' + content
+
     fh.write(content)
+

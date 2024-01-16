@@ -49,6 +49,14 @@ jobs:
           echo "  - comunidad">>"$DATE-this-week-in-rust.md"
           echo '  - "esta semana en rust"'>>"$DATE-this-week-in-rust.md"
           echo -e "---\n">>"$DATE-this-week-in-rust.md"
+      - name: Show folder!
+        run: | 
+          ls -la
+          echo "----"
+          echo "Seteo permisos"
+          chmod 777 "./$DATE-this-week-in-rust.md"
+          echo "----"
+          ls -la
       - name: Translate File
         id: translation_step
         env:
