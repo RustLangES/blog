@@ -1,6 +1,6 @@
 ---
 title: String en Rust
-description: El manejo de texto es algo muy importante en cualquier tipo de aplicacion, por lo que conocer los tipos de datos que proporiciona el lenguaje es muy importante, ademas de saber como poder manejar los datos de manera eficiente
+description: El manejo de texto es algo muy importante en cualquier tipo de aplicación, por lo que conocer los tipos de datos que proporciona el lenguaje es muy importante, ademas de saber como poder manejar los datos de manera eficiente
 author: Sergio Ribera
 github_user: SergioRibera
 date: 2023-10-11
@@ -137,7 +137,7 @@ Si, aunque parezca raro leer que Rust pueda tener problemas con un tipo de dato,
     }
     ```
 
-4. Textos innecesarios en el codigo: Si vienes de otros lenguajes muy probablemente sea una practica muy comun, pero en Rust tenemos otros tipos de datos que quizas puedan ser mejor en ciertas situaciones.
+4. Textos innecesarios en el código: Si vienes de otros lenguajes muy probablemente sea una practica muy común, pero en Rust tenemos otros tipos de datos que quizás puedan ser mejor en ciertas situaciones.
     ```rs
     fn main() {
         let type_account: &str = "PERSONAL"; // creamos y almacenamos un str estatico
