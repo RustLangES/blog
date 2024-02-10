@@ -11,6 +11,7 @@ tags:
   - safe
 social:
   github: https://github.com/Phosphorus-M
+  twitter: https://twitter.com/Phosphorus_M
   website: https://phosphorus-moscu.gitlab.io
 ---
 
