@@ -21,6 +21,7 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
             <Layout title=title description=description slug=article.slug.clone()>
                 <BlogContent is_html=article.devto article=article/>
             </Layout>
+            <div id="giscus" class="giscus max-w-5xl mx-auto"></div>
             <script
                 src="https://giscus.app/client.js"
                 data-repo="RustLangES/blog"

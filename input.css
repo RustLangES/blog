@@ -297,8 +297,31 @@
 
 .markdown-container pre{
   box-shadow: 0 0 3px 0px black;
+  width: 100%;
+  overflow-x: auto;
+  @apply max-w-[17rem] xs:max-w-md md:max-w-2xl lg:max-w-5xl
+}
+.markdown-container pre code{
+  width: 100%;
 }
 
 .highlight__panel.js-actions-panel{
   @apply hidden;
+}
+
+#sidebar {
+  animation: ScrollAnimation linear;
+  animation-timeline: scroll(root block);
+  animation-range: 0 170px;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+@keyframes ScrollAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(30%);
+  }
 }

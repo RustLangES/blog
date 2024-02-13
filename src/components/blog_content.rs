@@ -44,31 +44,155 @@ pub fn BlogContent(
     });
 
     view! {
-        <div class="group flex flex-col gap-y-6 border border-black p-6 bg-orange-100 drop-shadow-[0_0_0_rgba(0,0,0)] transition justify-between">
-            <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left">
-                {article.title.clone()}
-            </h1>
-            <div class="flex flex-col">
-                <div class="flex flex-row gap-4 text-sm items-center">
-                    {if article.has_author() {
+        <div class="lg:max-w-5xl my-0 mx-auto w-full">
+            <div class="grid justify-items-center lg:grid-cols-sidebar-article gap-4 w-full">
+                <aside class="hidden lg:block relative">
+                    <div class="sticky top-10 gap-12 left-0 h-screen" id="sidebar">
+                        <div class="flex flex-col gap-6 mb-16">
+                            <a
+                                target="_blank"
+                                class="text-sm text-center flex flex-col items-center"
+                                href=format!(
+                                    "https://twitter.com/intent/tweet?text=https://rustlanges.github.io/blog/articles/{}",
+                                    article.slug,
+                                )
+                            >
+
+                                <StrToIcon v="twitter" class="hover:fill-blue-600"/>
+                                "Compartir en Twitter"
+                            </a>
+                            <a
+                                target="_blank"
+                                class="text-sm text-center flex flex-col items-center"
+                                href=format!(
+                                    "http://www.linkedin.com/shareArticle?mini=true&url=https://rustlanges.github.io/blog/articles/{}",
+                                    article.slug,
+                                )
+                            >
+
+                                <StrToIcon v="linkedin" class="hover:fill-blue-600"/>
+                                "Compartir en Linkedin"
+                            </a>
+                        </div>
+                        <div>
+                            <a
+                                class="text-sm text-center flex flex-col items-center"
+                                href="#giscus"
+                            >
+                                <StrToIcon v="comment" class="hover:fill-orange-600"/>
+                                "Ver comentarios"
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+                <div class="pb-8 lg:max-w-5xl w-full">
+                    {ArticleHeader(ArticleHeaderProps {
+                        has_author: article.has_author(),
+                        title: article.title,
+                        github_user: article.github_user,
+                        author: article.author,
+                        social,
+                        tags: article.tags.unwrap_or_default(),
+                        date_string: article.date_string,
+                    })}
+                    <div class="flex w-full border border-black p-6 bg-orange-100 markdown-container prose max-w-none">
+                        {if is_html {
+                            view! {
+                                <>
+                                    <div class="prose max-w-none" inner_html=article.content></div>
+                                </>
+                            }
+                        } else {
+                            view! {
+                                <>
+                                    <Mdx source=article.content components=components/>
+                                </>
+                            }
+                        }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+#[component]
+pub fn ArticleHeader(
+    #[prop()] title: String,
+    #[prop()] github_user: Option<String>,
+    #[prop()] author: Option<String>,
+    #[prop()] has_author: bool,
+    #[prop()] social: HashMap<String, String>,
+    #[prop()] tags: Vec<String>,
+    #[prop()] date_string: Option<String>,
+) -> impl IntoView {
+    view! {
+        <>
+            <div>
+                <h1 class="font-semibold font-work-sans text-xl md:text-3xl text-center lg:text-left">
+                    {title.clone()}
+                </h1>
+                <div class="flex flex-row text-sm items-center flex-wrap">
+                    {if github_user.is_some() {
                         view! {
                             <>
-                                <h5>{article.author}</h5>
+                                <img
+                                    class="inline-block w-10 h-10 p-[.15rem] border-yellow-800 border-2 rounded-full"
+                                    src=format!(
+                                        "https://avatars.githubusercontent.com/{}",
+                                        github_user.clone().unwrap(),
+                                    )
+                                />
                             </>
                         }
                     } else {
                         view! { <></> }
                     }}
-                    {if !social.is_empty() {
+                    {if has_author {
                         view! {
                             <>
-                                <hr class="h-[0.875rem] w-px bg-gray-700 border-0"/>
+                                <span class="font-semibold m-2">{author}</span>
                             </>
                         }
                     } else {
                         view! { <></> }
                     }}
-                    <div class="flex flex-row gap-2 items-center">
+                    {if tags.is_empty() {
+                        view! {
+                            <>
+                                <span>"habla sobre:"</span>
+                            </>
+                        }
+                    } else {
+                        view! { <></> }
+                    }}
+                    {tags
+                        .iter()
+                        .map(|tag| {
+                            let tag = tag.to_lowercase().replace(' ', "-");
+                            view! {
+                                <a
+                                    class="p-1 m-1 border-2  rounded-full
+                                    text-sm font-bold text-orange-500 hover:text-orange-600 bg-white drop-shadow-sm
+                                    "
+                                    href=format!("/tag/{}", tag)
+                                >
+                                    {tag}
+                                </a>
+                            }
+                        })
+                        .collect::<Vec<_>>()}
+                    <div class="flex flex-row flex-wrap items-center gap-2">
+                        {if !social.is_empty() {
+                            view! {
+                                <>
+                                    <hr class="h-[0.875rem] w-px bg-gray-700 border-0"/>
+                                </>
+                            }
+                        } else {
+                            view! { <></> }
+                        }}
                         {social
                             .iter()
                             .map(|(net, url)| {
@@ -81,20 +205,8 @@ pub fn BlogContent(
                             .collect::<Vec<_>>()}
                     </div>
                 </div>
-                <span class="text-gray-400 text-sm items-center">{article.date_string}</span>
             </div>
-            <div class="markdown-container prose max-w-none">
-                {if is_html {
-                    view! { <div class="prose max-w-none" inner_html=article.content></div> }
-                } else {
-                    view! {
-                        <div>
-                            <Mdx source=article.content components=components/>
-                        </div>
-                    }
-                }}
-
-            </div>
-        </div>
+            <span class="text-gray-400 text-sm items-center">{date_string}</span>
+        </>
     }
 }

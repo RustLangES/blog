@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "![image](https://github.com/RustLangES/blog/assets/56278796/ba1ac759-3fda-4983-80d2-965398bf8d35)",
   "main": "tailwind.config.js",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "@tailwindcss/typography": "^0.5.10",
-    "tailwindcss": "0.0.0-insiders.44fb67b"
+    "tailwindcss": "^3.4.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
