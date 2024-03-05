@@ -32,14 +32,14 @@ pub fn Layout(
                 property="og:site_name"
                 content=format!("Blog de Rust Lang en Español {}", get_year())
             />
-            <meta property="og:url" content="https://rustlanges.github.io"/>
+            <meta property="og:url" content="https://www.rustlang-es.org"/>
             <meta
                 property="og:image"
-                content=format!("https://rustlanges.github.io/blog/articles/{slug}.png")
+                content=format!("https://www.rustlang-es.org/blog/articles/{slug}.png")
             />
             <meta
                 property="twitter:image"
-                content=format!("https://rustlanges.github.io/blog/articles/{slug}.png")
+                content=format!("https://www.rustlang-es.org/blog/articles/{slug}.png")
             />
             <meta name="twitter:card" content="summary_large_image"/>
             <meta name="twitter:site" content="@rustlang"/>
@@ -48,7 +48,7 @@ pub fn Layout(
                 view! { <link rel="stylesheet" href="/output.css"/> }
             } else {
                 view! {
-                    <link rel="stylesheet" href="https://rustlanges.github.io/blog/output.css"/>
+                    <link rel="stylesheet" href="https://www.rustlang-es.org/blog/output.css"/>
                 }
             }}
 

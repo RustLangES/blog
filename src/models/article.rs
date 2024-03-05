@@ -146,7 +146,7 @@ impl From<&Article> for Item {
             .format("%a, %d %b %Y %T %z")
             .to_string();
         let link = format!(
-            "https://rustlanges.github.io/blog/articles/{}.html",
+            "https://www.rustlang-es.org/blog/articles/{}.html",
             value.slug.clone()
         );
         Item {
@@ -178,7 +178,7 @@ impl From<&Article> for Item {
             content: None,
             enclosure: Some(Enclosure {
                 url: format!(
-                    "https://rustlanges.github.io/blog/articles/{}.png",
+                    "https://www.rustlang-es.org/blog/articles/{}.png",
                     value.slug.clone()
                 ),
                 length: "626471".to_string(),

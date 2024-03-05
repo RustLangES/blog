@@ -10,7 +10,7 @@ tags:
   - "anuncio de la comunidad"
 social:
   github: https://github.com/RustLangES
-  website: https://rustlanges.github.io
+  website: https://www.rustlang-es.org
 ---
 
 Este es el primer post de la comunidad de Rust en Español. En este blog publicaremos noticias, tutoriales, guías, y todo lo que se nos ocurra sobre Rust.

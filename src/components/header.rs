@@ -35,7 +35,7 @@ pub fn Header() -> impl IntoView {
                 }>
                     <ul class="flex items-center gap-6 flex-col lg:flex-row lg:items-center">
                         <li>
-                            <a href="https://rustlanges.github.io/rust-book-es" target="_blank">
+                            <a href="https://www.rustlang-es.org/rust-book-es" target="_blank">
                                 "Aprende"
                             </a>
                         </li>

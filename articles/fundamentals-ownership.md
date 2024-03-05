@@ -9,7 +9,7 @@ tags:
   - comunidad
 social:
   github: https://github.com/RustLangES
-  website: https://rustlanges.github.io
+  website: https://www.rustlang-es.org
 ---
 
 El __Ownership__ es una característica fundamental del lenguaje que se utiliza para gestionar la asignación y liberación de memoria de manera segura y prevenir errores.

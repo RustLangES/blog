@@ -39,7 +39,7 @@ pub fn generate_feed_rss(
         .title(title.to_string())
         .description(description.to_string())
         .link(format!(
-            "https://rustlanges.github.io/blog/{}",
+            "https://www.rustlang-es.org/blog/{}",
             link_path.unwrap_or_default()
         ))
         .categories(categories)

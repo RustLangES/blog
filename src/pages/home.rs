@@ -29,7 +29,7 @@ pub fn Homepage(
     let hide_pagination = max_page == 0 && !show_featured;
 
     view! {
-        <Layout slug="https://rustlanges.github.io/preview_concept".to_string()>
+        <Layout slug="https://www.rustlang-es.org/preview_concept".to_string()>
             <h1 class="font-semibold font-work-sans text-3xl text-center lg:text-left mt-2">
                 "Blog"
             </h1>
