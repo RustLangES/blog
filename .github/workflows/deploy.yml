@@ -33,7 +33,7 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
       - name: Build
-        run: npm i && npx tailwindcss -i ./input.css -o ./out/output.css && cargo run --release
+        run: npm i && npx tailwindcss -i ./input.css -o ./out/output.css && RUST_BACKTRACE=1 cargo run --release
       - name: Generate Previews
         run: |
           cd preview_generator
