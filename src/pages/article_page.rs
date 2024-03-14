@@ -18,7 +18,11 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
     let description = format!("{} - By @{}", article.description, author);
     view! {
         <>
-            <Layout title=title description=description slug=article.slug.clone()>
+            <Layout
+                title=title
+                description=description
+                slug=format!("blog/articles/{}", article.slug.clone())
+            >
                 <BlogContent is_html=article.devto article=article/>
             </Layout>
             <div id="giscus" class="giscus max-w-5xl mx-auto"></div>

@@ -41,6 +41,7 @@ pub fn Layout(
                 property="twitter:image"
                 content=format!("https://www.rustlang-es.org/blog/articles/{slug}.png")
             />
+            <link rel="canonical" href=format!("https://www.rustlang-es.org/blog/articles/{slug}")/>
             <meta name="twitter:card" content="summary_large_image"/>
             <meta name="twitter:site" content="@rustlang"/>
             <link rel="icon" href="/LogoSegunMichael-134de58fcd9af94e.ico"/>

@@ -1,4 +1,5 @@
 use chrono::Datelike;
+use leptos::IntoAttribute;
 use leptos::{component, view, Children, IntoView};
 
 use crate::{
@@ -14,7 +15,8 @@ fn get_year() -> i32 {
 // This is a common Layout component that will be used by all pages.
 pub fn Layout(
     #[prop(into, default=format!("Blog de Rust Lang en Español {}", get_year()))] title: String,
-    slug: String,
+    #[prop(into, default="rustlanges_preview.webp".to_string())] slug: String,
+    #[prop(into, default = false)] is_home: bool,
     #[prop(into, default="Somos una comunidad de Rust hispana, buscamos la promoción del lenguaje de programación Rust.".to_string())]
     description: String,
     children: Children,
@@ -33,14 +35,37 @@ pub fn Layout(
                 content=format!("Blog de Rust Lang en Español {}", get_year())
             />
             <meta property="og:url" content="https://www.rustlang-es.org"/>
-            <meta
-                property="og:image"
-                content=format!("https://www.rustlang-es.org/blog/articles/{slug}.png")
-            />
-            <meta
-                property="twitter:image"
-                content=format!("https://www.rustlang-es.org/blog/articles/{slug}.png")
-            />
+
+            {if is_home {
+                view! {
+                    <>
+                        <link rel="canonical" href="https://www.rustlang-es.org/blog"/>
+                        <meta
+                            property="og:image"
+                            content=format!("https://www.rustlang-es.org/{slug}")
+                        />
+                        <meta
+                            property="twitter:image"
+                            content=format!("https://www.rustlang-es.org/{slug}")
+                        />
+                    </>
+                }
+            } else {
+                view! {
+                    <>
+                        <link rel="canonical" href=format!("https://www.rustlang-es.org/{slug}")/>
+                        <meta
+                            property="og:image"
+                            content=format!("https://www.rustlang-es.org/{slug}.png")
+                        />
+                        <meta
+                            property="twitter:image"
+                            content=format!("https://www.rustlang-es.org/{slug}.png")
+                        />
+                    </>
+                }
+            }}
+
             <meta name="twitter:card" content="summary_large_image"/>
             <meta name="twitter:site" content="@rustlang"/>
             <link rel="icon" href="/LogoSegunMichael-134de58fcd9af94e.ico"/>
