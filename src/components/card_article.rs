@@ -11,7 +11,7 @@ pub fn CardArticle(article: Article, is_home: bool) -> impl IntoView {
 
     view! {
         <>
-            <li class="group flex flex-col gap-y-1 border border-black p-2 sm:p-6 bg-orange-200 hover:bg-[#fdc686] drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
+            <li class="group flex flex-col gap-y-1 border border-black p-2 sm:p-6 hover:bg-orange-500 dark:hover:bg-zinc-900/40 bg-orange-100 dark:bg-black/40 drop-shadow-[0_0_0_rgba(0,0,0)] hover:drop-shadow-[-4px_-4px_0_rgba(0,0,0)] transition justify-between">
                 <a href=article_link.clone()>
                     <h3 class="text-xl font-semibold">{article.title}</h3>
                 </a>

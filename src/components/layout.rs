@@ -22,7 +22,10 @@ pub fn Layout(
     children: Children,
 ) -> impl IntoView {
     view! {
-        <Html attrs=vec![("lang", "es")] class="bg-[#fed7aac9]"/>
+        <Html
+            attrs=vec![("lang", "es")]
+            class="bg-[#fed7aac9] dark:bg-[#131313]/90 bg-center bg-fixed dark:bg-kaku dark:bri dark:bg-cover dark:bg-blend-darken dark:backdrop-blur-xl overflow-x-hidden dark:text-[#e2cea9]"
+        />
         <Head>
             <meta charset="utf-8"/>
             <title>{title.clone()}</title>

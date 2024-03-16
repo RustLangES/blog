@@ -1,23 +1,18 @@
 use leptos::{component, create_signal, view, IntoAttribute, IntoView, SignalGet, SignalUpdate};
 
 use crate::components::button_link::ButtonLink;
+use crate::components::icons::logo_rust_page::LogoRustPageIcon;
 
 #[component]
 pub fn Header() -> impl IntoView {
     let (is_open, set_is_open) = create_signal(false);
 
     view! {
-        <header class="border-b border-b-black/20 bg-orange-200">
+        <header class="border-b border-b-black/20 bg-orange-200 dark:bg-transparent">
             <div class="container mx-auto px-4 flex items-center justify-between flex-col lg:flex-row">
                 <div class="flex justify-between w-full lg:w-auto">
                     <a href="/" exact=true class="flex items-center gap-x-4">
-                        <img
-                            src="https://www.rust-lang.org/static/images/rust-logo-blk.svg"
-                            class="max-h-20 rounded-full"
-                            height="80"
-                            width="80"
-                            alt="Rust Lang en Español"
-                        />
+                        <LogoRustPageIcon size=80/>
                     </a>
                     <button
                         class="lg:hidden"

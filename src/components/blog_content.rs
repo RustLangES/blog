@@ -95,11 +95,14 @@ pub fn BlogContent(
                         tags: article.tags.unwrap_or_default(),
                         date_string: article.date_string,
                     })}
-                    <div class="flex w-full border border-black p-6 bg-orange-100 markdown-container prose max-w-none">
+                    <div class="flex w-full border border-black p-6 bg-orange-100 dark:bg-black/40 markdown-container prose max-w-none dark:text-[#e2cea9] dark:prose-invert">
                         {if is_html {
                             view! {
                                 <>
-                                    <div class="prose max-w-none" inner_html=article.content></div>
+                                    <div
+                                        class="prose dark:prose-invert max-w-none"
+                                        inner_html=article.content
+                                    ></div>
                                 </>
                             }
                         } else {

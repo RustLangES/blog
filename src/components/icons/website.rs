@@ -3,7 +3,7 @@ use leptos::{component, view, IntoAttribute, IntoView};
 #[component]
 pub fn WebsiteIcon(
     #[prop(default = 40)] size: u32,
-    #[prop(default = "fill-black")] class: &'static str,
+    #[prop(into, default = "fill-black".to_string())] class: String,
 ) -> impl IntoView {
     view! {
         <svg
