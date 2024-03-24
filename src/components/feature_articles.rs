@@ -100,7 +100,7 @@ pub fn EstaSemanaEnRustCard(article: Article) -> impl IntoView {
             <div class="absolute backdrop-blur flex flex-row bg-black/50 text-white w-full h-full items-center z-10 top-0 left-0 p-5">
                 <div class="w-full h-full flex flex-col gap-5 lg:pr-10 md:pt-10">
                     <div class="w-full items-center justify-between">
-                        <h2 class="text-2xl lg:text-[3.5rem] font-semibold font-work-sans tracking-widest max-w-[24ch] text-balance">
+                        <h2 class="text-2xl lg:text-[3.5rem] font-semibold font-work-sans tracking-widest max-w-[24ch] text-balance" style="line-height: 0.8;">
                             "Esta semana en Rust"
                             <span class="md:hidden text-2xl lg:text-[3.5rem] font-semibold font-work-sans tracking-widest max-w-[24ch] text-balance">
                                 # {article.number_of_week.unwrap()}
@@ -124,7 +124,7 @@ pub fn EstaSemanaEnRustCard(article: Article) -> impl IntoView {
                     </div>
                 </div>
                 <div class="hidden md:flex">
-                    <div class="bg-black rounded-full w-40 h-40 md:text-8xl flex items-center justify-center mb-10">
+                    <div class="bg-black rounded-full w-40 h-40 md:text-8xl flex items-center justify-center mb-10" style="font-size: 3.5rem;">
                         # {article.number_of_week.unwrap()}
                     </div>
                 </div>
