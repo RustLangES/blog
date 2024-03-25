@@ -16,6 +16,12 @@ module.exports = {
         'xs': '475px',
         ...defaultTheme.screens,
       },
+      fontSize: {
+          'half': '3.5rem',
+      },
+      lineHeight: {
+          '3lh': '2.8rem',
+      },
       backgroundImage: (theme) => ({
         "anuncios": "url('https://i.imgur.com/tDlT9sr.jpg')",
         "kaku-dev": "url('https://www.rustlang-es.org/kaku.avif')",
