@@ -42,7 +42,7 @@
                 \x1b[93m#[Para compilar y ejecutar el servidor web local]\x1b[0m
                   cargo watch -x run --shell "npx tailwindcss -i ./input.css -o ./out/output.css && cargo run" &
                 \x1b[93m#[Para ejecutar o correr los archivos estáticos de tu sitio web localmente]\x1b[0m
-                   miniserve -- out --index index.html'
+                   miniserve out --index index.html'
                     '';
     };
   };
