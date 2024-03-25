@@ -33,6 +33,7 @@ pub static ARTICLES: Lazy<RwLock<Vec<Article>>> =
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let articles = list_articles().await?;
     ARTICLES.write().await.extend(articles.clone()); // Set the articles in the ARTICLES static variable
+    std::fs::create_dir("out").expect("Cannot create 'out' directory");
     let ssg = Ssg::new(Path::new("./out"));
 
     // generate the pages
