@@ -38,9 +38,9 @@ pub fn PreviousPageButton(page: Option<usize>) -> impl IntoView {
     let page = page.unwrap_or(0);
 
     let previous_page = if page == 1 {
-        "/".to_string()
+        "/blog".to_string()
     } else {
-        format!("/pages/{}.html", page - 1)
+        format!("/blog/pages/{}.html", page - 1)
     };
 
     view! {
@@ -59,7 +59,7 @@ pub fn PreviousPageButton(page: Option<usize>) -> impl IntoView {
 #[component]
 pub fn NextPageButton(page: Option<usize>) -> impl IntoView {
     let page = page.unwrap_or(0);
-    let link = format!("/pages/{}.html", page + 1);
+    let link = format!("/blog/pages/{}.html", page + 1);
 
     view! {
         <>
