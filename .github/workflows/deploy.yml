@@ -33,17 +33,17 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
       - name: Build
-        run: npm i && npx tailwindcss -i ./input.css -o ./out/output.css && RUST_BACKTRACE=1 cargo run --release
+        run: npm i && npx tailwindcss -i ./input.css -o ./out/blog/output.css && RUST_BACKTRACE=1 cargo run --release
       - name: Generate Previews
         run: |
           cd preview_generator
-          cargo run --release -- blog ../articles ../out/articles
-          cargo run --release -- this_week ../esta_semana_en_rust/ ../out/articles/
+          cargo run --release -- blog ../articles ../out/blog/articles
+          cargo run --release -- this_week ../esta_semana_en_rust/ ../out/blog/articles
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           name: out
-          path: ./out
+          path: ./out/blog
 
   deploy:
     environment:
