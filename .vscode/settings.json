@@ -2,19 +2,25 @@
     "emmet.includeLanguages": {
         "rust": "html",
         "*.rs": "html"
-      },
-      "tailwindCSS.includeLanguages": {
-          "rust": "html",
-          "*.rs": "html"
-      },
-      "files.associations": {
-          "*.rs": "rust"
-      },
-      "editor.quickSuggestions": {
+    },
+    "tailwindCSS.includeLanguages": {
+        "rust": "html",
+        "*.rs": "html"
+    },
+    "files.associations": {
+        "*.rs": "rust"
+    },
+    "editor.quickSuggestions": {
         "other": "on",
         "comments": "on",
         "strings": true
-      },
-      "css.validate": false,
-      "rust-analyzer.rustfmt.overrideCommand": ["leptosfmt", "--stdin", "--rustfmt"]
+    },
+    "css.validate": false,
+    "rust-analyzer.rustfmt.overrideCommand": [
+        "leptosfmt",
+        "--stdin",
+        "--rustfmt"
+    ],
+    "rust-analyzer.check.command": "clippy",
+    "rust-analyzer.checkOnSave": true
 }
