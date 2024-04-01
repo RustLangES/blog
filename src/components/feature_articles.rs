@@ -16,7 +16,7 @@ use leptos_mdx::mdx::Mdx;
 
 pub async fn featured_articles() -> impl IntoView {
     let articles = ARTICLES.read().await.clone();
-    let _invalid_tags = vec![
+    let _invalid_tags = [
         "esta semana en rust".to_string(),
         "anuncio de la comunidad".to_string(),
     ];

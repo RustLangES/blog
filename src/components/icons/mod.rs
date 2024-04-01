@@ -22,7 +22,7 @@ pub fn StrToIcon(
     #[prop(default = 40)] size: u32,
     #[prop(default = "")] class: &'static str,
 ) -> impl IntoView {
-    let class = "fill-black dark:fill-white ".to_owned() + &class;
+    let class = "fill-black dark:fill-white ".to_owned() + class;
 
     match v.as_str() {
         "github" => view! {
