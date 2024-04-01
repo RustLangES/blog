@@ -35,7 +35,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     ARTICLES.write().await.extend(articles.clone()); // Set the articles in the ARTICLES static variable
     let out = Path::new("./out");
     if !out.exists() {
-        std::fs::create_dir(&out).expect("Cannot create 'out' directory");
+        std::fs::create_dir(out).expect("Cannot create 'out' directory");
     }
     let ssg = Ssg::new(out);
 
