@@ -12,6 +12,7 @@ use std::{
     path::Path,
 };
 
+use futures_concurrency::prelude::*;
 use gray_matter::{engine::YAML, Matter};
 use models::article::Article;
 use once_cell::sync::Lazy;
@@ -25,6 +26,7 @@ use tokio::sync::RwLock;
 use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode, generate_feed_rss};
 
 use crate::pages::{article_page::ArticlePage, home::Homepage};
+
 
 pub static ARTICLES: Lazy<RwLock<Vec<Article>>> =
     Lazy::new(|| RwLock::new(Vec::with_capacity(1010)));
@@ -40,15 +42,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let ssg = Ssg::new(out);
 
     // generate the pages
-    generate_homepage(&ssg).await?;
-
-    generate_post_pages(articles.clone(), &ssg).await?;
-
-    generate_pages(articles.clone(), &ssg).await?;
-
-    generate_esta_semana_en_rust(articles.clone(), &ssg).await?;
-
-    generate_tag_pages(articles, &ssg).await?;
+    (
+        generate_homepage(&ssg),
+        generate_post_pages(articles.clone(), &ssg),
+        generate_pages(articles.clone(), &ssg),
+        generate_esta_semana_en_rust(articles.clone(), &ssg),
+        generate_tag_pages(articles.clone(), &ssg),
+    ).try_join().await?;
 
     Ok(())
 }
