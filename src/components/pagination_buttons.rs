@@ -1,5 +1,5 @@
 use crate::components::icons::StrToIcon;
-use leptos::{component, view, IntoAttribute, IntoView};
+use leptos::{component, view, IntoAttribute, IntoView, Show};
 
 #[component]
 pub fn PaginationButtons(
@@ -7,18 +7,25 @@ pub fn PaginationButtons(
     current_page: Option<usize>,
     max_page: usize,
 ) -> impl IntoView {
+    let page_number = current_page.unwrap_or(0);
+
+    let show_next_page_button = page_number < max_page || max_page == 0;
+    let show_prev_page_button = page_number > 0;
+
     view! {
         <>
 
             {if hide {
                 view! { <></> }
             } else {
-                let page_number = current_page.unwrap_or(0);
-                let hide_next_page_button = page_number >= max_page && max_page != 0;
                 view! {
                     <>
-                        <PreviousPageButton page=current_page/>
-                        <NextPageButton page=current_page hide=hide_next_page_button/>
+                        <Show when=move || show_prev_page_button fallback=|| ()>
+                            <PreviousPageButton page=current_page/>
+                        </Show>
+                        <Show when=move || show_next_page_button fallback=|| ()>
+                            <NextPageButton page=current_page/>
+                        </Show>
                     </>
                 }
             }}
@@ -30,14 +37,10 @@ pub fn PaginationButtons(
 pub fn PreviousPageButton(page: Option<usize>) -> impl IntoView {
     let page = page.unwrap_or(0);
 
-    if page == 0 {
-        return view! { <></> };
-    }
-
     let previous_page = if page == 1 {
-        "/".to_string()
+        "/blog".to_string()
     } else {
-        format!("/pages/{}.html", page - 1)
+        format!("/blog/pages/{}.html", page - 1)
     };
 
     view! {
@@ -54,13 +57,9 @@ pub fn PreviousPageButton(page: Option<usize>) -> impl IntoView {
 }
 
 #[component]
-pub fn NextPageButton(page: Option<usize>, hide: bool) -> impl IntoView {
-    if hide {
-        return view! { <></> };
-    }
-
+pub fn NextPageButton(page: Option<usize>) -> impl IntoView {
     let page = page.unwrap_or(0);
-    let link = format!("/pages/{}.html", page + 1);
+    let link = format!("/blog/pages/{}.html", page + 1);
 
     view! {
         <>

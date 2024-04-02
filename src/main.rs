@@ -33,9 +33,9 @@ pub static ARTICLES: Lazy<RwLock<Vec<Article>>> =
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let articles = list_articles().await?;
     ARTICLES.write().await.extend(articles.clone()); // Set the articles in the ARTICLES static variable
-    let out = Path::new("./out");
+    let out = Path::new("./out/blog");
     if !out.exists() {
-        std::fs::create_dir(out).expect("Cannot create 'out' directory");
+        std::fs::create_dir_all(out).expect("Cannot create 'out' directory");
     }
     let ssg = Ssg::new(out);
 
@@ -78,7 +78,7 @@ async fn generate_esta_semana_en_rust<'a>(
 
     generate_feed_rss(
         &articles,
-        "./out/this_week_feed.xml",
+        "./out/blog/this_week_feed.xml",
         "Esta Semana en Rust",
         "Revisa que esta pasando en la comunidad de Rust Lang en Español",
         Some("tags/esta-semana-en-rust.html"),
@@ -98,7 +98,7 @@ async fn generate_post_pages<'a>(
     articles: Vec<Article>,
     ssg: &Ssg<'a>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    tokio::fs::create_dir_all("./out/articles").await?;
+    tokio::fs::create_dir_all("./out/blog/articles").await?;
 
     {
         let articles = articles
@@ -109,7 +109,7 @@ async fn generate_post_pages<'a>(
 
         generate_feed_rss(
             &articles,
-            "./out/feed.xml",
+            "./out/blog/feed.xml",
             "Blog de RustLangES",
             "Enterate del mejor contenido en Español sobre Rust",
             None,
@@ -142,7 +142,7 @@ async fn generate_tag_pages<'a>(
         .flatten()
         .collect::<Vec<String>>();
 
-    tokio::fs::create_dir_all("./out/tags").await?;
+    tokio::fs::create_dir_all("./out/blog/tags").await?;
 
     for tag in tags {
         let articles_to_show = articles
@@ -240,7 +240,7 @@ async fn generate_pages<'a>(
     mut articles: Vec<Article>,
     ssg: &Ssg<'a>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    tokio::fs::create_dir_all("./out/pages").await?;
+    tokio::fs::create_dir_all("./out/blog/pages").await?;
 
     if let Some(last_this_week_in_rust) = articles.iter().position(|a| a.number_of_week.is_some()) {
         articles.remove(last_this_week_in_rust);
