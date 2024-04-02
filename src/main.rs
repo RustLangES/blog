@@ -12,6 +12,7 @@ use std::{
     path::Path,
 };
 
+use futures::future::join_all;
 use futures_concurrency::prelude::*;
 use gray_matter::{engine::YAML, Matter};
 use models::article::Article;
@@ -26,7 +27,6 @@ use tokio::sync::RwLock;
 use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode, generate_feed_rss};
 
 use crate::pages::{article_page::ArticlePage, home::Homepage};
-
 
 pub static ARTICLES: Lazy<RwLock<Vec<Article>>> =
     Lazy::new(|| RwLock::new(Vec::with_capacity(1010)));
@@ -48,13 +48,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         generate_pages(articles.clone(), &ssg),
         generate_esta_semana_en_rust(articles.clone(), &ssg),
         generate_tag_pages(articles.clone(), &ssg),
-    ).try_join().await?;
+    )
+        .try_join()
+        .await?;
 
     Ok(())
 }
 
 async fn generate_homepage<'a>(ssg: &Ssg<'a>) -> Result<(), Box<dyn std::error::Error>> {
-    ssg.gen("index.html", || {
+    ssg.gen("index.html".to_owned(), || {
         Homepage(HomepageProps {
             articles: None,
             show_featured: true,
@@ -84,12 +86,17 @@ async fn generate_esta_semana_en_rust<'a>(
         Some("tags/esta-semana-en-rust.html"),
     );
 
-    for article in articles.clone() {
-        ssg.gen(&format!("articles/{}.html", article.slug), || {
-            EstaSemanaEnRust(EstaSemanaEnRustProps { article })
-        })
-        .await?;
-    }
+    let generate_articles = articles.into_iter().map(|article| {
+        if article.number_of_week.is_some() {
+            ssg.gen(format!("articles/{}.html", article.slug), || {
+                EstaSemanaEnRust(EstaSemanaEnRustProps { article })
+            })
+        } else {
+            panic!("articles without number_of_week should be generated in generate_post_pages")
+        }
+    });
+
+    join_all(generate_articles).await;
 
     Ok(())
 }
@@ -100,35 +107,34 @@ async fn generate_post_pages<'a>(
 ) -> Result<(), Box<dyn std::error::Error>> {
     tokio::fs::create_dir_all("./out/blog/articles").await?;
 
-    {
-        let articles = articles
-            .clone()
-            .into_iter()
-            .filter(|a| a.number_of_week.is_none())
-            .collect::<Vec<Article>>();
+    let articles = articles
+        .clone()
+        .into_iter()
+        .filter(|a| a.number_of_week.is_none())
+        .collect::<Vec<Article>>();
 
-        generate_feed_rss(
-            &articles,
-            "./out/blog/feed.xml",
-            "Blog de RustLangES",
-            "Enterate del mejor contenido en Español sobre Rust",
-            None,
-        );
-    }
+    generate_feed_rss(
+        &articles,
+        "./out/blog/feed.xml",
+        "Blog de RustLangES",
+        "Enterate del mejor contenido en Español sobre Rust",
+        None,
+    );
 
-    for article in articles.clone() {
-        if article.number_of_week.is_some() {
-            ssg.gen(&format!("articles/{}.html", article.slug), || {
-                EstaSemanaEnRust(EstaSemanaEnRustProps { article })
-            })
-            .await?;
-        } else {
-            ssg.gen(&format!("articles/{}.html", article.slug), || {
+    let generate_articles = articles.into_iter().map(|article| {
+        if article.number_of_week.is_none() {
+            ssg.gen(format!("articles/{}.html", article.slug), move || {
                 ArticlePage(ArticlePageProps { article })
             })
-            .await?;
+        } else {
+            panic!(
+                "articles with number_of_week should be generated in generate_esta_semana_en_rust"
+            )
         }
-    }
+    });
+
+    join_all(generate_articles).await;
+
     Ok(())
 }
 
@@ -136,39 +142,39 @@ async fn generate_tag_pages<'a>(
     articles: Vec<Article>,
     ssg: &Ssg<'a>,
 ) -> Result<(), Box<dyn std::error::Error>> {
+    tokio::fs::create_dir_all("./out/blog/tags").await?;
+
     let tags = articles
         .iter()
         .filter_map(|article| article.tags.clone())
         .flatten()
-        .collect::<Vec<String>>();
+        .map(|tag| {
+            let articles_to_show = articles
+                .clone()
+                .into_iter()
+                .filter(|article| {
+                    if let Some(tags) = article.tags.clone() {
+                        tags.contains(&tag)
+                    } else {
+                        false
+                    }
+                })
+                .collect::<Vec<Article>>();
 
-    tokio::fs::create_dir_all("./out/blog/tags").await?;
+            let tag = tag.to_lowercase().replace(' ', "-");
 
-    for tag in tags {
-        let articles_to_show = articles
-            .clone()
-            .into_iter()
-            .filter(|article| {
-                if let Some(tags) = article.tags.clone() {
-                    tags.contains(&tag)
-                } else {
-                    false
-                }
+            ssg.gen(format!("tags/{tag}.html"), || {
+                Homepage(HomepageProps {
+                    articles: Some(articles_to_show),
+                    show_featured: false,
+                    page: None,
+                    max_page: 0,
+                })
             })
-            .collect::<Vec<Article>>();
+        });
 
-        let tag = tag.to_lowercase().replace(' ', "-");
+    join_all(tags).await;
 
-        ssg.gen(&format!("tags/{tag}.html"), || {
-            Homepage(HomepageProps {
-                articles: Some(articles_to_show),
-                show_featured: false,
-                page: None,
-                max_page: 0,
-            })
-        })
-        .await?;
-    }
     Ok(())
 }
 
@@ -258,19 +264,22 @@ async fn generate_pages<'a>(
     articles.remove(0);
     let articles = articles.to_vec();
 
-    for (index, articles_to_show) in articles.iter().enumerate() {
-        let articles_to_show = articles_to_show.to_vec();
-
-        ssg.gen(&format!("pages/{}.html", index + 1), move || {
-            Homepage(HomepageProps {
-                articles: Some(articles_to_show),
-                show_featured: false,
-                page: Some(index + 1),
-                max_page: max_pages,
+    let generate_articles = articles
+        .iter()
+        .enumerate()
+        .map(|(index, articles_to_show)| {
+            let articles_to_show = articles_to_show.to_vec();
+            ssg.gen(format!("pages/{}.html", index + 2), move || {
+                Homepage(HomepageProps {
+                    articles: Some(articles_to_show),
+                    show_featured: false,
+                    page: Some(index + 2),
+                    max_page: max_pages,
+                })
             })
-        })
-        .await?;
-    }
+        });
+
+    join_all(generate_articles).await;
 
     Ok(())
 }
