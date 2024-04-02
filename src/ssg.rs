@@ -15,15 +15,17 @@ impl<'a> Ssg<'a> {
         Self { out_dir }
     }
 
-    pub async fn gen<F, V>(&'a self, path: &str, view: F) -> Result<(), Box<dyn std::error::Error>>
+    pub async fn gen<F, V>(
+        &'a self,
+        path: String,
+        view: F,
+    ) -> Result<(), Box<dyn std::error::Error>>
     where
         F: FnOnce() -> V + 'static,
         V: IntoView,
     {
         // SsgContext will be available to all components in the view
-        let ssg_ctx = SsgContext {
-            path: path.to_string(),
-        };
+        let ssg_ctx = SsgContext { path: path.clone() };
 
         // Render the view to a string
         let res =
