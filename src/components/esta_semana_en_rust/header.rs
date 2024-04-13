@@ -7,7 +7,7 @@ pub fn Header() -> impl IntoView {
     let (is_open, set_is_open) = create_signal(false);
 
     view! {
-        <header class="border-b border-b-black/20 bg-slate-900">
+        <header class="border-b border-b-black/20 bg-slate-900 text-white">
             <div class="container mx-auto px-4 flex items-center justify-between flex-col lg:flex-row">
                 <div class="flex justify-between w-full lg:w-auto">
                     <a href="/" exact=true class="flex items-center gap-x-4">
@@ -33,7 +33,7 @@ pub fn Header() -> impl IntoView {
                         if is_open.get() { "block" } else { "hidden lg:block" },
                     )
                 }>
-                    <ul class="flex items-center gap-6 flex-col lg:flex-row lg:items-center text-white">
+                    <ul class="flex items-center gap-6 flex-col lg:flex-row lg:items-center ">
                         <li>
                             <a href="https://www.rustlang-es.org/rust-book-es" target="_blank">
                                 "Aprende"
@@ -49,7 +49,7 @@ pub fn Header() -> impl IntoView {
                             <a href="/blog">"Blog"</a>
                         </li>
                         <li>
-                            <ul class="lg:ml-4 flex items-center gap-x-6 text-black">
+                            <ul class="lg:ml-4 flex items-center gap-x-6 ">
                                 <li>
                                     <ButtonLink href="https://github.com/RustLangES">
                                         "Github"
