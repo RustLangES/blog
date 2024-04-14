@@ -283,29 +283,31 @@
   filter: drop-shadow(5px 5px 0px #ffffff);
 }
 
-.markdown-container{
+.markdown-container {
   @apply flex flex-col;
 }
 
-.prose > *, .prose div > * {
+.prose > *,
+.prose div > * {
   @apply my-2;
 }
 
-.prose ul > li > p, .prose ol > li > p{
+.prose ul > li > p,
+.prose ol > li > p {
   @apply my-0;
 }
 
-.markdown-container pre{
+.markdown-container pre {
   box-shadow: 0 0 3px 0px black;
   width: 100%;
   overflow-x: auto;
-  @apply max-w-[17rem] xs:max-w-md md:max-w-2xl lg:max-w-5xl
+  @apply max-w-[17rem] xs:max-w-md md:max-w-2xl lg:max-w-5xl;
 }
-.markdown-container pre code{
+.markdown-container pre code {
   width: 100%;
 }
 
-.highlight__panel.js-actions-panel{
+.highlight__panel.js-actions-panel {
   @apply hidden;
 }
 
@@ -324,4 +326,128 @@
   100% {
     transform: translateY(30%);
   }
+}
+
+/**
+ * Override prose styles for links inside headings
+ */
+.prose
+  :where(h1 > a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  @apply no-underline font-bold hover:underline;
+}
+
+.prose
+  :where(h2 > a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  @apply no-underline font-bold hover:underline;
+}
+
+.prose
+  :where(h3 > a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  @apply no-underline font-semibold hover:underline;
+}
+
+.prose
+  :where(h4 > a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  @apply no-underline font-semibold hover:underline;
+}
+
+.prose
+  :where(h5 > a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  @apply no-underline font-semibold hover:underline;
+}
+
+.prose
+  :where(h6 > a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  @apply no-underline font-semibold hover:underline;
+}
+
+.language-tag {
+  @apply sr-only;
+}
+
+/**
+ * Custom code block styles
+ */
+.hh0 {
+  color: #ffd173; /* attribute */
+}
+
+.hh1 {
+  color: #d5ff80; /* constant */
+}
+
+.hh2 {
+  color: #dfbfff; /* built-in function */
+}
+
+.hh3 {
+  color: #ffd173; /* function */
+}
+
+.hh4 {
+  color: #ffad66; /* keyword */
+}
+
+.hh5 {
+  color: #f29e74; /* operator */
+}
+
+.hh6 {
+  color: #5ccfe6; /* property */
+}
+
+.hh7 {
+  color: #cccac2; /* punctuation */
+}
+
+.hh8 {
+  color: #8a9199b3; /* bracket punctuation */
+}
+
+.hh9 {
+  color: #cccac2b3; /* delimiter punctuation */
+}
+
+.hh10 {
+  color: #d5ff80; /* string */
+}
+
+.hh11 {
+  color: #95e6cb; /* special string */
+}
+
+.hh12 {
+  color: #5ccfe6; /* tag */
+}
+
+.hh13 {
+  color: #f29e74; /* type */
+}
+
+.hh14 {
+  color: #dfbfff; /* built-in type */
+}
+
+.hh15 {
+  color: #f29e74; /* variable */
+}
+
+.hh16 {
+  color: #dfbfff; /* built-in variable */
+}
+
+.hh17 {
+  color: #f29e74; /* parameter variable */
+}
+
+.hh18 {
+  color: #5ccfe6; /* comment */
+}
+
+.hh19 {
+  color: #f29e74; /* macro */
+}
+
+.hh20 {
+  color: #f29e74; /* label */
 }
