@@ -269,11 +269,11 @@ async fn generate_pages<'a>(
         .enumerate()
         .map(|(index, articles_to_show)| {
             let articles_to_show = articles_to_show.to_vec();
-            ssg.gen(format!("pages/{}.html", index + 2), move || {
+            ssg.gen(format!("pages/{}.html", index + 1), move || {
                 Homepage(HomepageProps {
                     articles: Some(articles_to_show),
                     show_featured: false,
-                    page: Some(index + 2),
+                    page: Some(index + 1),
                     max_page: max_pages,
                 })
             })
