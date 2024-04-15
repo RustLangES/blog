@@ -35,9 +35,7 @@ pub fn Header() -> impl IntoView {
                             </a>
                         </li>
                         <li>
-                            <a href="/aprende" target="_blank">
-                                "Aprende"
-                            </a>
+                            <a href="/aprende">"Aprende"</a>
                         </li>
                         <li>
                             <a href="/comunidad">"Comunidad"</a>
