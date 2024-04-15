@@ -25,11 +25,15 @@ pub fn CardArticle(article: Article, is_home: bool) -> impl IntoView {
                 </div>
                 <div class="flex justify-end items-end">
                     <a
-                        class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
+                        class="bg-orange-500 group/button hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
                         href=article_link
                     >
-                        "Leer más"
-                        <StrToIcon v="next" class="fill-white" size=16/>
+                        <span class="group-hover/button:underline">"Leer más"</span>
+                        <StrToIcon
+                            v="next"
+                            class="fill-white group-hover/button:translate-x-1 duration-100"
+                            size=16
+                        />
                     </a>
                 </div>
             </li>

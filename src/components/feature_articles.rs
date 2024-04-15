@@ -112,11 +112,11 @@ pub fn EstaSemanaEnRustCard(article: Article) -> impl IntoView {
                     </div>
                     <div>
                         <a
-                            class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center text-xl justify-between md:hidden"
+                            class="bg-orange-500 hover:bg-orange-600 group/button text-white font-semibold py-2 px-4 rounded flex items-center text-xl justify-between md:hidden"
                             href=format!("./articles/{}.html", article.slug)
                         >
                             "Leer más"
-                            <StrToIcon v="next" class="fill-white" size=20/>
+                            <StrToIcon v="next" class="fill-white group-hover/button:translate-x-1 duration-100" size=20/>
                         </a>
                     </div>
                     <div class="absolute bottom-2 min-h-[2rem]">
@@ -131,11 +131,11 @@ pub fn EstaSemanaEnRustCard(article: Article) -> impl IntoView {
             </div>
             <div class="absolute -bottom-1 -right-1 z-10 hidden md:block">
                 <a
-                    class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center text-xl lg:w-[10rem] justify-between"
+                    class="bg-orange-500 hover:bg-orange-600 group/button text-white font-semibold py-2 px-4 rounded flex items-center text-xl lg:w-[10rem] justify-between"
                     href=format!("./articles/{}.html", article.slug)
                 >
-                    "Leer más"
-                    <StrToIcon v="next" class="fill-white" size=20/>
+                    <span class="group-hover/button:underline">"Leer más"</span>
+                    <StrToIcon v="next" class="fill-white group-hover/button:translate-x-1 duration-100" size=20/>
                 </a>
             </div>
         </div>
@@ -175,11 +175,11 @@ pub fn AnuncioDeLaComunidadCard(article: Article) -> impl IntoView {
                     </div>
                     <div>
                         <a
-                            class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center text-xl justify-between"
+                            class="bg-orange-500 hover:bg-orange-600 group/button text-white font-semibold py-2 px-4 rounded flex items-center text-xl justify-between"
                             href=format!("./articles/{}.html", article.slug)
                         >
-                            "Leer más"
-                            <StrToIcon v="next" class="fill-white" size=20/>
+                            <span class="group-hover/button:underline">"Leer más"</span>
+                            <StrToIcon v="next" class="fill-white group-hover/button:translate-x-1 duration-100" size=20/>
                         </a>
                     </div>
                 </div>
