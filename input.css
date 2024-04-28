@@ -451,3 +451,20 @@
 .hh20 {
   color: #f29e74; /* label */
 }
+
+/*
+* Navigation styles
+*/
+#navigation li {
+  cursor: pointer;
+}
+
+#navigation li:after {
+    content: '';
+    @apply  block border border-orange-600 transition-transform ease-in-out duration-200 scale-x-0;
+}
+
+#navigation li:hover:after {
+  transform: scaleX(1); 
+  @apply  scale-x-100;
+}
