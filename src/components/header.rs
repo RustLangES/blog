@@ -22,12 +22,15 @@ pub fn Header() -> impl IntoView {
                         <span class="w-6 h-1 bg-black block my-4 relative after:absolute after:block after:bg-black after:w-6 after:h-1 after:bottom-2 before:absolute before:block before:bg-black before:w-6 before:h-1 before:-bottom-2"></span>
                     </button>
                 </div>
-                <nav class=move || {
-                    format!(
-                        "w-full lg:w-auto pb-10 pt-5 lg:p-0 {}",
-                        if is_open.get() { "block" } else { "hidden lg:block" },
-                    )
-                }>
+                <nav
+                    id="navigation"
+                    class=move || {
+                        format!(
+                            "w-full lg:w-auto pb-10 pt-5 lg:p-0 {}",
+                            if is_open.get() { "block" } else { "hidden lg:block" },
+                        )
+                    }
+                >
                     <ul class="flex items-center gap-6 flex-col lg:flex-row lg:items-center">
                         <li>
                             <a href="https://www.rustlang-es.org/rust-book-es" target="_blank">

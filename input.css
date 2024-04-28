@@ -451,3 +451,19 @@
 .hh20 {
   color: #f29e74; /* label */
 }
+
+/*
+* Navigation classes
+*/
+
+#navigation li:after {
+    display:block;
+    content: '';
+    border-bottom: solid 3px #f29e74;  
+    transform: scaleX(0);  
+    transition: transform 250ms ease-in-out;
+}
+
+#navigation li:hover:after {
+  transform: scaleX(1); 
+}
