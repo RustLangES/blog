@@ -34,7 +34,7 @@ Si encuentra algún error en la edición de esta semana, [envíe un PR](https://
 ### Observaciones/Pensamientos
 * [Dejar el desarrollo de juegos de Rust después de 3 años](https://loglog.games/blog/leaving-rust-gamedev/)
 * [Las tareas son una abstracción incorrecta](https://blog.yoshuawuyts.com/tasks-are-the-wrong-abstraction/)
-* [¿Ir o Oxidarse? Solo escucha a los bots](https://cybernetist.com/2024/04/25/go-or-rust-just-listen-to-the-bots/)
+* [¿Go o Rust? Solo escucha a los bots](https://cybernetist.com/2024/04/25/go-or-rust-just-listen-to-the-bots/)
 * [Descifrando el Críptico (con Z3 y Rust)](https://hugopeters.me/posts/21/)
 * [Entonces, quieres escribir una caja insegura](https://blog.dureuill.net/articles/nolife-0-4/)
 * [Diseño de un diseño de memoria eficiente en Rust con uniones y unsafes, o una guía demasiado larga para evitar el envío dinámico](https://alonely0.github.io/blog/unions/)
@@ -149,13 +149,13 @@ Se presentaron 409 solicitudes de incorporación de cambios [fusionadas en la ú
 * [use el cumplimiento en la sonda del método, no en la evaluación](https://github.com/rust-lang/rust/pull/122317)
 * [Usar sondas de forma más agresiva en el nuevo solucionador](https://github.com/rust-lang/rust/pull/124415)
 * [no se permite que los elementos de idioma débil sean '#[track_caller]'](https://github.com/rust-lang/rust/pull/124067)
-* [Miri: detectar vtables incorrectos en punteros anchos](https://github.com/rust-lang/rust/pull/124220)
+* [miri: detectar vtables incorrectos en punteros anchos](https://github.com/rust-lang/rust/pull/124220)
 * [miri: 'unix_sigpipe': no inserte DEFAULT, solo úselo desde rustc](https://github.com/rust-lang/miri/pull/3510)
 * [miri: añadir '-Zmiri-env-set' para establecer variables de entorno sin modificar el entorno host](https://github.com/rust-lang/miri/pull/3493)
 * [miri env: dividir el manejo de variables de entorno de Windows y Unix](https://github.com/rust-lang/miri/pull/3517)
-* [Miri: Descriptores de archivo: make write take &mut self](https://github.com/rust-lang/miri/pull/3524)
+* [miri: Descriptores de archivo: make write take &mut self](https://github.com/rust-lang/miri/pull/3524)
 * [miri: implementar intrínsecos LLVM x86 AVX2](https://github.com/rust-lang/miri/pull/3492)
-* [Miri: Hacer que Miri-Script sea una raíz del espacio de trabajo](https://github.com/rust-lang/miri/pull/3512)
+* [miri: Hacer que Miri-Script sea una raíz del espacio de trabajo](https://github.com/rust-lang/miri/pull/3512)
 * [miri: usa la variable TZ del programa interpretado en 'localtime_r'](https://github.com/rust-lang/miri/pull/3523)
 * [miri: windows: soporte básico para GetUserProfileDirectoryW](https://github.com/rust-lang/miri/pull/3502)
 * [estabilizar 'inline_const'](https://github.com/rust-lang/rust/pull/104087)
@@ -173,14 +173,14 @@ Se presentaron 409 solicitudes de incorporación de cambios [fusionadas en la ú
 * [codegen\_gcc: algunas correcciones y soluciones más para Aarch64](https://github.com/rust-lang/rustc_codegen_gcc/pull/508)
 * [cargo: alias: Los alias sin subcomandos no deben entrar en pánico](https://github.com/rust-lang/cargo/pull/13819)
 * [cargo: pelusas: no siempre heredan pelusas del espacio de trabajo](https://github.com/rust-lang/cargo/pull/13812)
-* [instalación de carga: No respetar MSRV para instalaciones no locales](https://github.com/rust-lang/cargo/pull/13790)
+* [instalación de cargo: No respetar MSRV para instalaciones no locales](https://github.com/rust-lang/cargo/pull/13790)
 * [cargo toml: Sé más contundente con la redundancia de guión bajo/guión](https://github.com/rust-lang/cargo/pull/13798)
 * [cargo toml: No advertir dos veces cuando se usa un guión bajo en el espacio de trabajo dep](https://github.com/rust-lang/cargo/pull/13800)
 * [cargo toml: Eliminar el soporte de campo de subrayado en 2024](https://github.com/rust-lang/cargo/pull/13804)
 * [cargo toml: Advertir, en lugar de fallar la publicación, si se excluye un objetivo](https://github.com/rust-lang/cargo/pull/13713)
-* [Cargo Toml: Eliminar el soporte para heredar insignias](https://github.com/rust-lang/cargo/pull/13788)
+* [cargo toml: Eliminar el soporte para heredar insignias](https://github.com/rust-lang/cargo/pull/13788)
 * [cargo: tenga en cuenta dónde se colocó la pelusa](https://github.com/rust-lang/cargo/pull/13801)
-* [Carga: Sistema de limpieza de revestimientos](https://github.com/rust-lang/cargo/pull/13797)
+* [cargo: Sistema de limpieza de revestimientos](https://github.com/rust-lang/cargo/pull/13797)
 * [cargo: arreglar la entrada de destino en .gitignore](https://github.com/rust-lang/cargo/pull/13817)
 * [cargo: Corregir la supresión de advertencias para config.toml vs enlaces simbólicos de compatibilidad con configuración](https://github.com/rust-lang/cargo/pull/13793)
 * [bindgen: añadir carga dinámica de variable](https://github.com/rust-lang/rust-bindgen/pull/2812)
@@ -194,15 +194,15 @@ Se presentaron 409 solicitudes de incorporación de cambios [fusionadas en la ú
 * [clippy: arreglar el linaje 'large_stack_arrays' en la macro 'vec'](https://github.com/rust-lang/rust-clippy/pull/12624)
 * [clippy: corregir falso positivo en 'cast_possible_truncation'](https://github.com/rust-lang/rust-clippy/pull/12722)
 * [clippy: suprimir 'readonly_write_lock' para los enlaces con el prefijo de guión bajo](https://github.com/rust-lang/rust-clippy/pull/12734)
-* [Rust-analyzer: código de error diferente de error "No such field" basado en el tipo de variante](https://github.com/rust-lang/rust-analyzer/pull/17131)
-* [Rust-analyzer: No reintentar las solicitudes de posición y los datos de resolución de versiones](https://github.com/rust-lang/rust-analyzer/pull/17157)
+* [rust-analyzer: código de error diferente de error "No such field" basado en el tipo de variante](https://github.com/rust-lang/rust-analyzer/pull/17131)
+* [rust-analyzer: No reintentar las solicitudes de posición y los datos de resolución de versiones](https://github.com/rust-lang/rust-analyzer/pull/17157)
 * [rust-analyzer: corrige atributos en parámetros genéricos que colisionan en el árbol de elementos](https://github.com/rust-lang/rust-analyzer/pull/17151)
 * [rust-analyzer: arreglar el desazúcar de los comentarios de doc para proc-macros](https://github.com/rust-lang/rust-analyzer/pull/17153)
 * [rust-analyzer: se corrigen los ámbitos de expresión que no se calculan para las consts en línea](https://github.com/rust-lang/rust-analyzer/pull/17135)
 * [rust-analyzer: arreglar las raíces de origen que no siempre se crean cuando es necesario](https://github.com/rust-lang/rust-analyzer/pull/17145)
-* [Rust-analyzer: hacer que 'Cargo Run' esté siempre disponible para binarios](https://github.com/rust-lang/rust-analyzer/pull/16972)
+* [rust-analyzer: hacer que 'Cargo Run' esté siempre disponible para binarios](https://github.com/rust-lang/rust-analyzer/pull/16972)
 * [rust-analyzer: manual: eliminar sugerencia de rust-project.json ejemplo](https://github.com/rust-lang/rust-analyzer/pull/17144)
-* [Rust-analyzer: Soporta límites flotantes para ADTs](https://github.com/rust-lang/rust-analyzer/pull/17021)
+* [rust-analyzer: Soporta límites flotantes para ADTs](https://github.com/rust-lang/rust-analyzer/pull/17021)
 * [rustfmt: corregir sangría incorrecta en el atributo interno](https://github.com/rust-lang/rustfmt/pull/6148)
 
 ### Clasificación del rendimiento del compilador de Rust
@@ -255,7 +255,7 @@ que están llegando a una decisión. Expresa tus opiniones ahora.
 
 ## Próximos eventos
 
-Eventos oxidados entre 2024-05-01 - 2024-05-29 🦀
+Eventos Rusticos entre 2024-05-01 - 2024-05-29 🦀
 
 ### Virtual
 
@@ -342,8 +342,8 @@ Eventos oxidados entre 2024-05-01 - 2024-05-29 🦀
     * [**2024 Rust Talks Bern #2**](https://www.meetup.com/rust-bern/events/300286917/)
 * 24/05/2024 | Burdeos, FR | [Rust Burdeos](https://www.meetup.com/bordeaux-rust/)
     * [**Rust Bordeaux #3: Discusiones**](https://www.meetup.com/bordeaux-rust/events/300723854/)
-* 2024-05-28 - 2024-05-30 | Berlín, DE | [Oxidar](https://oxidizeconf.com/)
-    * [**Oxidar Conf 2024**](https://oxidizeconf.com/)
+* 2024-05-28 - 2024-05-30 | Berlín, DE | [Oxidize](https://oxidizeconf.com/)
+    * [**Oxidize Conf 2024**](https://oxidizeconf.com/)
 
 ### América del Norte
 
