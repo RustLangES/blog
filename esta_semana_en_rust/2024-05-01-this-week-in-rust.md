@@ -255,7 +255,7 @@ que están llegando a una decisión. Expresa tus opiniones ahora.
 
 ## Próximos eventos
 
-Eventos Rusty entre 2024-05-01 - 2024-05-29 🦀
+Eventos Rusticos entre 2024-05-01 - 2024-05-29 🦀
 
 ### Virtual
 
