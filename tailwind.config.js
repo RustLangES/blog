@@ -24,8 +24,8 @@ module.exports = {
       },
       backgroundImage: (theme) => ({
         "anuncios": "url('https://i.imgur.com/tDlT9sr.jpg')",
-        "kaku-dev": "url('https://www.rustlang-es.org/kaku.avif')",
-        "kaku": "url('https://www.rustlang-es.org/kaku.avif')",
+        "kaku-dev": "url('https://rustlang-es.org/kaku.avif')",
+        "kaku": "url('https://rustlang-es.org/kaku.avif')",
       }),
       gridTemplateColumns:  (theme) => ({
         "divided": "2.5fr 1fr",
