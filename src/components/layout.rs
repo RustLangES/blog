@@ -37,33 +37,33 @@ pub fn Layout(
                 property="og:site_name"
                 content=format!("Blog de Rust Lang en Español {}", get_year())
             />
-            <meta property="og:url" content="https://www.rustlang-es.org"/>
+            <meta property="og:url" content="https://rustlang-es.org"/>
 
             {if is_home {
                 view! {
                     <>
-                        <link rel="canonical" href="https://www.rustlang-es.org/blog"/>
+                        <link rel="canonical" href="https://blog.rustlang-es.org"/>
                         <meta
                             property="og:image"
-                            content=format!("https://www.rustlang-es.org/{slug}")
+                            content=format!("https://rustlang-es.org/{slug}")
                         />
                         <meta
                             property="twitter:image"
-                            content=format!("https://www.rustlang-es.org/{slug}")
+                            content=format!("https://rustlang-es.org/{slug}")
                         />
                     </>
                 }
             } else {
                 view! {
                     <>
-                        <link rel="canonical" href=format!("https://www.rustlang-es.org/{slug}")/>
+                        <link rel="canonical" href=format!("https://rustlang-es.org/{slug}")/>
                         <meta
                             property="og:image"
-                            content=format!("https://www.rustlang-es.org/{slug}.png")
+                            content=format!("https://rustlang-es.org/{slug}.png")
                         />
                         <meta
                             property="twitter:image"
-                            content=format!("https://www.rustlang-es.org/{slug}.png")
+                            content=format!("https://rustlang-es.org/{slug}.png")
                         />
                     </>
                 }
@@ -76,7 +76,7 @@ pub fn Layout(
                 view! { <link rel="stylesheet" href="/output.css"/> }
             } else {
                 view! {
-                    <link rel="stylesheet" href="https://www.rustlang-es.org/blog/output.css"/>
+                    <link rel="stylesheet" href="https://blog.rustlang-es.org/output.css"/>
                 }
             }}
 

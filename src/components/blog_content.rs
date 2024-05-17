@@ -53,7 +53,7 @@ pub fn BlogContent(
                                 target="_blank"
                                 class="text-sm text-center flex flex-col items-center"
                                 href=format!(
-                                    "https://twitter.com/intent/tweet?text=https://www.rustlang-es.org/blog/articles/{}",
+                                    "https://twitter.com/intent/tweet?text=https://blog.rustlang-es.org/articles/{}",
                                     article.slug,
                                 )
                             >
@@ -65,7 +65,7 @@ pub fn BlogContent(
                                 target="_blank"
                                 class="text-sm text-center flex flex-col items-center"
                                 href=format!(
-                                    "http://www.linkedin.com/shareArticle?mini=true&url=https://www.rustlang-es.org/blog/articles/{}",
+                                    "http://www.linkedin.com/shareArticle?mini=true&url=https://blog.rustlang-es.org/articles/{}",
                                     article.slug,
                                 )
                             >
