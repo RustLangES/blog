@@ -78,7 +78,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ./dist --project-name=blog --branch="${ env.BRANCH_NAME }"
+          command: pages deploy ./out/blog --project-name=blog --branch="${ env.BRANCH_NAME }"
 
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v4
