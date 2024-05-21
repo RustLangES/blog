@@ -24,7 +24,7 @@ use pages::{
 };
 use ssg::Ssg;
 use tokio::sync::RwLock;
-use utils::{fetch_dev_to::fetch_dev_to, fetch_hashnode::fetch_hashnode, generate_feed_rss};
+use utils::generate_feed_rss;
 
 use crate::pages::{article_page::ArticlePage, home::Homepage};
 
@@ -185,25 +185,6 @@ async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
 
     let esta_semana_en_rust_folder = fs::read_dir("./esta_semana_en_rust")?;
     articles.append(&mut posts_from_folder(esta_semana_en_rust_folder)?);
-
-    if !cfg!(debug_assertions) {
-        let dev_to_articles = fetch_dev_to().await?;
-        let hashnode_articles = fetch_hashnode().await?;
-
-        articles.append(
-            &mut dev_to_articles
-                .into_iter()
-                .map(Article::from)
-                .collect::<Vec<Article>>(),
-        );
-
-        articles.append(
-            &mut hashnode_articles
-                .into_iter()
-                .map(Article::from)
-                .collect::<Vec<Article>>(),
-        );
-    }
 
     articles.sort_by(|a, b| b.date.cmp(&a.date));
 
