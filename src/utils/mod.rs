@@ -4,9 +4,6 @@ use rss::{validation::Validate, Category, ChannelBuilder, Item};
 
 use crate::models::article::Article;
 
-pub mod fetch_dev_to;
-pub mod fetch_hashnode;
-
 pub fn generate_feed_rss(
     articles: &[Article],
     out_file: &str,
