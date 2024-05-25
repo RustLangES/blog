@@ -1,4 +1,4 @@
-![image](https://github.com/RustLangES/blog/assets/56278796/ba1ac759-3fda-4983-80d2-965398bf8d35)
+![2024-05-25 06 10 19 blog rustlang-es org be8dd0ac9870](https://github.com/RustLangES/blog/assets/19656993/055ed112-e100-449d-bea6-e5110e7f483a)
 
 <p align="center">
 <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/RustLangES/blog/ci.yml?label=ci" />
