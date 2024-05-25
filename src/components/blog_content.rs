@@ -179,7 +179,7 @@ pub fn ArticleHeader(
                                     class="p-1 m-1 border-2  rounded-full
                                     text-sm font-bold text-orange-500 hover:text-orange-600 bg-white drop-shadow-sm
                                     "
-                                    href=format!("/blog/tags/{}.html", tag)
+                                    href=format!("/tags/{}.html", tag)
                                 >
                                     {tag}
                                 </a>

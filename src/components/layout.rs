@@ -75,9 +75,7 @@ pub fn Layout(
             {if cfg!(debug_assertions) {
                 view! { <link rel="stylesheet" href="/output.css"/> }
             } else {
-                view! {
-                    <link rel="stylesheet" href="https://blog.rustlang-es.org/output.css"/>
-                }
+                view! { <link rel="stylesheet" href="https://blog.rustlang-es.org/output.css"/> }
             }}
 
             <style>

@@ -86,7 +86,7 @@ pub fn TagButton(tag: String) -> impl IntoView {
         <li class="inline-block text-sm font-bold text-orange-500 hover:text-orange-600">
             <a
                 class="inline-block bg-white rounded-md p-1 drop-shadow-sm px-2"
-                href=format!("/blog/tags/{}.html", tag)
+                href=format!("/tags/{}.html", tag)
             >
                 {tag}
             </a>

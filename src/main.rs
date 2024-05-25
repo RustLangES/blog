@@ -39,6 +39,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     if !out.exists() {
         std::fs::create_dir_all(out).expect("Cannot create 'out' directory");
     }
+
+    copy_dir_all("./assets", "./out/blog/assets").expect("Cannot copy 'assets' folder");
+
     let ssg = Ssg::new(out);
 
     // generate the pages
@@ -52,6 +55,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .try_join()
         .await?;
 
+    Ok(())
+}
+
+fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> std::io::Result<()> {
+    fs::create_dir_all(&dst)?;
+    for entry in fs::read_dir(src)? {
+        let entry = entry?;
+        let ty = entry.file_type()?;
+        if ty.is_dir() {
+            copy_dir_all(entry.path(), dst.as_ref().join(entry.file_name()))?;
+        } else {
+            fs::copy(entry.path(), dst.as_ref().join(entry.file_name()))?;
+        }
+    }
     Ok(())
 }
 
