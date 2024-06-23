@@ -11,7 +11,7 @@ pub fn Header() -> impl IntoView {
         <header class="border-b border-b-black/20 bg-orange-200 dark:bg-transparent">
             <div class="container mx-auto px-4 flex items-center justify-between flex-col lg:flex-row">
                 <div class="flex justify-between w-full lg:w-auto">
-                    <a href="/" exact=true class="flex items-center gap-x-4">
+                    <a href="https://rustlang-es.org" exact=true class="flex items-center gap-x-4">
                         <LogoRustPageIcon size=80/>
                     </a>
                     <button
@@ -36,15 +36,15 @@ pub fn Header() -> impl IntoView {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/aprende" target="_blank">
+                            <a href="https://rustlang-es.org/aprende" target="_blank">
                                 "Aprende"
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/comunidad">"Comunidad"</a>
+                            <a href="https://rustlang-es.org/comunidad">"Comunidad"</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/colaboradores">"Colaboradores"</a>
+                            <a href="https://rustlang-es.org/colaboradores">"Colaboradores"</a>
                         </li>
                         <li class="nav-item">
                             <a href="/">"Blog"</a>
