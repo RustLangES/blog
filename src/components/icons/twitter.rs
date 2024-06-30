@@ -1,4 +1,4 @@
-use leptos::{component, view, IntoAttribute, IntoView};
+use leptos::{component, view, IntoView};
 
 #[component]
 pub fn TwitterIcon(

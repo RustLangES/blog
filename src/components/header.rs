@@ -1,4 +1,4 @@
-use leptos::{component, create_signal, view, IntoAttribute, IntoView, SignalGet, SignalUpdate};
+use leptos::{component, create_signal, view, IntoView, SignalGet, SignalUpdate};
 
 use crate::components::button_link::ButtonLink;
 use crate::components::icons::logo_rust_page::LogoRustPageIcon;

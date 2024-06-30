@@ -1,7 +1,9 @@
+use std::rc::Rc;
+
 use futures::Future;
 use leptos::{
     component, create_resource, IntoView, Resource, Serializable, SerializationError, SignalGet,
-    Suspense, SuspenseProps, View,
+    Suspense, SuspenseProps, View, ViewFn,
 };
 
 #[component]
@@ -22,8 +24,8 @@ where
         create_resource(|| (), move |()| Wrapper::wrap_view(view()));
 
     Suspense(SuspenseProps {
-        fallback: move || (),
-        children: Box::new(move || once.get()),
+        fallback: ViewFn::default(),
+        children: Rc::new(move || once.get()),
     })
 }
 
