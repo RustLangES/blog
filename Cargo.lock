@@ -237,9 +237,9 @@ checksum = "e0ec6b951b160caa93cc0c7b209e5a3bff7aae9062213451ac99493cd844c239"
 
 [[package]]
 name = "cc"
-version = "1.0.102"
+version = "1.0.103"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "779e6b7d17797c0b42023d417228c02889300190e700cb074c3438d9c541d332"
+checksum = "2755ff20a1d93490d26ba33a6f092a38a508398a5320df5d4b3014fcccce9410"
 
 [[package]]
 name = "cfg-if"
@@ -1296,7 +1296,7 @@ dependencies = [
 [[package]]
 name = "leptos-mdx"
 version = "0.1.0"
-source = "git+https://github.com/RustLangES/leptos-mdx.git#12b14fabd280a824b91fb942eac0c8abfbcc7aec"
+source = "git+https://github.com/RustLangES/leptos-mdx.git#795026fd6dee7ed94f11b19bc4dc649a6fd469bf"
 dependencies = [
  "femark",
  "frontmatter",
@@ -2393,9 +2393,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.118"
+version = "1.0.119"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d947f6b3163d8857ea16c4fa0dd4840d52f3041039a85decd46867eb1abef2e4"
+checksum = "e8eddb61f0697cc3989c5d64b452f5488e2b8a60fd7d5076a3045076ffef8cb0"
 dependencies = [
  "itoa 1.0.11",
  "ryu",
