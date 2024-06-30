@@ -2,7 +2,7 @@ use crate::{
     components::{icons::StrToIcon, markdown_render::MarkdownRender},
     models::article::Article,
 };
-use leptos::{component, view, CollectView, IntoAttribute, IntoView};
+use leptos::{component, view, CollectView, IntoView};
 
 #[component]
 pub fn CardArticle(article: Article, is_home: bool) -> impl IntoView {

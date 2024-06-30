@@ -10,7 +10,7 @@ use crate::{
     },
     models::article::Article,
 };
-use leptos::{component, view, IntoAttribute, IntoView};
+use leptos::{component, view, IntoView};
 use leptos_mdx::mdx::{Components, Mdx, MdxComponentProps};
 
 #[component]
@@ -19,11 +19,7 @@ pub fn BlogContent(
     #[prop(default = false)] is_html: bool,
 ) -> impl IntoView {
     let mut components = Components::new();
-    let social = if let Some(social) = article.social.clone() {
-        social
-    } else {
-        HashMap::new()
-    };
+    let social = article.social.clone().unwrap_or_default();
 
     components.add_props(
         "youtube".to_string(),

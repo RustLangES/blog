@@ -1,4 +1,4 @@
-use leptos::{component, view, IntoAttribute, IntoView};
+use leptos::{component, view, IntoView};
 use leptos_mdx::mdx::{Components, MdxComponentProps};
 
 use crate::{

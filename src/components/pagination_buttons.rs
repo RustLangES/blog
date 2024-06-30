@@ -1,5 +1,5 @@
 use crate::components::icons::StrToIcon;
-use leptos::{component, view, IntoAttribute, IntoView, Show};
+use leptos::{component, view, IntoView, Show};
 
 #[component]
 pub fn PaginationButtons(
