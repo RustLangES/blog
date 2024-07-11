@@ -95,6 +95,13 @@ pub fn Layout(
                 await fetch(API + '/track/count?reference=' + previous_domain, { method: 'POST' });
                 "}
             </script>
+            <script type="text/javascript">
+                (function(c,l,a,r,i,t,y){
+                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                })(window, document, "clarity", "script", "n5t1gk7y5v");
+            </script>
         </Head>
 
         // Async is a component from the async_component module.
