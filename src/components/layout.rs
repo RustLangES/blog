@@ -29,6 +29,8 @@ pub fn Layout(
             <meta charset="utf-8"/>
             <title>{title.clone()}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fed7aa"/>
+            <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#181811"/>
             <meta property="og:title" content=title.clone()/>
             <meta name="description" content=description.clone()/>
             <meta property="og:description" content=description.clone()/>
