@@ -57,14 +57,14 @@ pub fn Layout(
             } else {
                 view! {
                     <>
-                        <link rel="canonical" href=format!("https://rustlang-es.org/{slug}")/>
+                        <link rel="canonical" href=format!("https://blog.rustlang-es.org/{slug}")/>
                         <meta
                             property="og:image"
-                            content=format!("https://rustlang-es.org/{slug}.png")
+                            content=format!("https://blog.rustlang-es.org/{slug}.png")
                         />
                         <meta
                             property="twitter:image"
-                            content=format!("https://rustlang-es.org/{slug}.png")
+                            content=format!("https://blog.rustlang-es.org/{slug}.png")
                         />
                     </>
                 }
@@ -72,7 +72,7 @@ pub fn Layout(
 
             <meta name="twitter:card" content="summary_large_image"/>
             <meta name="twitter:site" content="@rustlang"/>
-            <link rel="icon" href="/LogoSegunMichael-134de58fcd9af94e.ico"/>
+            <link rel="icon" href="https://rustlang-es.org/favicon.ico"/>
             {if cfg!(debug_assertions) {
                 view! { <link rel="stylesheet" href="/output.css"/> }
             } else {

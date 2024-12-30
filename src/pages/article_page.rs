@@ -21,7 +21,7 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
             <Layout
                 title=title
                 description=description
-                slug=format!("blog/articles/{}", article.slug.clone())
+                slug=format!("articles/{}", article.slug.clone())
             >
                 <BlogContent is_html=article.devto article=article/>
             </Layout>
