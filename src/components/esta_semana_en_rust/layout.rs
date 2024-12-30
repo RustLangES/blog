@@ -20,19 +20,19 @@ pub fn Layout(
     children: Children,
 ) -> impl IntoView {
     view! {
-        <Html attrs=vec![("lang", "es")] class="bg-slate-800"/>
+        <Html attrs=vec![("lang", "es")] class="bg-slate-800" />
         <Head>
-            <meta charset="utf-8"/>
+            <meta charset="utf-8" />
             <title>{title.clone()}</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1"/>
-            <meta property="og:title" content=title.clone()/>
-            <meta name="description" content=description.clone()/>
-            <meta property="og:description" content=description.clone()/>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta property="og:title" content=title.clone() />
+            <meta name="description" content=description.clone() />
+            <meta property="og:description" content=description.clone() />
             <meta
                 property="og:site_name"
                 content=format!("Blog de Rust Lang en Español {}", get_year())
             />
-            <meta property="og:url" content="https://rustlang-es.org"/>
+            <meta property="og:url" content="https://rustlang-es.org" />
             <meta
                 property="og:image"
                 content=format!("https://blog.rustlang-es.org/articles/{slug}.png")
@@ -41,14 +41,14 @@ pub fn Layout(
                 property="twitter:image"
                 content=format!("https://blog.rustlang-es.org/articles/{slug}.png")
             />
-            <link rel="canonical" href=format!("https://blog.rustlang-es.org/articles/{slug}")/>
-            <meta name="twitter:card" content="summary_large_image"/>
-            <meta name="twitter:site" content="@rustlang"/>
-            <link rel="icon" href="/LogoSegunMichael-134de58fcd9af94e.ico"/>
+            <link rel="canonical" href=format!("https://blog.rustlang-es.org/articles/{slug}") />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:site" content="@rustlang" />
+            <link rel="icon" href="/LogoSegunMichael-134de58fcd9af94e.ico" />
             {if cfg!(debug_assertions) {
-                view! { <link rel="stylesheet" href="/output.css"/> }
+                view! { <link rel="stylesheet" href="/output.css" /> }
             } else {
-                view! { <link rel="stylesheet" href="https://blog.rustlang-es.org/output.css"/> }
+                view! { <link rel="stylesheet" href="https://blog.rustlang-es.org/output.css" /> }
             }}
 
             <style>
@@ -82,7 +82,7 @@ pub fn Layout(
         // Async is a component from the async_component module.
         // It will wrap an async function that returns an IntoView.
         <section class="w-full flex flex-col">
-            <Header/>
+            <Header />
 
             // <Async view=navigation_bar />
             <main class="container mx-auto py-5">{children()}</main>

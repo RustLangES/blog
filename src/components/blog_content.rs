@@ -54,7 +54,7 @@ pub fn BlogContent(
                                 )
                             >
 
-                                <StrToIcon v="twitter" class="hover:fill-blue-600"/>
+                                <StrToIcon v="twitter" class="hover:fill-blue-600" />
                                 "Compartir en Twitter"
                             </a>
                             <a
@@ -66,7 +66,7 @@ pub fn BlogContent(
                                 )
                             >
 
-                                <StrToIcon v="linkedin" class="hover:fill-blue-600"/>
+                                <StrToIcon v="linkedin" class="hover:fill-blue-600" />
                                 "Compartir en Linkedin"
                             </a>
                         </div>
@@ -75,7 +75,7 @@ pub fn BlogContent(
                                 class="text-sm text-center flex flex-col items-center"
                                 href="#giscus"
                             >
-                                <StrToIcon v="comment" class="hover:fill-orange-600"/>
+                                <StrToIcon v="comment" class="hover:fill-orange-600" />
                                 "Ver comentarios"
                             </a>
                         </div>
@@ -104,7 +104,7 @@ pub fn BlogContent(
                         } else {
                             view! {
                                 <>
-                                    <Mdx source=article.content components=components/>
+                                    <Mdx source=article.content components=components />
                                 </>
                             }
                         }}
@@ -186,7 +186,7 @@ pub fn ArticleHeader(
                         {if !social.is_empty() {
                             view! {
                                 <>
-                                    <hr class="h-[0.875rem] w-px bg-gray-700 border-0"/>
+                                    <hr class="h-[0.875rem] w-px bg-gray-700 border-0" />
                                 </>
                             }
                         } else {
@@ -197,7 +197,7 @@ pub fn ArticleHeader(
                             .map(|(net, url)| {
                                 view! {
                                     <a target="_blank" href=url>
-                                        <StrToIcon v=net.to_string() size=15/>
+                                        <StrToIcon v=net.to_string() size=15 />
                                     </a>
                                 }
                             })

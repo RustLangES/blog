@@ -21,10 +21,10 @@ pub fn PaginationButtons(
                 view! {
                     <>
                         <Show when=move || show_prev_page_button fallback=|| ()>
-                            <PreviousPageButton page=current_page/>
+                            <PreviousPageButton page=current_page />
                         </Show>
                         <Show when=move || show_next_page_button fallback=|| ()>
-                            <NextPageButton page=current_page/>
+                            <NextPageButton page=current_page />
                         </Show>
                     </>
                 }
@@ -49,7 +49,7 @@ pub fn PreviousPageButton(page: Option<usize>) -> impl IntoView {
                 href=previous_page
                 class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
             >
-                <StrToIcon v="next" class="fill-white rotate-180" size=16/>
+                <StrToIcon v="next" class="fill-white rotate-180" size=16 />
                 "Pagina anterior"
             </a>
         </>
@@ -68,7 +68,7 @@ pub fn NextPageButton(page: Option<usize>) -> impl IntoView {
                 class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center justify-between gap-2"
             >
                 "Siguiente pagina"
-                <StrToIcon v="next" class="fill-white" size=16/>
+                <StrToIcon v="next" class="fill-white" size=16 />
             </a>
         </>
     }

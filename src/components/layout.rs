@@ -26,24 +26,24 @@ pub fn Layout(
             class="bg-[#fed7aac9] dark:bg-[#131313]/90 bg-center bg-fixed dark:bg-kaku dark:bri dark:bg-cover dark:bg-blend-darken dark:backdrop-blur-xl overflow-x-hidden dark:text-[#e2cea9]"
         />
         <Head>
-            <meta charset="utf-8"/>
+            <meta charset="utf-8" />
             <title>{title.clone()}</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1"/>
-            <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fed7aa"/>
-            <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#181811"/>
-            <meta property="og:title" content=title.clone()/>
-            <meta name="description" content=description.clone()/>
-            <meta property="og:description" content=description.clone()/>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fed7aa" />
+            <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#181811" />
+            <meta property="og:title" content=title.clone() />
+            <meta name="description" content=description.clone() />
+            <meta property="og:description" content=description.clone() />
             <meta
                 property="og:site_name"
                 content=format!("Blog de Rust Lang en Español {}", get_year())
             />
-            <meta property="og:url" content="https://rustlang-es.org"/>
+            <meta property="og:url" content="https://rustlang-es.org" />
 
             {if is_home {
                 view! {
                     <>
-                        <link rel="canonical" href="https://blog.rustlang-es.org"/>
+                        <link rel="canonical" href="https://blog.rustlang-es.org" />
                         <meta
                             property="og:image"
                             content=format!("https://rustlang-es.org/{slug}")
@@ -57,7 +57,7 @@ pub fn Layout(
             } else {
                 view! {
                     <>
-                        <link rel="canonical" href=format!("https://blog.rustlang-es.org/{slug}")/>
+                        <link rel="canonical" href=format!("https://blog.rustlang-es.org/{slug}") />
                         <meta
                             property="og:image"
                             content=format!("https://blog.rustlang-es.org/{slug}.png")
@@ -70,13 +70,13 @@ pub fn Layout(
                 }
             }}
 
-            <meta name="twitter:card" content="summary_large_image"/>
-            <meta name="twitter:site" content="@rustlang"/>
-            <link rel="icon" href="https://rustlang-es.org/favicon.ico"/>
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:site" content="@rustlang" />
+            <link rel="icon" href="https://rustlang-es.org/favicon.ico" />
             {if cfg!(debug_assertions) {
-                view! { <link rel="stylesheet" href="/output.css"/> }
+                view! { <link rel="stylesheet" href="/output.css" /> }
             } else {
-                view! { <link rel="stylesheet" href="https://blog.rustlang-es.org/output.css"/> }
+                view! { <link rel="stylesheet" href="https://blog.rustlang-es.org/output.css" /> }
             }}
 
             <style>
@@ -110,7 +110,7 @@ pub fn Layout(
         // Async is a component from the async_component module.
         // It will wrap an async function that returns an IntoView.
         <section class="w-full flex flex-col">
-            <Header/>
+            <Header />
 
             // <Async view=navigation_bar />
             <main class="container mx-auto py-5">{children()}</main>

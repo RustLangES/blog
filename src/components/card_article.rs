@@ -17,11 +17,11 @@ pub fn CardArticle(article: Article, is_home: bool) -> impl IntoView {
                 </a>
                 <p>{article.date_string}</p>
                 <div class="text-sm markdown-container">
-                    <MarkdownRender content=description/>
+                    <MarkdownRender content=description />
                 </div>
                 <div>
                     <span class="pt-4 font-bold">Tags:</span>
-                    <TagsList tags=article.tags/>
+                    <TagsList tags=article.tags />
                 </div>
                 <div class="flex justify-end items-end">
                     <a

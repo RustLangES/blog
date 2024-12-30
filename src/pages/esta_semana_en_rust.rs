@@ -19,7 +19,7 @@ pub fn EstaSemanaEnRust(article: Article) -> impl IntoView {
     view! {
         <>
             <Layout title=title description=description slug=article.slug.clone()>
-                <BlogContent article=article/>
+                <BlogContent article=article />
             </Layout>
             <script
                 src="https://giscus.app/client.js"

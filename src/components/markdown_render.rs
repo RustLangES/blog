@@ -27,7 +27,7 @@ pub fn MarkdownRender(content: String) -> impl IntoView {
 
     view! {
         <>
-            <Mdx source=content components=components/>
+            <Mdx source=content components=components />
         </>
     }
 }

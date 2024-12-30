@@ -37,7 +37,7 @@ pub fn Homepage(
                 "Revisa que esta pasando en la comunidad de Rust Lang en Español."
             </p>
             {if show_featured {
-                view! { <Async view=featured_articles/> }
+                view! { <Async view=featured_articles /> }
             } else {
                 view! { <></> }.into_view()
             }}
@@ -49,10 +49,10 @@ pub fn Homepage(
                     </h1>
                 </div>
                 <div class="w-[50%] flex justify-end items-center gap-4">
-                    <PaginationButtons hide=hide_pagination current_page=page max_page/>
+                    <PaginationButtons hide=hide_pagination current_page=page max_page />
                 </div>
             </div>
-            <GridOfArticles articles=articles is_home=show_featured/>
+            <GridOfArticles articles=articles is_home=show_featured />
         </Layout>
     }
 }

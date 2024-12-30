@@ -54,7 +54,7 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                         {if !social.is_empty() {
                             view! {
                                 <>
-                                    <hr class="h-[0.875rem] w-px bg-gray-700 border-0"/>
+                                    <hr class="h-[0.875rem] w-px bg-gray-700 border-0" />
                                 </>
                             }
                         } else {
@@ -66,7 +66,7 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                                 .map(|(net, url)| {
                                     view! {
                                         <a target="_blank" href=url>
-                                            <StrToIcon v=net.to_string() size=15/>
+                                            <StrToIcon v=net.to_string() size=15 />
                                         </a>
                                     }
                                 })
@@ -76,7 +76,7 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                     <span class="text-gray-400 text-sm items-center">{article.date_string}</span>
                 </div>
                 <div class="markdown-container prose max-w-none prose-invert">
-                    <Mdx source=article.content components=components/>
+                    <Mdx source=article.content components=components />
                 </div>
             </div>
         </div>

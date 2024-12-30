@@ -27,37 +27,37 @@ pub fn StrToIcon(
     match v.as_str() {
         "github" => view! {
             <>
-                <GithubIcon size=size class=class/>
+                <GithubIcon size=size class=class />
             </>
         },
         "twitter" => view! {
             <>
-                <TwitterIcon size=size class=class/>
+                <TwitterIcon size=size class=class />
             </>
         },
         "website" => view! {
             <>
-                <WebsiteIcon size=size class=class/>
+                <WebsiteIcon size=size class=class />
             </>
         },
         "next" => view! {
             <>
-                <NextIcon size=size class=class/>
+                <NextIcon size=size class=class />
             </>
         },
         "linkedin" => view! {
             <>
-                <LinkedinIcon size=size class=class/>
+                <LinkedinIcon size=size class=class />
             </>
         },
         "comment" => view! {
             <>
-                <CommentIcon size=size class=class/>
+                <CommentIcon size=size class=class />
             </>
         },
         "rust" => view! {
             <>
-                <LogoRustPageIcon size=size class=class/>
+                <LogoRustPageIcon size=size class=class />
             </>
         },
         _ => view! { <></> },

@@ -23,7 +23,7 @@ pub fn ArticlePage(article: Article) -> impl IntoView {
                 description=description
                 slug=format!("articles/{}", article.slug.clone())
             >
-                <BlogContent is_html=article.devto article=article/>
+                <BlogContent is_html=article.devto article=article />
             </Layout>
             <div id="giscus" class="giscus max-w-5xl mx-auto"></div>
             <script

@@ -56,9 +56,9 @@ pub async fn featured_articles() -> impl IntoView {
     });
     view! {
         <div class="w-full grid lg:grid-cols-divided gap-7">
-            <EstaSemanaEnRustCard article=esta_semana_en_rust/>
+            <EstaSemanaEnRustCard article=esta_semana_en_rust />
 
-            <AnuncioDeLaComunidadCard article=anuncio_de_la_comunidad/>
+            <AnuncioDeLaComunidadCard article=anuncio_de_la_comunidad />
         </div>
     }
 }
@@ -108,7 +108,7 @@ pub fn EstaSemanaEnRustCard(article: Article) -> impl IntoView {
                         </h2>
                     </div>
                     <div class="text-lg lg:text-2xl lg:max-w-[700px] text-balance">
-                        <Mdx components=components source=description/>
+                        <Mdx components=components source=description />
                     </div>
                     <div>
                         <a
@@ -179,7 +179,7 @@ pub fn AnuncioDeLaComunidadCard(article: Article) -> impl IntoView {
                     <h2 class="text-2xl font-semibold font-work-sans">{article.title.clone()}</h2>
                     <p class="text-white/40">{article.date_string}</p>
                     <div class="text-white/50">
-                        <Mdx components=components source=description/>
+                        <Mdx components=components source=description />
                     </div>
                     <div>
                         <a
