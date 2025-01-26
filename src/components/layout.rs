@@ -83,6 +83,7 @@ pub fn Layout(
                 {"
                 body {
                 margin: 0 auto;
+                min-height: 100vh;
                 }
                 "}
             </style>
