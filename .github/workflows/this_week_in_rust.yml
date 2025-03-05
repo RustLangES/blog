@@ -72,7 +72,7 @@ jobs:
           sed -i -e 's/] (http/](http/g' "$DATE-this-week-in-rust.md"
           sed -i -e 's/Óxido/Rust/g' "$DATE-this-week-in-rust.md"
           sed -i -e 's/óxido/Rust/g' "$DATE-this-week-in-rust.md"
-          sed -i -e 's/[Equipo de la comunidad de Rust] [comunidad]/[Equipo de la comunidad de Rust][comunidad]/g' "$DATE-this-week-in-rust.md"
+          sed -i -e 's/\[Equipo de la comunidad de Rust\] \[comunidad\]/[Equipo de la comunidad de Rust][comunidad]/g' "$DATE-this-week-in-rust.md"
           sed -i -e 's/envíanos una solicitud de extracción/envíanos un PR/g' "$DATE-this-week-in-rust.md"
           sed -i -e 's/## Caja de la semana/## Crate de la semana/g' "$DATE-this-week-in-rust.md"
           sed -i -e 's/La caja de esta semana/El crate de esta semana/g' "$DATE-this-week-in-rust.md"
