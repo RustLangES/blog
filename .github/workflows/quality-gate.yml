@@ -14,9 +14,4 @@ on:
 
 jobs:
   quality-gate:
-    uses: RustLangES/.github/.github/workflows/quality-gate-front.yml@main
-    with:
-      runs-on: ubuntu-latest
-      checks-command: "--all --check"
-      clippy-command: "-- -D warnings"
-      leptos-command: "--check ."
+    uses: RustLangES/workflows/.github/workflows/quality-gate-front.yml@main
