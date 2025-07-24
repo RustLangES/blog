@@ -5,6 +5,7 @@ use crate::{
     models::article::Article,
 };
 
+#[must_use]
 #[component]
 pub fn EstaSemanaEnRust(article: Article) -> impl IntoView {
     let title = article.title.clone();

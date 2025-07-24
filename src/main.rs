@@ -10,13 +10,14 @@ pub mod utils;
 use std::{
     fs::{self, ReadDir},
     path::Path,
+    sync::LazyLock,
 };
 
 use futures::future::join_all;
 use futures_concurrency::prelude::*;
 use gray_matter::{engine::YAML, Matter};
 use models::article::Article;
-use once_cell::sync::Lazy;
+
 use pages::{
     article_page::ArticlePageProps,
     esta_semana_en_rust::{EstaSemanaEnRust, EstaSemanaEnRustProps},
@@ -28,12 +29,12 @@ use utils::generate_feed_rss;
 
 use crate::pages::{article_page::ArticlePage, home::Homepage};
 
-pub static ARTICLES: Lazy<RwLock<Vec<Article>>> =
-    Lazy::new(|| RwLock::new(Vec::with_capacity(1010)));
+pub static ARTICLES: LazyLock<RwLock<Vec<Article>>> =
+    LazyLock::new(|| RwLock::new(Vec::with_capacity(1010)));
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let articles = list_articles().await?;
+    let articles = list_articles()?;
     ARTICLES.write().await.extend(articles.clone()); // Set the articles in the ARTICLES static variable
     let out = Path::new("./out/blog");
     if !out.exists() {
@@ -72,7 +73,7 @@ fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> std::io::Result
     Ok(())
 }
 
-async fn generate_homepage<'a>(ssg: &Ssg<'a>) -> Result<(), Box<dyn std::error::Error>> {
+async fn generate_homepage(ssg: &Ssg<'_>) -> Result<(), Box<dyn std::error::Error>> {
     ssg.gen("index.html".to_owned(), || {
         Homepage(HomepageProps {
             articles: None,
@@ -86,9 +87,9 @@ async fn generate_homepage<'a>(ssg: &Ssg<'a>) -> Result<(), Box<dyn std::error::
     Ok(())
 }
 
-async fn generate_esta_semana_en_rust<'a>(
+async fn generate_esta_semana_en_rust(
     articles: Vec<Article>,
-    ssg: &Ssg<'a>,
+    ssg: &Ssg<'_>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let articles = articles
         .into_iter()
@@ -118,9 +119,9 @@ async fn generate_esta_semana_en_rust<'a>(
     Ok(())
 }
 
-async fn generate_post_pages<'a>(
+async fn generate_post_pages(
     articles: Vec<Article>,
-    ssg: &Ssg<'a>,
+    ssg: &Ssg<'_>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     tokio::fs::create_dir_all("./out/blog/articles").await?;
 
@@ -155,9 +156,9 @@ async fn generate_post_pages<'a>(
     Ok(())
 }
 
-async fn generate_tag_pages<'a>(
+async fn generate_tag_pages(
     articles: Vec<Article>,
-    ssg: &Ssg<'a>,
+    ssg: &Ssg<'_>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     tokio::fs::create_dir_all("./out/blog/tags").await?;
 
@@ -195,7 +196,7 @@ async fn generate_tag_pages<'a>(
     Ok(())
 }
 
-async fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
+fn list_articles() -> Result<Vec<Article>, Box<dyn std::error::Error>> {
     let mut articles = Vec::with_capacity(10);
     let article_folder = fs::read_dir("./articles")?;
     articles.append(&mut posts_from_folder(article_folder)?);
@@ -216,7 +217,7 @@ fn posts_from_folder(paths: ReadDir) -> Result<Vec<Article>, Box<dyn std::error:
         let algo = fs::read_to_string(file.clone())?;
         let matter = Matter::<YAML>::new();
         let Some(parsed_entity) = matter.parse_with_struct(&algo) else {
-            println!("Error parsing file: {file:?}");
+            println!("Error parsing file: {}", file.display());
             continue;
         };
         let content = parsed_entity.content.clone();
@@ -240,9 +241,9 @@ fn posts_from_folder(paths: ReadDir) -> Result<Vec<Article>, Box<dyn std::error:
     Ok(articles)
 }
 
-async fn generate_pages<'a>(
+async fn generate_pages(
     mut articles: Vec<Article>,
-    ssg: &Ssg<'a>,
+    ssg: &Ssg<'_>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     tokio::fs::create_dir_all("./out/blog/pages").await?;
 
@@ -260,7 +261,7 @@ async fn generate_pages<'a>(
     let max_pages = articles.len() / 6;
     let mut articles = articles.chunks(6).collect::<Vec<_>>();
     articles.remove(0);
-    let articles = articles.to_vec();
+    let articles = articles.clone();
 
     let generate_articles = articles
         .iter()

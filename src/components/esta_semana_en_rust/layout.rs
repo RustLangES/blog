@@ -10,8 +10,9 @@ fn get_year() -> i32 {
     chrono::Utc::now().year()
 }
 
-#[component]
 // This is a common Layout component that will be used by all pages.
+#[component]
+#[must_use]
 pub fn Layout(
     #[prop(into, default=format!("Blog de Rust Lang en Español {}", get_year()))] title: String,
     #[prop(into, default="Somos una comunidad de Rust hispana, buscamos la promoción del lenguaje de programación Rust.".to_string())]

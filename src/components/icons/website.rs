@@ -1,6 +1,7 @@
 use leptos::{component, view, IntoView};
 
 #[component]
+#[must_use]
 pub fn WebsiteIcon(
     #[prop(default = 40)] size: u32,
     #[prop(into, default = "fill-black".to_string())] class: String,

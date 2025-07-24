@@ -2,6 +2,7 @@ use leptos::{component, create_signal, view, IntoView, SignalGet, SignalUpdate};
 
 use crate::components::button_link::ButtonLink;
 
+#[must_use]
 #[component]
 pub fn Header() -> impl IntoView {
     let (is_open, set_is_open) = create_signal(false);

@@ -2,12 +2,13 @@ use leptos::{component, view, Children, IntoView};
 use std::collections::HashMap;
 
 #[component]
+#[must_use]
 pub fn ButtonLink(
     href: &'static str,
     #[prop(default = "primary")] color: &'static str,
     #[prop(default = "normal")] size: &'static str,
     #[prop(default = "drop")] shadow: &'static str,
-    #[prop(into, optional)] class: String,
+    #[prop(into, optional)] class: &'static str,
     children: Children,
 ) -> impl IntoView {
     let colors = HashMap::from([

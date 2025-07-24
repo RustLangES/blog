@@ -2,6 +2,7 @@ use crate::components::icons::StrToIcon;
 use leptos::{component, view, IntoView, Show};
 
 #[component]
+#[must_use]
 pub fn PaginationButtons(
     hide: bool,
     current_page: Option<usize>,
@@ -34,6 +35,7 @@ pub fn PaginationButtons(
 }
 
 #[component]
+#[must_use]
 pub fn PreviousPageButton(page: Option<usize>) -> impl IntoView {
     let page = page.unwrap_or(0);
 
@@ -57,6 +59,7 @@ pub fn PreviousPageButton(page: Option<usize>) -> impl IntoView {
 }
 
 #[component]
+#[must_use]
 pub fn NextPageButton(page: Option<usize>) -> impl IntoView {
     let page = page.unwrap_or(0);
     let link = format!("/pages/{}.html", page + 1);

@@ -15,6 +15,8 @@ impl<'a> Ssg<'a> {
         Self { out_dir }
     }
 
+    /// # Errors
+    /// This can return an error if `fs::write` fails.
     pub async fn gen<F, V>(
         &'a self,
         path: String,

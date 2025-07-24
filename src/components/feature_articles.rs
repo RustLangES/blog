@@ -14,6 +14,11 @@ use crate::{
 };
 use leptos_mdx::mdx::Mdx;
 
+/// # Panics
+/// If no article is found with the tag "esta semana en rust", the call to `unwrap()` will panic.
+/// If no article is found with the tag "anuncio de la comunidad", the second `unwrap()` will panic.
+/// If the "video" attribute is missing in any `YouTube` component, the `unwrap()` inside the closure will panic.
+/// If the value of the "video" attribute is None, the second `unwrap()` will also panic.
 pub async fn featured_articles() -> impl IntoView {
     let articles = ARTICLES.read().await.clone();
     let _invalid_tags = [
@@ -24,15 +29,13 @@ pub async fn featured_articles() -> impl IntoView {
     let esta_semana_en_rust = articles
         .clone()
         .into_iter()
-        .filter(|article| filter_article_by_tag(article.clone(), "esta semana en rust".to_string()))
+        .filter(|article| filter_article_by_tag(article, "esta semana en rust"))
         .take(1)
         .collect::<Vec<Article>>();
     let esta_semana_en_rust = esta_semana_en_rust.first().unwrap().to_owned();
     let anuncio_de_la_comunidad = articles
         .into_iter()
-        .filter(|article| {
-            filter_article_by_tag(article.clone(), "anuncio de la comunidad".to_string())
-        })
+        .filter(|article| filter_article_by_tag(article, "anuncio de la comunidad"))
         .take(1)
         .collect::<Vec<Article>>();
 
@@ -64,9 +67,9 @@ pub async fn featured_articles() -> impl IntoView {
 }
 
 #[must_use]
-pub fn filter_article_by_tag(article: Article, tag: String) -> bool {
+pub fn filter_article_by_tag(article: &Article, tag: &str) -> bool {
     if let Some(tags) = &article.tags {
-        tags.contains(&tag)
+        tags.contains(&tag.to_string())
     } else {
         false
     }

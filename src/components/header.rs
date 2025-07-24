@@ -4,6 +4,7 @@ use crate::components::button_link::ButtonLink;
 use crate::components::icons::logo_rust_page::LogoRustPageIcon;
 
 #[component]
+#[must_use]
 pub fn Header() -> impl IntoView {
     let (is_open, set_is_open) = create_signal(false);
 
