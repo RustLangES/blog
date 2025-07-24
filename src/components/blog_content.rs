@@ -186,9 +186,7 @@ pub fn ArticleHeader(
                         .collect::<Vec<_>>()}
                     <div class="flex flex-row flex-wrap items-center gap-2">
                         {if social.is_empty() {
-                            view! {
-                                <></>
-                            }
+                            view! { <></> }
                         } else {
                             view! {
                                 <>

@@ -52,13 +52,11 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                             view! { <></> }
                         }}
                         {if social.is_empty() {
-                            view! {
-                                <></>
-                            }
+                            view! { <></> }
                         } else {
                             view! {
                                 <>
-                                     <hr class="h-[0.875rem] w-px bg-gray-700 border-0" />
+                                    <hr class="h-[0.875rem] w-px bg-gray-700 border-0" />
                                 </>
                             }
                         }}
