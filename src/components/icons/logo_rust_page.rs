@@ -1,6 +1,7 @@
-use leptos::*;
+use leptos::{component, view, IntoView};
 
 #[component]
+#[must_use]
 pub fn LogoRustPageIcon(
     #[prop(default = 40)] size: u32,
     #[prop(into, default = "dark:fill-[#e2cea9]".to_string())] class: String,

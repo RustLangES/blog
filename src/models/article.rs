@@ -100,7 +100,7 @@ impl From<HashNodeArticle> for Article {
                 .links
                 .github
                 .split('/')
-                .last()
+                .next_back()
                 .map(std::string::ToString::to_string),
             date: date_time,
             social: Some(HashMap::from([

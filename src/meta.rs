@@ -5,23 +5,26 @@ use leptos::{
     IntoView,
 };
 
+#[must_use]
 #[component]
 pub fn Html(
     #[prop(into)] mut attrs: Attrs,
-    #[prop(optional,into, default= "".to_string())] class: String,
+    #[prop(optional, into, default = "")] class: &'static str,
 ) -> impl IntoView {
     let ctx = expect_context::<ShellCtx>();
-    let mut class = Attrs::from(vec![("class", class.as_str())]);
+    let mut class = Attrs::from(vec![("class", class)]);
     ctx.body_attrs.borrow_mut().append(&mut class);
     ctx.html_attrs.borrow_mut().append(&mut attrs);
 }
 
+#[must_use]
 #[component]
 pub fn Head(children: Children) -> impl IntoView {
     let ctx = expect_context::<ShellCtx>();
     ctx.head_els.borrow_mut().push(children());
 }
 
+#[must_use]
 #[component(transparent)]
 pub fn Dedup(#[prop(into)] key: String, children: Children) -> impl IntoView {
     let ctx = expect_context::<ShellCtx>();
@@ -47,7 +50,7 @@ impl ShellCtx {
     }
 
     #[must_use]
-    pub fn render(self, inner_body: String) -> String {
+    pub fn render(self, inner_body: &str) -> String {
         let head = render_to_string(move || {
             view! {
                 {self.head_els.borrow().clone().collect_view()}

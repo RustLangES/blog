@@ -17,6 +17,8 @@ pub mod twitter;
 pub mod website;
 
 #[component]
+#[must_use]
+#[allow(clippy::needless_pass_by_value)]
 pub fn StrToIcon(
     #[prop(into)] v: String,
     #[prop(default = 40)] size: u32,

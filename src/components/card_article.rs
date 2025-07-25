@@ -4,6 +4,7 @@ use crate::{
 };
 use leptos::{component, view, CollectView, IntoView};
 
+#[must_use]
 #[component]
 pub fn CardArticle(article: Article, is_home: bool) -> impl IntoView {
     let article_link = get_link(&article, is_home);
@@ -67,6 +68,7 @@ fn get_description(article: &Article) -> String {
     }
 }
 
+#[must_use]
 #[component]
 pub fn TagsList(tags: Option<Vec<String>>) -> impl IntoView {
     let tags = tags.unwrap_or_default();
@@ -79,6 +81,8 @@ pub fn TagsList(tags: Option<Vec<String>>) -> impl IntoView {
 }
 
 #[component]
+#[allow(clippy::needless_pass_by_value)]
+#[must_use]
 pub fn TagButton(tag: String) -> impl IntoView {
     let tag = tag.to_lowercase().replace(' ', "-");
 

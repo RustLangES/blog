@@ -117,6 +117,8 @@ pub fn BlogContent(
 }
 
 #[component]
+#[must_use]
+#[allow(clippy::needless_pass_by_value, clippy::implicit_hasher)]
 pub fn ArticleHeader(
     #[prop()] title: String,
     #[prop()] github_user: Option<String>,
@@ -183,14 +185,14 @@ pub fn ArticleHeader(
                         })
                         .collect::<Vec<_>>()}
                     <div class="flex flex-row flex-wrap items-center gap-2">
-                        {if !social.is_empty() {
+                        {if social.is_empty() {
+                            view! { <></> }
+                        } else {
                             view! {
                                 <>
                                     <hr class="h-[0.875rem] w-px bg-gray-700 border-0" />
                                 </>
                             }
-                        } else {
-                            view! { <></> }
                         }}
                         {social
                             .iter()

@@ -8,6 +8,8 @@ use tokio::task;
 
 use crate::meta;
 
+/// # Panics
+/// This can panic if `clean_leptos_ssr` fails during execution.
 pub async fn render(
     view: impl FnOnce() -> View + 'static,
     additional_context: impl FnOnce() + 'static,
@@ -30,7 +32,7 @@ pub async fn render(
             let out = clean_leptos_ssr(stream).await.unwrap();
             runtime.dispose();
 
-            shell_ctx2.render(out)
+            shell_ctx2.render(&out)
         })
         .await
 }

@@ -15,6 +15,7 @@ async fn fetch_articles() -> Vec<Article> {
 }
 
 #[component]
+#[must_use]
 pub fn Homepage(
     articles: Option<Vec<Article>>,
     show_featured: bool,
@@ -67,7 +68,7 @@ fn grid_of_articles(articles: Vec<Article>, is_home: bool) -> impl IntoView {
     let articles = if is_home {
         articles
             .into_iter()
-            .filter(|article| filter_common_articles(article.clone(), &mut invalid_tags))
+            .filter(|article| filter_common_articles(article, &mut invalid_tags))
             .collect::<Vec<Article>>()
             .into_iter()
     } else {
@@ -81,7 +82,7 @@ fn grid_of_articles(articles: Vec<Article>, is_home: bool) -> impl IntoView {
     }
 }
 
-pub fn filter_common_articles(article: Article, invalid_tags: &mut Vec<String>) -> bool {
+pub fn filter_common_articles(article: &Article, invalid_tags: &mut Vec<String>) -> bool {
     if let Some(tags) = &article.tags {
         let invalid_tag = invalid_tags.iter().position(|tag| tags.contains(tag));
         if let Some(invalid_tag) = invalid_tag {

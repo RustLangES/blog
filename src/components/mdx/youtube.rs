@@ -1,6 +1,8 @@
 use leptos::{component, view, IntoView};
 
 #[component]
+#[allow(clippy::needless_pass_by_value)]
+#[must_use]
 pub fn Youtube(video: String) -> impl IntoView {
     view! {
         <div class="layout">

@@ -42,7 +42,7 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                 </h1>
                 <div class="flex flex-col">
                     <div class="flex flex-row gap-4 text-sm items-center">
-                        {if !article.has_author() {
+                        {if article.has_author() {
                             view! {
                                 <>
                                     <h5>{article.author}</h5>
@@ -51,14 +51,14 @@ pub fn BlogContent(#[prop()] article: Article) -> impl IntoView {
                         } else {
                             view! { <></> }
                         }}
-                        {if !social.is_empty() {
+                        {if social.is_empty() {
+                            view! { <></> }
+                        } else {
                             view! {
                                 <>
                                     <hr class="h-[0.875rem] w-px bg-gray-700 border-0" />
                                 </>
                             }
-                        } else {
-                            view! { <></> }
                         }}
                         <div class="flex flex-row gap-2 items-center">
                             {social

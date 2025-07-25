@@ -4,6 +4,8 @@ use rss::{validation::Validate, Category, ChannelBuilder, Item};
 
 use crate::models::article::Article;
 
+/// # Panics
+/// This can panic if `validate` fails or if `fs::write` fails.
 pub fn generate_feed_rss(
     articles: &[Article],
     out_file: &str,
@@ -28,7 +30,7 @@ pub fn generate_feed_rss(
         .get(..4)
         .unwrap_or_default()
         .iter()
-        .map(|a| a.into())
+        .map(Into::into)
         .collect::<Vec<Item>>();
 
     let channel = ChannelBuilder::default()
