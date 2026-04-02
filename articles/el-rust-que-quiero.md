@@ -261,11 +261,21 @@ Todo declarado, maravilloso.
 
 Se deberia de pulir bastante pero de base nos daría más información en todo lo que usamos, pienselo como usuarios.
 
+### ¿Cuál es el punto de este punto?
+
+**Acaso quiero un `try`/`catch`/`finally`/`throw`/`throws`???? No, no estoy diciendo eso, quiero un sistema de efectos, quizás no tan complejo como el de Koka pero si abres un archivo en algún punto que esa información se propague de forma en que sepa el usuario final de que va a pasar eso. Es más esto que estoy escribiendo va a estar en negrita para que se entienda**
+
+### Quiero saber si algo tiene acceso a consola, a red, a file system, o algo y que cuando se analice con el rust analyzer o se compile o algo así me de una información de lo que hace el programa.
+
+No quiero que se compile automaticamente, dame información, permisos por libs, y todo eso lo obtenemos en parte sabiendo con el sistema de efectos.
+
+Actualmente tenemos dos sistemas de efectos en Rust `yield` (en nightly) y `async`.
+
 Siguiente punto...
 
 # Reflection en comptime
 
-Si, ya tenemos cosas así pero no el 100% QUIERO, DESEO, EL 100% necesito que con una función simple poder poder el valor en comptime, lo modifico??? Obtengo un récord de hey, se agrego en comptime un Récord que es una derivada del tipo X
+Si, ya tenemos cosas así pero no el 100% QUIERO, DESEO, EL 100% necesito que con una función simple poder poner el valor en comptime, lo modifico??? Obtengo un récord de hey, se agrego en comptime un Récord que es una derivada del tipo X
 
 Es decir algo como
 `Record<Gato,("vehículo_todo_terreno")>` y yo poder asignarle el vehículo de todo terreno en true y que estaticamente ese atributo ahora este disponible en mi nuevo valor...
